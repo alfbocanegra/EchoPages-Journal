@@ -1,0 +1,2 @@
+# EchoPages Journal
+Journal Application
