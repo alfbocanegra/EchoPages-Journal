@@ -1,0 +1,61 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    
+    - name: Install Dependencies
+      run: yarn install --frozen-lockfile
+    
+    - name: Run Backend Tests
+      run: |
+        cd backend
+        yarn test
+        
+    - name: Run Web Tests
+      run: |
+        cd packages/web
+        yarn test
+        
+    - name: Run Mobile Tests
+      run: |
+        cd packages/mobile
+        yarn test
+        
+    - name: Run Desktop Tests
+      run: |
+        cd packages/desktop
+        yarn test
+        
+    - name: Run Shared Package Tests
+      run: |
+        cd packages/shared
+        yarn test
+    
+    - name: Upload Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: unittests
+        name: codecov-umbrella 

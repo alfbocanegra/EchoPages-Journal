@@ -1,0 +1,11 @@
+# Task ID: 14
+# Title: Implement AI Features and Prompts
+# Status: pending
+# Dependencies: 4, 8
+# Priority: low
+# Description: Add AI-generated journaling prompts and reflection suggestions.
+# Details:
+Integrate AI model for prompt generation. Add optional AI-powered reflection suggestions based on entry content.
+
+# Test Strategy:
+Test prompt generation, suggestion relevance, and user opt-in/out. Validate AI integration.

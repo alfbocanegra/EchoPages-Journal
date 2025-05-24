@@ -1,0 +1,61 @@
+# Task ID: 4
+# Title: Build Entry Creation and Editing UI
+# Status: pending
+# Dependencies: 2, 3
+# Priority: high
+# Description: Develop the core UI for creating and editing journal entries across all platforms.
+# Details:
+Implement rich text editor with formatting (bold, italic, lists, headings). Support quick entry, timestamps, and multimedia attachments. Ensure consistent UI/UX patterns and accessibility.
+
+# Test Strategy:
+Test entry creation, editing, and multimedia attachment. Validate UI consistency and accessibility.
+
+# Subtasks:
+## 1. Design Core Text Editor Component [pending]
+### Dependencies: None
+### Description: Create the foundational rich text editor component that will be used across all platforms
+### Details:
+Implement a reusable text editor component with basic text manipulation capabilities. Include essential formatting options (bold, italic, underline) and ensure the component handles text selection, cursor positioning, and basic keyboard shortcuts. Follow minimalist design principles to reduce visual clutter while maintaining functionality.
+
+## 2. Implement Advanced Formatting Features [pending]
+### Dependencies: 4.1
+### Description: Extend the core editor with additional formatting capabilities including lists, headings, and text alignment
+### Details:
+Build on the core editor by adding support for ordered and unordered lists, multiple heading levels (H1-H3), and text alignment options. Ensure formatting is preserved when copying/pasting content. Place formatting controls in a visible toolbar with clear iconography. Arrange formatting options vertically when appropriate for better usability.
+
+## 3. Develop Multimedia Attachment System [pending]
+### Dependencies: 4.1
+### Description: Create functionality for adding, displaying, and managing images and other media attachments within entries
+### Details:
+Implement drag-and-drop and file picker interfaces for adding images, videos, and other file types. Create preview thumbnails for attachments and allow basic operations (remove, replace). Ensure proper storage integration and optimize for performance with larger files. Support inline placement of media within the text content.
+
+## 4. Build Quick Entry Mode [pending]
+### Dependencies: 4.1
+### Description: Create a streamlined entry interface for rapid note capture with minimal friction
+### Details:
+Design a simplified version of the editor that appears instantly and requires minimal interaction to start typing. Include auto-save functionality and quick access to basic formatting. Optimize for speed and minimal UI elements. Implement keyboard shortcuts for efficiency and ensure the interface appears within 300ms of activation.
+
+## 5. Implement Timestamp and Metadata Management [pending]
+### Dependencies: 4.1
+### Description: Add functionality for automatic and manual timestamp creation and editing
+### Details:
+Create UI components for displaying and editing creation/modification timestamps. Implement automatic timestamp updates when entries are modified. Add user-friendly date/time pickers for manual adjustments. Ensure timestamps are displayed in the user's local timezone with appropriate formatting.
+
+## 6. Create Entry Templates System [pending]
+### Dependencies: 4.2, 4.3, 4.5
+### Description: Develop standardized templates for different types of journal entries
+### Details:
+Design and implement multiple entry templates with predefined structures and formatting. Create a template selection interface during entry creation. Include customization options for users to modify templates or create their own. Ensure templates are easily accessible but don't clutter the main interface.
+
+## 7. Implement Cross-Platform UI Adaptations [pending]
+### Dependencies: 4.1, 4.2, 4.3, 4.4
+### Description: Optimize the editor UI for different devices and screen sizes
+### Details:
+Adapt the editor interface for mobile, tablet, and desktop experiences with appropriate layout changes. Implement touch-friendly controls for mobile while maintaining keyboard shortcuts for desktop. Ensure consistent functionality across platforms while optimizing for each form factor's strengths. Use responsive design principles with appropriate breakpoints.
+
+## 8. Implement Accessibility Features [pending]
+### Dependencies: 4.1, 4.2, 4.3, 4.7
+### Description: Ensure the editor is fully accessible to users with disabilities
+### Details:
+Add proper ARIA labels, keyboard navigation, screen reader support, and high-contrast modes. Implement focus management for all interactive elements. Ensure color choices meet WCAG 2.1 AA standards for contrast. Test with assistive technologies and fix any barriers to access. Place form labels above elements rather than to the side for better readability.
+

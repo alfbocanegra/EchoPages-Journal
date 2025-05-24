@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Build Organization and Search Features
+# Status: pending
+# Dependencies: 2, 4
+# Priority: medium
+# Description: Develop tagging, folder, and advanced search functionality.
+# Details:
+Implement tag system with autocomplete. Add color-coded folders. Build advanced search with filters. Integrate calendar view for navigation.
+
+# Test Strategy:
+Test tag/folder creation, search accuracy, and calendar navigation. Validate search performance.

@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Implement Multimedia Support
+# Status: pending
+# Dependencies: 4, 6
+# Priority: medium
+# Description: Add support for images, videos, audio, and handwritten notes in journal entries.
+# Details:
+Enable image, video, and audio attachment with inline display and playback. Support handwritten notes with stylus/finger input. Implement media compression and organization.
+
+# Test Strategy:
+Test media attachment, playback, and sync. Validate handwriting input and media compression.

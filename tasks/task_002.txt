@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Design and Implement Core Database Schema
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Define and implement the core database schema for journal entries, users, and related metadata.
+# Details:
+Design PostgreSQL schema for users, entries, tags, folders, and media. Include fields for encryption status, timestamps, and sync metadata. Implement local SQLite schema for offline use. Use Redis for caching.
+
+# Test Strategy:
+Validate schema migrations, CRUD operations, and data integrity. Test offline/online sync scenarios.

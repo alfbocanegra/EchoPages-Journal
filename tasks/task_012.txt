@@ -1,0 +1,11 @@
+# Task ID: 12
+# Title: Integrate External Services and APIs
+# Status: pending
+# Dependencies: 3, 6
+# Priority: medium
+# Description: Connect with Google Calendar, Apple Health, Google Fit, and weather/location services.
+# Details:
+Implement OAuth-based integrations. Add automatic weather/location tagging with privacy controls. Support social sharing.
+
+# Test Strategy:
+Test service integrations, privacy controls, and data accuracy. Validate sharing features.

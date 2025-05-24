@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "jsx": "react-native",
+    "types": ["react-native", "jest", "node"],
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"],
+      "@echopages/shared/*": ["../../shared/src/*"]
+    }
+  },
+  "include": ["src/**/*", "index.js", "app.json"],
+  "exclude": ["node_modules", "dist", "android", "ios"],
+  "references": [{ "path": "../shared" }]
+}

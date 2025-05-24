@@ -1,0 +1,88 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - run: |
+        cd packages/web
+        yarn install --frozen-lockfile
+        yarn build
+    
+  build-mobile:
+    name: Build Mobile
+    runs-on: macos-latest # Need macOS for iOS builds
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+    
+    # iOS Build
+    - name: Install iOS dependencies
+      run: |
+        cd packages/mobile/ios
+        pod install
+    - name: Build iOS
+      run: |
+        cd packages/mobile
+        yarn install --frozen-lockfile
+        yarn ios:build
+    
+    # Android Build
+    - name: Build Android
+      run: |
+        cd packages/mobile
+        yarn install --frozen-lockfile
+        yarn android:build
+    
+  build-desktop:
+    name: Build Desktop
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - name: Build Desktop App
+      run: |
+        cd packages/desktop
+        yarn install --frozen-lockfile
+        yarn build
+    
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - name: Build Backend
+      run: |
+        cd backend
+        yarn install --frozen-lockfile
+        yarn build 
