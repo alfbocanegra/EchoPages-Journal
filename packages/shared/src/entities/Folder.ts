@@ -14,13 +14,13 @@ import { Entry } from './Entry';
 @Entity('folders')
 export class Folder {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'user_id' })
-  userId: string;
+  userId!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column({ type: 'text', nullable: true })
   description?: string;
@@ -29,28 +29,28 @@ export class Folder {
   parentId?: string;
 
   @Column({ name: 'is_encrypted', default: false })
-  isEncrypted: boolean;
+  isEncrypted!: boolean;
 
   @Column({ name: 'sort_order', default: 0 })
-  sortOrder: number;
+  sortOrder!: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => User, user => user.folders)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @ManyToOne(() => Folder, folder => folder.children)
   @JoinColumn({ name: 'parent_id' })
   parent?: Folder;
 
   @OneToMany(() => Folder, folder => folder.parent)
-  children: Folder[];
+  children!: Folder[];
 
   @OneToMany(() => Entry, entry => entry.folder)
-  entries: Entry[];
+  entries!: Entry[];
 }

@@ -19,10 +19,10 @@ import { EntryVersion } from './EntryVersion';
 @Entity('entries')
 export class Entry {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'user_id' })
-  userId: string;
+  userId!: string;
 
   @Column({ name: 'folder_id', nullable: true })
   folderId?: string;
@@ -31,19 +31,25 @@ export class Entry {
   title?: string;
 
   @Column({ type: 'text' })
-  content: string;
+  content!: string;
 
   @Column({ name: 'content_type', default: 'text' })
-  contentType: string;
+  contentType!: string;
 
   @Column({ name: 'is_encrypted', default: false })
-  isEncrypted: boolean;
+  isEncrypted!: boolean;
 
   @Column({ name: 'encryption_iv', nullable: true })
   encryptionIv?: string;
 
-  @Column({ nullable: true })
-  mood?: string;
+  @Column({ type: 'json', nullable: true })
+  mood?: {
+    mood: string;
+    intensity: number;
+    emotions: string[];
+    note?: string;
+    timestamp?: Date;
+  };
 
   @Column({ type: 'json', nullable: true })
   weather?: {
@@ -60,29 +66,29 @@ export class Entry {
   };
 
   @Column({ name: 'is_favorite', default: false })
-  isFavorite: boolean;
+  isFavorite!: boolean;
 
   @Column({ name: 'is_pinned', default: false })
-  isPinned: boolean;
+  isPinned!: boolean;
 
   @Column({ name: 'local_id', nullable: true })
   localId?: string;
 
   @Column({ name: 'sync_status', default: 'synced' })
-  syncStatus: 'synced' | 'pending' | 'conflict';
+  syncStatus!: 'synced' | 'pending' | 'conflict';
 
   @Column({ name: 'last_sync_at', type: 'timestamp with time zone', nullable: true })
   lastSyncAt?: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => User, user => user.entries)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @ManyToOne(() => Folder, folder => folder.entries)
   @JoinColumn({ name: 'folder_id' })
@@ -94,11 +100,11 @@ export class Entry {
     joinColumn: { name: 'entry_id' },
     inverseJoinColumn: { name: 'tag_id' },
   })
-  tags: Tag[];
+  tags!: Tag[];
 
   @OneToMany(() => Media, media => media.entry)
-  media: Media[];
+  media!: Media[];
 
   @OneToMany(() => EntryVersion, version => version.entry)
-  versions: EntryVersion[];
+  versions!: EntryVersion[];
 }

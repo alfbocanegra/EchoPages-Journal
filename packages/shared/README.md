@@ -1,55 +1,150 @@
 # @echopages/shared
 
-Shared utilities, types, and components for the EchoPages Journal application.
+Shared types, entities, and utilities for the EchoPages Journal application.
 
-## Overview
+## Installation
 
-This package contains code that is shared between the web, mobile, and desktop applications. This includes:
-
-- Common types and interfaces
-- Shared utilities and helpers
-- Cross-platform components
-- Constants and configuration
-- Data models and validation schemas
+```bash
+yarn add @echopages/shared
+```
 
 ## Usage
 
+### Authentication Types
+
+#### OAuth
+
 ```typescript
-import { someUtility } from '@echopages/shared/utilities';
-import { SomeComponent } from '@echopages/shared/components';
-import type { SomeType } from '@echopages/shared/types';
+import { OAuthProvider } from '@echopages/shared';
+
+// Available OAuth providers
+const provider: OAuthProvider = OAuthProvider.GOOGLE; // 'google' | 'apple' | 'microsoft'
+```
+
+#### Biometric Authentication
+
+```typescript
+import { 
+  BiometricType, 
+  BiometricCredential,
+  BiometricEnrollRequest,
+  BiometricAuthRequest 
+} from '@echopages/shared';
+
+// Available biometric types
+const biometricType: BiometricType = BiometricType.FINGERPRINT;
+// 'fingerprint' | 'face' | 'iris' | 'touch_id' | 'face_id' | 'windows_hello'
+
+// Enroll a new device
+const enrollRequest: BiometricEnrollRequest = {
+  userId: 'user-123',
+  deviceId: 'device-456',
+  biometricType: BiometricType.FACE_ID,
+  publicKey: 'base64-encoded-public-key',
+  keyHandle: 'device-key-handle'
+};
+
+// Authenticate with biometrics
+const authRequest: BiometricAuthRequest = {
+  userId: 'user-123',
+  deviceId: 'device-456',
+  biometricType: BiometricType.FACE_ID,
+  challenge: 'server-challenge',
+  signature: 'signed-challenge'
+};
+```
+
+### User Entity
+
+```typescript
+import { User, UserRole } from '@echopages/shared';
+
+// User roles
+const role: UserRole = UserRole.USER; // 'user' | 'admin'
+
+// User entity with TypeORM decorators
+@Entity('users')
+export class User {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ unique: true })
+  email: string;
+
+  // ... other properties
+}
+```
+
+### Biometric Credential Entity
+
+```typescript
+import { BiometricCredential, BiometricMetadata } from '@echopages/shared';
+
+// Biometric metadata structure
+const metadata: BiometricMetadata = {
+  enrolledAt: new Date().toISOString(),
+  lastVerified: null
+};
+
+// Biometric credential entity with TypeORM decorators
+@Entity('biometric_credentials')
+export class BiometricCredential {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ name: 'user_id' })
+  userId: string;
+
+  // ... other properties
+}
 ```
 
 ## Development
 
+### Building
+
 ```bash
-# Install dependencies
-yarn install
-
-# Build the package
 yarn build
+```
 
-# Run tests
+### Type Checking
+
+```bash
+yarn type-check
+```
+
+### Testing
+
+```bash
 yarn test
-
-# Run linting
-yarn lint
 ```
 
 ## Directory Structure
 
 ```
-src/
-  ├── components/     # Shared React components
-  ├── constants/      # Application constants
-  ├── types/         # TypeScript types and interfaces
-  ├── utilities/     # Helper functions and utilities
-  └── validation/    # Data validation schemas
+shared/
+├── src/
+│   ├── constants/    # Shared constants
+│   ├── hooks/        # React hooks
+│   ├── services/     # Shared services
+│   └── utils/        # Utility functions
+├── types/
+│   ├── index.ts      # Type exports
+│   ├── user.ts       # User types and entity
+│   └── biometric.ts  # Biometric types and entity
+└── package.json
 ```
 
 ## Contributing
 
-See the main [CONTRIBUTING.md](../../CONTRIBUTING.md) for development guidelines.
+1. Make your changes in a feature branch
+2. Update tests if necessary
+3. Run `yarn type-check` and `yarn test`
+4. Submit a pull request
+
+## License
+
+MIT
 
 # EchoPages Shared Package
 

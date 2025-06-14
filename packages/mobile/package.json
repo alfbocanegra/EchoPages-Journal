@@ -1,0 +1,14 @@
+{
+  "name": "mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "react-native": "^0.79.2",
+    "react-native-pell-rich-editor": "^1.9.0",
+    "react-native-webview": "^13.14.1"
+  },
+  "devDependencies": {
+    "@react-native-community/cli-platform-ios": "^18.0.0"
+  }
+}

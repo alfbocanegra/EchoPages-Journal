@@ -1,6 +1,6 @@
 # Task ID: 11
 # Title: Build Export and Backup Functionality
-# Status: pending
+# Status: done
 # Dependencies: 2, 4, 5
 # Priority: medium
 # Description: Enable export and backup of journal content in multiple formats.

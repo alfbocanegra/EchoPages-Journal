@@ -1,6 +1,6 @@
 # Task ID: 2
 # Title: Design and Implement Core Database Schema
-# Status: pending
+# Status: done
 # Dependencies: 1
 # Priority: high
 # Description: Define and implement the core database schema for journal entries, users, and related metadata.
@@ -9,3 +9,35 @@ Design PostgreSQL schema for users, entries, tags, folders, and media. Include f
 
 # Test Strategy:
 Validate schema migrations, CRUD operations, and data integrity. Test offline/online sync scenarios.
+
+# Subtasks:
+## 1. Define PostgreSQL Database Schema [done]
+### Dependencies: None
+### Description: Design the PostgreSQL database schema including tables, relationships, data types, and constraints following best practices
+### Details:
+Create comprehensive schema design with appropriate use of timestamptz for timestamps and text for character data. Define table structures, primary/foreign keys, indexes, and constraints. Consider performance implications for read/write operations. Include security considerations in the schema design.
+
+## 2. Implement SQLite Local Schema [done]
+### Dependencies: 2.1
+### Description: Design and implement SQLite schema for offline functionality that mirrors PostgreSQL structure while optimizing for local operations
+### Details:
+Create SQLite schema that maintains compatibility with PostgreSQL while accounting for SQLite's limitations. Ensure proper data type mappings between PostgreSQL and SQLite. Optimize for local performance and storage constraints. Include sync-related fields to track changes for later synchronization.
+
+## 3. Develop Redis Caching Layer [done]
+### Dependencies: 2.1
+### Description: Implement Redis caching strategy for frequently accessed data to improve performance
+### Details:
+Design cache invalidation strategies, determine which data to cache, establish TTL policies, and implement cache update mechanisms. Create Redis data structures that optimize for query patterns. Implement fallback mechanisms for cache misses. Ensure cache consistency with the primary database.
+
+## 4. Implement Field Encryption System [done]
+### Dependencies: 2.1, 2.2
+### Description: Design and implement encryption for sensitive fields in both PostgreSQL and SQLite schemas
+### Details:
+Select appropriate encryption algorithms and key management strategies. Implement transparent encryption/decryption layers for sensitive data. Create migration paths for existing data. Ensure encryption doesn't interfere with indexing and query performance where possible. Document security considerations and limitations.
+
+## 5. Create Synchronization Metadata System [done]
+### Dependencies: 2.1, 2.2, 2.4
+### Description: Implement metadata tracking for synchronization between PostgreSQL and SQLite databases
+### Details:
+Design conflict resolution strategies, implement version tracking and change detection mechanisms. Create efficient sync protocols that minimize data transfer. Implement transaction boundaries for atomic syncs. Develop testing framework for sync scenarios including edge cases like network interruptions and conflicting changes.
+

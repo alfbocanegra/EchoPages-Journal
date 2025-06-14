@@ -1,115 +1,235 @@
-# EchoPages Journal Backend
+# EchoPages Backend
 
-Node.js backend server for EchoPages Journal built with Express and TypeScript.
+The backend server for the EchoPages Journal application.
 
 ## Features
 
-- RESTful API endpoints
-- Real-time WebSocket support
-- PostgreSQL database integration
-- Redis caching
-- JWT authentication
-- Rate limiting
-- API documentation with Swagger
-- Automated testing
-- Docker support
+- **Authentication**
+  - OAuth 2.0 integration (Google, Apple, Microsoft)
+  - Biometric authentication support
+  - JWT-based session management
+  - Password reset and account recovery
+
+- **Database**
+  - PostgreSQL with TypeORM
+  - Automatic migrations
+  - Data encryption
+  - Audit logging
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or higher
+- PostgreSQL 14 or higher
+- Yarn package manager
+
+### Installation
+
+1. Install dependencies:
+```bash
+yarn install
+```
+
+2. Set up environment variables:
+```bash
+cp .env.example .env
+```
+
+3. Run database migrations:
+```bash
+yarn migration:run
+```
+
+4. Start the development server:
+```bash
+yarn dev
+```
+
+## Authentication Services
+
+### OAuth Service
+
+The `OAuthService` handles authentication with various OAuth providers:
+
+```typescript
+import { OAuthService } from './services/auth/OAuthService';
+
+// Initialize the service
+const oauthService = new OAuthService();
+
+// Authenticate with a provider
+const user = await oauthService.authenticate('google', profile);
+```
+
+Supported providers:
+- Google (`google`)
+- Apple (`apple`)
+- Microsoft (`microsoft`)
+
+### Biometric Authentication Service
+
+The `BiometricAuthService` manages biometric device enrollment and verification:
+
+```typescript
+import { BiometricAuthService } from './services/auth/BiometricAuthService';
+
+// Initialize the service
+const biometricService = new BiometricAuthService(userRepository);
+
+// Enroll a new device
+const credential = await biometricService.enrollDevice({
+  userId: 'user-123',
+  deviceId: 'device-456',
+  biometricType: BiometricType.FACE_ID,
+  publicKey: 'base64-encoded-public-key',
+  keyHandle: 'device-key-handle'
+});
+
+// Verify biometric authentication
+const isValid = await biometricService.verifyBiometric({
+  userId: 'user-123',
+  deviceId: 'device-456',
+  biometricType: BiometricType.FACE_ID,
+  challenge: 'server-challenge',
+  signature: 'signed-challenge'
+});
+```
+
+## API Routes
+
+### Authentication
+
+```typescript
+// OAuth routes
+POST /auth/oauth/:provider/login
+GET  /auth/oauth/:provider/callback
+
+// Biometric routes
+POST /auth/biometric/enroll
+POST /auth/biometric/verify
+GET  /auth/biometric/devices
+DELETE /auth/biometric/devices/:id
+
+// Traditional auth routes
+POST /auth/login
+POST /auth/register
+POST /auth/logout
+POST /auth/refresh-token
+POST /auth/forgot-password
+POST /auth/reset-password
+```
 
 ## Development
 
-```bash
-# Install dependencies
-yarn install
+### Available Scripts
 
+```bash
 # Start development server
 yarn dev
 
 # Build for production
 yarn build
 
-# Start production server
-yarn start
-
 # Run tests
 yarn test
 
-# Run linting
-yarn lint
+# Run type checking
+yarn type-check
 
-# Generate API documentation
-yarn docs
-```
-
-## Environment Setup
-
-Create a `.env` file in the package root:
-
-```env
-# Server
-PORT=3000
-NODE_ENV=development
-API_PREFIX=/api/v1
-
-# Database
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DB=echopages
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-
-# Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-# JWT
-JWT_SECRET=your-secret-key
-JWT_EXPIRES_IN=7d
-
-# Rate Limiting
-RATE_LIMIT_WINDOW=15m
-RATE_LIMIT_MAX=100
-```
-
-## Directory Structure
-
-```
-src/
-  ├── config/       # Configuration files
-  ├── controllers/  # Route controllers
-  ├── middleware/   # Custom middleware
-  ├── models/       # Database models
-  ├── routes/       # API routes
-  ├── services/     # Business logic
-  ├── types/        # TypeScript types
-  └── utils/        # Utility functions
-```
-
-## API Documentation
-
-API documentation is available at `/api-docs` when running the server.
-
-## Database Migrations
-
-```bash
-# Create a migration
-yarn migration:create
+# Generate migrations
+yarn migration:generate
 
 # Run migrations
 yarn migration:run
 
-# Revert last migration
+# Revert migrations
 yarn migration:revert
 ```
 
-## Docker
+### Database Migrations
 
+1. Make changes to entities
+2. Generate migration:
 ```bash
-# Build image
-docker build -t echopages-backend .
-
-# Run container
-docker run -p 3000:3000 echopages-backend
+yarn migration:generate src/migrations/DescriptiveName
 ```
+3. Review generated migration
+4. Run migration:
+```bash
+yarn migration:run
+```
+
+### Adding New OAuth Providers
+
+1. Add provider configuration:
+```typescript
+// src/config/oauth.ts
+export const oauthConfig = {
+  newProvider: {
+    clientId: process.env.NEW_PROVIDER_CLIENT_ID,
+    clientSecret: process.env.NEW_PROVIDER_CLIENT_SECRET,
+    callbackURL: '/auth/oauth/new-provider/callback'
+  }
+};
+```
+
+2. Create provider strategy:
+```typescript
+// src/services/auth/strategies/NewProviderStrategy.ts
+import { Strategy } from 'passport-oauth2';
+
+export class NewProviderStrategy extends Strategy {
+  // Implementation
+}
+```
+
+3. Update OAuthService:
+```typescript
+// src/services/auth/OAuthService.ts
+this.registerStrategy('newProvider', new NewProviderStrategy());
+```
+
+### Adding New Biometric Methods
+
+1. Add new type to BiometricType enum
+2. Update BiometricAuthService with new method support
+3. Add necessary validation and security checks
+4. Update API documentation
+
+## Encryption System
+
+The backend uses field-level encryption for sensitive data using **AES-256-GCM**. For each encrypted field, the following metadata is stored (all as base64 strings):
+- `encryptedData`: The ciphertext
+- `key`: The encryption key (derived per user/field)
+- `nonce`: The initialization vector (IV)
+- `tag`: The authentication tag
+
+A migration system is included to encrypt existing data and update the schema with the required metadata fields.
+
+**After making changes to encryption or running migrations, always run your test suite:**
+```bash
+yarn test
+```
+This ensures all encryption, decryption, and migration logic is working as expected.
+
+## Security Considerations
+
+- All sensitive data is encrypted at rest
+- API endpoints are rate-limited
+- JWT tokens are short-lived
+- Biometric data never leaves the user's device
+- OAuth state parameters prevent CSRF attacks
+- Input validation on all endpoints
+- Regular security audits
 
 ## Contributing
 
-See the main [CONTRIBUTING.md](../CONTRIBUTING.md) for development guidelines.
+1. Create a feature branch
+2. Make your changes
+3. Run tests and type checking
+4. Submit a pull request
+
+## License
+
+MIT

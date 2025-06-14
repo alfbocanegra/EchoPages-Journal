@@ -1,48 +1,55 @@
 {
   "name": "echopages-journal",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "backend"
-  ],
-  "scripts": {
-    "prepare": "husky install",
-    "build": "yarn workspaces run build",
-    "test": "yarn workspaces run test",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "type-check": "yarn workspaces run type-check"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.21",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.45.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "backend"
     ],
-    "*.{json,md}": [
-      "prettier --write"
+    "nohoist": [
+      "mobile/react-native",
+      "mobile/react-native/**",
+      "mobile/@react-native-community/cli-platform-ios",
+      "mobile/@react-native-community/cli-platform-ios/**"
     ]
   },
+  "scripts": {
+    "build": "yarn workspaces run build",
+    "clean": "yarn workspaces run clean",
+    "dev": "yarn workspaces run dev",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@react-native-community/cli": "^18.0.0",
+    "babel-jest": "^30.0.0-beta.3",
+    "concurrently": "^8.2.2",
+    "electron": "^36.3.2",
+    "eslint": "^9.28.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  },
   "dependencies": {
-    "pg": "^8.16.0",
-    "reflect-metadata": "^0.2.2",
-    "sqlite3": "^5.1.7",
-    "typeorm": "^0.3.24"
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.1",
+    "@react-navigation/native": "^7.1.10",
+    "@tanstack/react-query": "^5.79.2",
+    "@vitejs/plugin-react": "^4.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-native": "^0.79.2",
+    "react-native-safe-area-context": "^5.4.1",
+    "react-native-screens": "^4.11.1",
+    "react-native-web": "^0.20.0",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "vite": "^6.3.5",
+    "zustand": "^5.0.5"
   }
 }
