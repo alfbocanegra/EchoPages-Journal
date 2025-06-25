@@ -1,5 +1,24 @@
 # EchoPages Backend
 
+## Backend Status (June 2024)
+
+**Completed:**
+- OAuth 2.0 authentication (Google, Apple, Microsoft)
+- Biometric authentication (enrollment, verification)
+- JWT session management
+- Core database schema and migrations
+- Export/backup endpoints
+- Local storage encryption (AES-256, SQLCipher, secure key management)
+
+**In Progress:**
+- Real-time sync (WebSocket infra, conflict resolution)
+- Organization/search endpoints
+
+**Next:**
+- Multimedia/media endpoints
+- Integrations (calendar, health, weather)
+- Performance, monitoring, diagnostics
+
 The backend server for the EchoPages Journal application.
 
 ## Features
@@ -233,3 +252,98 @@ This ensures all encryption, decryption, and migration logic is working as expec
 ## License
 
 MIT
+
+## Synchronization Monitoring & Metrics
+
+The backend WebSocket sync server now includes:
+
+- **Structured logging** for all major sync events (connections, disconnections, sync requests, updates, errors, conflicts, resolutions).
+- **In-memory metrics** for:
+  - Total connections/disconnections
+  - Sync requests
+  - Sync updates
+  - Sync errors
+  - Sync conflicts
+  - (Planned) Average sync request/response time
+
+Metrics are logged to the server log every 5 minutes for diagnostics. For future extensibility, a `getMetrics()` method is available on the sync server class and can be exposed via an HTTP endpoint for dashboards or external monitoring (e.g., Prometheus scraping).
+
+**How to extend:**
+- To add more metrics, update the `syncMetrics` object in `WebSocketSyncServer.ts` and increment counters at relevant points.
+- To expose metrics externally, add an HTTP endpoint in your backend (e.g., `/metrics`).
+
+**Example log output:**
+```
+[SyncMetrics] {"totalConnections":12,"totalDisconnections":10,"syncRequests":34,"syncUpdates":21,"syncErrors":2,"syncConflicts":3,"lastMetricsLog":1710000000000}
+```
+
+See the code in `backend/src/services/sync/WebSocketSyncServer.ts` for details.
+
+### Diagnostics Endpoint
+
+You can access current sync metrics via the HTTP endpoint:
+
+```
+GET /sync/metrics
+```
+
+Returns a JSON object with metrics such as:
+
+```
+{
+  "totalConnections": 12,
+  "totalDisconnections": 10,
+  "syncRequests": 34,
+  "syncUpdates": 21,
+  "syncErrors": 2,
+  "syncConflicts": 3,
+  "lastMetricsLog": 1710000000000
+}
+```
+
+This endpoint is useful for monitoring, diagnostics, and integration with external dashboards or monitoring tools.
+
+### Persistent Metrics Logging
+
+In addition to in-memory and console metrics, the backend writes sync metrics snapshots to a rolling log file:
+
+- **File:** `logs/sync-metrics.log`
+- **Format:** One JSON object per line, every 5 minutes, with a timestamp
+- **Retention:** Up to 10MB per file, 10 files (oldest files are deleted automatically)
+
+This enables long-term analysis, export, and integration with external monitoring tools.
+
+#### Downloading Metrics History
+
+Admins can download the last 100 metrics snapshots via:
+
+```
+GET /sync/metrics/history
+```
+
+Returns an array of JSON objects (most recent last). This can be used for offline analysis, dashboarding, or troubleshooting.
+
+The web admin dashboard also provides a "Download Metrics History" button for easy export.
+
+### Protocol Buffer-Based Sync
+
+Journal entry synchronization now uses protocol buffers for efficient, cross-platform serialization:
+
+- **Format:** Each entry is serialized using protocol buffers, then base64-encoded for transmission.
+- **Sync messages:**
+  - `sync:changes` and `sync:update` payloads include `format: "protobuf-base64"` and an array of base64-encoded entries.
+  - Example:
+    ```json
+    {
+      "type": "sync:changes",
+      "payload": {
+        "changes": ["...base64...", "...base64..."],
+        "format": "protobuf-base64"
+      },
+      "version": 1
+    }
+    ```
+- **Versioning:** The `format` field allows for future upgrades and backward compatibility.
+- **Legacy support:** If `format` is not present, the system falls back to JSON for legacy clients.
+
+This reduces bandwidth usage and improves sync performance across all platforms.

@@ -34,12 +34,12 @@ describe('DataEncryptionMigration Integration', () => {
   let sqliteDb: Database;
   let migration: DataEncryptionMigration;
   const encryptionService = new TestEncryptionAdapter();
-  
+
   // Create a test logger
   const testLogger = winston.createLogger({
     level: 'info',
     transports: [new winston.transports.Console()],
-    format: winston.format.simple()
+    format: winston.format.simple(),
   });
 
   beforeAll(async () => {
@@ -48,7 +48,7 @@ describe('DataEncryptionMigration Integration', () => {
     await new Promise<void>((resolve, reject) => {
       sqliteDb.serialize(() => {
         sqliteDb.run('PRAGMA foreign_keys = ON');
-        
+
         // Create tables
         sqliteDb.run(`
           CREATE TABLE users (
@@ -142,20 +142,23 @@ describe('DataEncryptionMigration Integration', () => {
     // Insert test data
     await new Promise<void>(resolve => {
       sqliteDb.serialize(() => {
-        sqliteDb.run(
-          'INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)',
-          ['user1', 'test@example.com', 'hash123']
-        );
+        sqliteDb.run('INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)', [
+          'user1',
+          'test@example.com',
+          'hash123',
+        ]);
 
         sqliteDb.run(
           'INSERT INTO journal_entries (id, user_id, title, content) VALUES (?, ?, ?, ?)',
           ['entry1', 'user1', 'Test Entry', 'This is a test entry']
         );
 
-        sqliteDb.run(
-          'INSERT INTO folders (id, user_id, name, description) VALUES (?, ?, ?, ?)',
-          ['folder1', 'user1', 'Test Folder', 'This is a test folder']
-        );
+        sqliteDb.run('INSERT INTO folders (id, user_id, name, description) VALUES (?, ?, ?, ?)', [
+          'folder1',
+          'user1',
+          'Test Folder',
+          'This is a test folder',
+        ]);
 
         resolve();
       });
@@ -227,9 +230,15 @@ describe('DataEncryptionMigration Integration', () => {
         encrypt: jest.fn().mockRejectedValue(new Error('Encryption failed')),
         decrypt: jest.fn().mockRejectedValue(new Error('Decryption failed')),
       };
-      
-      const invalidMigration = new DataEncryptionMigration(null, sqliteDb, failingEncryptionService, testLogger, 10);
-      
+
+      const invalidMigration = new DataEncryptionMigration(
+        null,
+        sqliteDb,
+        failingEncryptionService,
+        testLogger,
+        10
+      );
+
       await expect(invalidMigration.migrateAll()).rejects.toThrow('Encryption failed');
 
       // Verify no partial updates were committed

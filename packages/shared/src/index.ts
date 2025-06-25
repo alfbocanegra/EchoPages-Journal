@@ -1,3 +1,5 @@
 export * from './entities';
 export * from './types';
-export { BiometricType } from './entities/BiometricCredential'; 
+export * from './services';
+export * from './utils';
+export { BiometricType } from './entities/BiometricCredential';

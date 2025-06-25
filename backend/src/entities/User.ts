@@ -21,7 +21,12 @@ export class User {
   @Column({ unique: true, length: 50 })
   username!: string;
 
-  @Column({ name: 'auth_provider', type: 'enum', enum: ['google', 'apple', 'microsoft'], nullable: true })
+  @Column({
+    name: 'auth_provider',
+    type: 'enum',
+    enum: ['google', 'apple', 'microsoft'],
+    nullable: true,
+  })
   authProvider?: AuthProvider;
 
   @Column({ name: 'auth_provider_id', nullable: true })
@@ -68,4 +73,4 @@ export class User {
 
   @OneToMany(() => BiometricCredential, (credential: BiometricCredential) => credential.user)
   biometricCredentials!: BiometricCredential[];
-} 
+}

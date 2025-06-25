@@ -1,12 +1,5 @@
 import { Database } from 'sqlite3';
-import '@jest/globals';
-
-declare global {
-  var beforeAll: typeof jest.beforeAll;
-  var beforeEach: typeof jest.beforeEach;
-  var afterAll: typeof jest.afterAll;
-  var afterEach: typeof jest.afterEach;
-}
+import { beforeAll, beforeEach, afterAll, afterEach } from '@jest/globals';
 
 let testDb: Database;
 
@@ -17,7 +10,7 @@ beforeAll(async () => {
   await new Promise<void>((resolve, reject) => {
     testDb.serialize(() => {
       testDb.run('PRAGMA foreign_keys = ON');
-      
+
       // Create tables
       testDb.run(`
         CREATE TABLE users (
@@ -106,7 +99,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await new Promise<void>((resolve) => {
+  await new Promise<void>(resolve => {
     testDb.close(() => resolve());
   });
 });

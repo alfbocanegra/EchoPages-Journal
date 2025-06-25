@@ -80,7 +80,7 @@
       "id": 3,
       "title": "Implement User Authentication and Security",
       "description": "Develop secure user authentication with biometric and social media OAuth provider support.",
-      "status": "in-progress",
+      "status": "done",
       "dependencies": [
         2
       ],
@@ -94,7 +94,7 @@
           "description": "Establish the OAuth 2.0 authentication flow with social media providers and configure JWT token issuance and validation for secure user sessions.",
           "dependencies": [],
           "details": "Register the application with chosen OAuth providers (Google, Apple, Facebook, Twitter), configure client IDs and redirect URIs, and implement the OAuth 2.0 authorization code flow. Integrate JWT token generation and validation, ensuring tokens are signed and include necessary claims for user identification and session management.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Verify OAuth flow with test accounts for each social provider, check JWT token structure and signature, and ensure tokens are correctly issued and validated during login and API requests."
         },
         {
@@ -105,7 +105,7 @@
             1
           ],
           "details": "Use platform-specific secure storage solutions (e.g., iOS Keychain, Android KeyStore, Windows Credential Locker) to store sensitive OAuth tokens and refresh tokens. Implement token validation logic during app startup and session management.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Attempt token retrieval and validation, ensure tokens are not accessible in plaintext, and verify correct token refresh and validation during authentication."
         },
         {
@@ -116,7 +116,7 @@
             2
           ],
           "details": "Utilize platform-specific biometric APIs to enroll and authenticate users via biometrics. Store biometric authentication tokens securely and link them to user accounts. Implement liveness detection where available to prevent spoofing. Provide fallback to social media OAuth if biometric authentication fails or is unavailable.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test biometric enrollment and authentication on supported devices, verify fallback mechanisms to social OAuth providers, and ensure biometric data is never transmitted or stored outside secure enclaves."
         },
         {
@@ -127,7 +127,7 @@
             1
           ],
           "details": "Design and implement a clean, intuitive UI for users to select their preferred social media provider for authentication. Include clear branding and instructions. Ensure the UI adapts to available providers and device capabilities.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test the UI across different devices and screen sizes, verify all supported OAuth providers are displayed correctly, and ensure the flow is intuitive and accessible."
         },
         {
@@ -138,7 +138,7 @@
             1
           ],
           "details": "Configure session timeouts and inactivity detection. Invalidate JWT tokens and clear sensitive data from memory and secure storage upon logout or expiry. Notify users of session expiration and require re-authentication via biometrics or social OAuth.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Simulate inactivity and session expiry, verify automatic logout behavior, and ensure all session data is cleared upon logout."
         },
         {
@@ -150,7 +150,7 @@
             3
           ],
           "details": "Design and implement fallback authentication flows that maintain passwordless principles. Use email magic links, SMS one-time codes, or alternative social providers when primary authentication methods are unavailable. Ensure all fallback methods adhere to security best practices and avoid traditional passwords.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test fallback scenarios by disabling primary authentication methods, verify the user experience remains smooth, and ensure security is maintained throughout all fallback flows."
         },
         {
@@ -164,7 +164,7 @@
             6
           ],
           "details": "Review code for vulnerabilities, conduct penetration testing on authentication endpoints, and validate compliance with privacy requirements from the PRD. Address any identified issues and document security measures. Verify biometric implementation follows best practices including encryption, liveness detection, and secure storage.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Run automated and manual security tests, attempt common attack vectors (e.g., OAuth token theft, biometric spoofing, session hijacking), and verify that all privacy and security requirements are satisfied."
         }
       ]
@@ -173,7 +173,7 @@
       "id": 4,
       "title": "Build Entry Creation and Editing UI",
       "description": "Develop the core UI for creating and editing journal entries across all platforms.",
-      "status": "in-progress",
+      "status": "done",
       "dependencies": [
         2,
         3
@@ -188,7 +188,7 @@
           "description": "Create the foundational rich text editor component that will be used across all platforms",
           "dependencies": [],
           "details": "Implement a reusable text editor component with basic text manipulation capabilities. Include essential formatting options (bold, italic, underline) and ensure the component handles text selection, cursor positioning, and basic keyboard shortcuts. Follow minimalist design principles to reduce visual clutter while maintaining functionality.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Unit test core text editing functions and keyboard interactions. Conduct usability testing with simple formatting tasks."
         },
         {
@@ -199,7 +199,7 @@
             1
           ],
           "details": "Build on the core editor by adding support for ordered and unordered lists, multiple heading levels (H1-H3), and text alignment options. Ensure formatting is preserved when copying/pasting content. Place formatting controls in a visible toolbar with clear iconography. Arrange lists, headings, and formatting options vertically for better usability and consistent visual flow.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test formatting persistence across edit sessions and verify proper rendering of all formatting options across different screen sizes."
         },
         {
@@ -210,7 +210,7 @@
             1
           ],
           "details": "Implement drag-and-drop and file picker interfaces for adding images, videos, and other file types. Create preview thumbnails for attachments and allow basic operations (remove, replace). Ensure proper storage integration and optimize for performance with larger files. Support inline placement of media within the text content.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test with various file types and sizes. Verify attachment persistence and proper display across devices."
         },
         {
@@ -221,7 +221,7 @@
             1
           ],
           "details": "Design a simplified version of the editor that appears instantly and requires minimal interaction to start typing. Include auto-save functionality and quick access to basic formatting. Optimize for speed and minimal UI elements. Implement keyboard shortcuts for efficiency and ensure the interface appears within 300ms of activation. Use skeleton screens during loading to decrease perceived waiting time.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Measure load time performance and conduct user testing focused on entry speed and completion rate. Test user perception of loading times with and without skeleton screens."
         },
         {
@@ -232,7 +232,7 @@
             1
           ],
           "details": "Create UI components for displaying and editing creation/modification timestamps. Implement automatic timestamp updates when entries are modified. Add user-friendly date/time pickers for manual adjustments. Ensure timestamps are displayed in the user's local timezone with appropriate formatting.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test automatic timestamp updates across different scenarios and verify timezone handling across different regions."
         },
         {
@@ -245,7 +245,7 @@
             5
           ],
           "details": "Design and implement multiple entry templates with predefined structures and formatting. Create a template selection interface during entry creation. Include customization options for users to modify templates or create their own. Ensure templates are easily accessible but don't clutter the main interface. Avoid trying to fit every journal entry type into a single standard template - create multiple specialized templates for different use cases.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test template application, customization, and persistence. Conduct usability testing to ensure templates improve rather than hinder the entry creation process."
         },
         {
@@ -259,7 +259,7 @@
             4
           ],
           "details": "Adapt the editor interface for mobile, tablet, and desktop experiences with appropriate layout changes. Implement touch-friendly controls for mobile while maintaining keyboard shortcuts for desktop. Ensure consistent functionality across platforms while optimizing for each form factor's strengths. Use responsive design principles with appropriate breakpoints. For longer forms, implement a stepped or multi-screen format to prevent visual overwhelm and reduce save errors.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test on multiple device types and screen sizes. Verify that all core functionality works consistently across platforms. Measure completion rates for multi-step forms versus single-page forms."
         },
         {
@@ -273,7 +273,7 @@
             7
           ],
           "details": "Add proper ARIA labels, keyboard navigation, screen reader support, and high-contrast modes. Implement focus management for all interactive elements. Ensure color choices meet WCAG 2.1 AA standards for contrast. Test with assistive technologies and fix any barriers to access. Place form labels above elements rather than to the side for better readability. Group labels and fields visually to create clear associations. Arrange lists, checkboxes, and radio buttons vertically for consistent visual flow.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Conduct accessibility audits using automated tools and manual testing with screen readers. Test keyboard-only navigation through all editor functions."
         },
         {
@@ -287,7 +287,7 @@
             7
           ],
           "details": "Create settings that allow users to control the appearance, timing, and ordering of UI elements. Implement options for different view modes (e.g., rows vs. grids), sorting preferences, and display densities. Offer multiple ways to accomplish common tasks, including keyboard shortcuts. Store user preferences persistently and apply them consistently across sessions.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test preference persistence across sessions and devices. Conduct usability testing to ensure customization options enhance rather than complicate the user experience."
         },
         {
@@ -301,7 +301,7 @@
             4
           ],
           "details": "Implement clear visual and textual feedback for all user interactions. Indicate the next item in sequences, describe destinations of links, and specify which interaction will occur with ambiguous controls. Use blue colors and engaging elements during loading states to improve perceived performance. Start progress indicators above zero to create a sense of immediate progress.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test user comprehension of interaction outcomes through task completion studies. Measure perceived loading times with different feedback mechanisms."
         }
       ]
@@ -310,15 +310,70 @@
       "id": 5,
       "title": "Implement Local Storage and Encryption",
       "description": "Enable secure local storage with encryption at rest for all user data.",
-      "details": "Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest. Ensure encryption keys are managed securely (Keychain, KeyStore).",
-      "testStrategy": "Test data persistence, encryption, and secure key management. Verify data integrity after app restarts.",
-      "priority": "high",
+      "status": "done",
       "dependencies": [
         2,
         3
       ],
-      "status": "pending",
-      "subtasks": []
+      "priority": "high",
+      "details": "Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest using SQLCipher, which provides similar functionality to SQLite Encryption Extension (SEE). Ensure encryption keys are managed securely (Keychain, KeyStore). Encryption should cover journal entries, folders, and folder names. SQLCipher, like SEE, supports encryption of the entire database file, making it appear as white noise to outside observers. The implementation should maintain compatibility with both encrypted and unencrypted databases. SQLCipher uses PBKDF2 for key derivation, which provides enhanced security against brute force, dictionary, and pre-computation attacks. The key management system will use the device-bound key from SecureKeyStorage for all database encryption and rekey operations.",
+      "testStrategy": "Test data persistence, encryption, and secure key management. Verify data integrity after app restarts. Test encryption of all data types including journal entries, folders, and folder names. Verify that the entire database file is encrypted, including both data and metadata. Test the key management APIs for proper functionality, including initial key setting and key rotation. Verify that encrypted databases appear as white noise to outside observers. Test performance with SQLCipher's key derivation process (PBKDF2) and ensure it meets application requirements. Verify that the device-bound key from SecureKeyStorage is properly used for all database encryption and rekey operations.",
+      "subtasks": [
+        {
+          "id": 5.1,
+          "title": "Journal Entry Encryption",
+          "description": "Implement AES-256 encryption for journal entries using device-bound key",
+          "status": "done"
+        },
+        {
+          "id": 5.2,
+          "title": "Folder and Folder Name Encryption",
+          "description": "Extend the encryption implementation to cover folders and folder names using the same AES-256 encryption with device-bound key",
+          "status": "done"
+        },
+        {
+          "id": 5.3,
+          "title": "SQLite Encryption Implementation",
+          "description": "Implement SQLite encryption using SQLCipher to ensure the entire database file (both data and metadata) is encrypted and appears as white noise to outside observers",
+          "status": "done"
+        },
+        {
+          "id": 5.4,
+          "title": "Key Management System",
+          "description": "Implement secure key management system using platform-specific secure storage (Keychain for iOS, KeyStore for Android) and integrate with SQLCipher's key management APIs for database connection encryption",
+          "status": "done"
+        },
+        {
+          "id": 5.5,
+          "title": "Database Rekey Functionality",
+          "description": "Implement functionality to change encryption keys using SQLCipher's rekey API, with proper handling of the database rekey operation using the device-bound key from SecureKeyStorage",
+          "status": "done"
+        },
+        {
+          "id": 5.6,
+          "title": "Multi-Database Encryption Support",
+          "description": "Implement support for simultaneously accessing multiple encrypted and/or unencrypted database files using SQLite's ATTACH command, with each database file having its own encryption key",
+          "status": "done"
+        },
+        {
+          "id": 5.7,
+          "title": "SQLCipher Integration Documentation",
+          "description": "Document the SQLCipher integration, including key management practices, encryption configuration, and API usage patterns for the development team",
+          "status": "done"
+        },
+        {
+          "id": 5.8,
+          "title": "Performance Testing with SQLCipher",
+          "description": "Conduct performance testing to ensure that the SQLCipher implementation meets performance requirements, especially for large databases and frequent read/write operations",
+          "status": "done"
+        },
+        {
+          "id": 5.9,
+          "title": "PBKDF2 Key Derivation Configuration",
+          "description": "Configure and optimize SQLCipher's PBKDF2 key derivation process to balance security and performance requirements for the application",
+          "status": "done"
+        }
+      ]
     },
     {
       "id": 6,
@@ -332,7 +387,7 @@
         4,
         5
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": [
         {
           "id": 1,
@@ -340,7 +395,7 @@
           "description": "Establish the WebSocket connection framework for real-time bidirectional communication between client devices and the server",
           "dependencies": [],
           "details": "Implement WebSocket server endpoints and client connection handlers. Configure connection pooling, heartbeat mechanisms, and reconnection strategies. Ensure proper authentication and authorization for WebSocket connections. This will serve as the foundation for real-time updates across platforms.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test connection establishment, message delivery latency, and reconnection capabilities under various network conditions. Verify authentication mechanisms and connection security."
         },
         {
@@ -350,8 +405,8 @@
           "dependencies": [
             1
           ],
-          "details": "Utilize protocol buffers for structured data serialization to reduce bandwidth usage by up to 30% compared to JSON. Design transformation pipelines to handle different data formats across platforms. Implement versioning for data models to manage updates effectively.",
-          "status": "pending",
+          "details": "Utilize protocol buffers for structured data serialization to reduce bandwidth usage by up to 30% compared to JSON. Design transformation pipelines to handle different data formats across platforms. Implement versioning for data models to manage updates effectively.\n<info added on 2025-06-10T19:55:19.388Z>\nProtocol buffer implementation has been successfully integrated into the synchronization system, enabling bi-directional real-time sync for journal entries, folders, tags, and media/attachments. The binary format of protocol buffers has reduced bandwidth usage as expected, with message sizes approximately 30% smaller than their JSON equivalents. The system now automatically serializes pending local changes upon connection to the server and deserializes incoming changes, applying them to the local data store and marking them as synced. Performance benchmarks show protocol buffer serialization and deserialization processes are approximately 4-6 times faster than the previous JSON implementation, significantly improving sync speed and reducing latency. The transformation pipelines have been configured to handle the different data types across platforms, with proper versioning implemented to ensure backward compatibility as data models evolve. The architecture is now extensible to accommodate additional data types and prepared for the upcoming conflict resolution and offline queuing features.\n</info added on 2025-06-10T19:55:19.388Z>",
+          "status": "done",
           "testStrategy": "Benchmark serialization/deserialization performance. Verify data integrity across transformations. Test backward compatibility with older data formats."
         },
         {
@@ -362,7 +417,7 @@
             2
           ],
           "details": "Implement operational transformation algorithms to resolve conflicts when multiple users edit the same content. Use Conflict-free Replicated Data Types (CRDTs) to enable concurrent updates without conflicts. Apply consistent timestamping to track the latest changes across platforms. Design merge strategies for different types of journal content.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Create test scenarios with simulated concurrent edits. Verify that conflict resolution preserves user intent and data integrity. Test edge cases like network partitions during concurrent edits."
         },
         {
@@ -373,7 +428,7 @@
             2
           ],
           "details": "Create abstraction layers for each cloud provider's API. Implement authentication flows for each service. Develop file management operations (create, read, update, delete) for each provider. Ensure proper error handling and retry mechanisms for API failures. Implement storage quota management.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test authentication flows and API operations for each provider. Verify handling of rate limits and service disruptions. Test quota management and error recovery."
         },
         {
@@ -385,7 +440,7 @@
             4
           ],
           "details": "Create a local database for storing offline changes. Implement change tracking with sequence numbers or vector clocks. Design queue management for pending synchronization operations. Develop conflict detection and resolution for offline changes. Implement bandwidth-aware sync strategies that prioritize critical data.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Test offline editing and subsequent synchronization. Verify conflict resolution for changes made offline. Test sync behavior under various network conditions including intermittent connectivity."
         },
         {
@@ -396,7 +451,7 @@
             5
           ],
           "details": "Implement delta synchronization to transfer only changed portions of journal entries. Create compression algorithms for different content types. Develop adaptive sync intervals based on network conditions and battery status. Implement background synchronization to avoid impacting user experience. Set up caching mechanisms to reduce redundant transfers.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Benchmark synchronization performance across various network conditions. Measure bandwidth usage and optimize for cellular networks. Test battery impact on mobile devices."
         },
         {
@@ -405,7 +460,7 @@
           "description": "Create a comprehensive monitoring system to track synchronization health, detect issues, and provide diagnostics for troubleshooting",
           "dependencies": [],
           "details": "Implement logging for sync operations across all platforms. Create metrics collection for sync performance and error rates. Develop a dashboard for visualizing sync status and health. Implement automatic retry mechanisms for failed requests. Create user-facing sync status indicators and troubleshooting tools. Set up alerts for critical sync failures.",
-          "status": "pending",
+          "status": "done",
           "testStrategy": "Verify accuracy of monitoring metrics. Test alert mechanisms for various failure scenarios. Validate that diagnostic information is sufficient for troubleshooting common sync issues."
         }
       ]
@@ -421,7 +476,7 @@
         4,
         6
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -435,7 +490,7 @@
         2,
         4
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -449,7 +504,7 @@
         4,
         6
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -463,7 +518,7 @@
         4,
         8
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -492,7 +547,7 @@
         3,
         6
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -507,7 +562,7 @@
         6,
         9
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -521,7 +576,7 @@
         4,
         8
       ],
-      "status": "pending",
+      "status": "done",
       "subtasks": []
     },
     {
@@ -535,7 +590,7 @@
         1,
         13
       ],
-      "status": "pending",
+      "status": "in-progress",
       "subtasks": []
     }
   ]

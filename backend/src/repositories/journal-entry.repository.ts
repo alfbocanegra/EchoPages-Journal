@@ -1,10 +1,10 @@
 import { Pool } from 'pg';
-import { Entry } from '@echopages/shared/entities';
+import { Entry } from '@echopages/shared';
 import { CacheService } from '../services/cache/CacheService';
 import { EncryptionService, EncryptedData } from '../encryption/encryption.service';
 
 interface CachedEntry extends Entry {
-  title: string;  // Make title required in cached version
+  title: string; // Make title required in cached version
 }
 
 export class JournalEntryRepository {
@@ -14,23 +14,13 @@ export class JournalEntryRepository {
     private readonly encryptionService: EncryptionService
   ) {}
 
-  private async decryptContent(userId: string, content: string): Promise<string> {
-    return await this.encryptionService.decrypt(content, userId);
-  }
-
   async getById(id: string): Promise<Entry | null> {
     const cached = await this.cache.getJournalEntry(id);
     if (cached) {
-      if (cached.isEncrypted && cached.content) {
-        cached.content = await this.decryptContent(cached.userId, cached.content);
-      }
       return cached;
     }
 
-    const result = await this.pool.query(
-      'SELECT * FROM entries WHERE id = $1',
-      [id]
-    );
+    const result = await this.pool.query('SELECT * FROM entries WHERE id = $1', [id]);
 
     if (result.rows.length === 0) {
       return null;
@@ -45,15 +35,7 @@ export class JournalEntryRepository {
   async getByUserId(userId: string): Promise<Entry[]> {
     const cached = await this.cache.getUserEntries(userId);
     if (cached) {
-      const decryptedEntries = await Promise.all(
-        cached.map(async (entry: Entry) => {
-          if (entry.isEncrypted && entry.content) {
-            entry.content = await this.decryptContent(userId, entry.content);
-          }
-          return entry;
-        })
-      );
-      return decryptedEntries;
+      return cached;
     }
 
     const result = await this.pool.query(
@@ -84,15 +66,15 @@ export class JournalEntryRepository {
 
   async create(entry: Partial<Entry>): Promise<Entry> {
     let encrypted: EncryptedData | null = null;
-    if (entry.content && entry.isEncrypted) {
-      encrypted = await this.encryptionService.encrypt(entry.userId!, entry.content);
-      entry.content = encrypted!.encryptedData;
+    if (entry.content && entry.isEncrypted && entry.userId) {
+      encrypted = await this.encryptionService.encrypt(entry.userId, entry.content);
+      entry.content = encrypted.encryptedData;
     }
 
     let sql = `INSERT INTO entries (
       id, user_id, content, content_type, is_encrypted, is_favorite, is_pinned, sync_status, created_at, updated_at`;
     let placeholders = '$1, $2, $3, $4, $5, $6, $7, $8, $9, $10';
-    let params: any[] = [
+    const params: any[] = [
       entry.id,
       entry.userId,
       entry.content,
@@ -102,7 +84,7 @@ export class JournalEntryRepository {
       entry.isPinned,
       entry.syncStatus,
       entry.createdAt,
-      entry.updatedAt
+      entry.updatedAt,
     ];
     if (encrypted) {
       sql += ', content_key, content_nonce, content_tag';
@@ -126,7 +108,7 @@ export class JournalEntryRepository {
     let encrypted: EncryptedData | null = null;
     if (entry.content && entry.isEncrypted) {
       encrypted = await this.encryptionService.encrypt(current.userId, entry.content);
-      entry.content = encrypted!.encryptedData;
+      entry.content = encrypted.encryptedData;
     }
 
     let sql = `UPDATE entries SET
@@ -137,7 +119,7 @@ export class JournalEntryRepository {
       is_pinned = COALESCE($5, is_pinned),
       sync_status = COALESCE($6, sync_status),
       updated_at = $7`;
-    let params: any[] = [
+    const params: any[] = [
       entry.content ?? current.content,
       entry.contentType ?? current.contentType,
       entry.isEncrypted ?? current.isEncrypted,
@@ -145,7 +127,7 @@ export class JournalEntryRepository {
       entry.isPinned ?? current.isPinned,
       entry.syncStatus ?? current.syncStatus,
       new Date(),
-      id
+      id,
     ];
     if (encrypted) {
       sql += ', content_key = $9, content_nonce = $10, content_tag = $11';

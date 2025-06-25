@@ -43,7 +43,11 @@ export class EncryptionService {
     try {
       const key = this.deriveUserKey(userId);
       const nonce = crypto.randomBytes(encryptionConfig.ivSize);
-      const cipher = crypto.createCipheriv(encryptionConfig.algorithm, key, nonce) as crypto.CipherGCM;
+      const cipher = crypto.createCipheriv(
+        encryptionConfig.algorithm,
+        key,
+        nonce
+      ) as crypto.CipherGCM;
       const encryptedData = Buffer.concat([cipher.update(data, 'utf8'), cipher.final()]);
       const tag = cipher.getAuthTag();
       return {

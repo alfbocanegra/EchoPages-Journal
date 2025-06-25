@@ -1,5 +1,10 @@
 import { randomBytes, createHash } from 'crypto';
-import { BiometricType, BiometricAuthRequest, BiometricEnrollRequest, BiometricCredential } from '@echopages/shared';
+import {
+  BiometricType,
+  BiometricAuthRequest,
+  BiometricEnrollRequest,
+  BiometricCredential,
+} from '@echopages/shared';
 import { UserRepository } from '../../repositories/UserRepository';
 import { FindOptionsOrder, FindOptionsWhere } from 'typeorm';
 
@@ -14,7 +19,7 @@ export class BiometricAuthService {
     // Verify user exists
     const user = await this.userRepository.findOne({
       where: { id: request.userId },
-      relations: ['biometricCredentials']
+      relations: ['biometricCredentials'],
     });
 
     if (!user) {
@@ -23,7 +28,8 @@ export class BiometricAuthService {
 
     // Check if device is already enrolled
     const existingCredential = user.biometricCredentials?.find(
-      (cred: BiometricCredential) => cred.deviceId === request.deviceId && cred.biometricType === request.biometricType
+      (cred: BiometricCredential) =>
+        cred.deviceId === request.deviceId && cred.biometricType === request.biometricType
     );
 
     if (existingCredential) {
@@ -43,7 +49,7 @@ export class BiometricAuthService {
     credential.keyHandle = request.keyHandle;
     credential.metadata = {
       enrolledAt: new Date().toISOString(),
-      lastVerified: null
+      lastVerified: null,
     };
 
     // Save to database
@@ -57,11 +63,11 @@ export class BiometricAuthService {
     const where: FindOptionsWhere<BiometricCredential> = {
       userId: request.userId,
       deviceId: request.deviceId,
-      biometricType: request.biometricType
+      biometricType: request.biometricType,
     };
 
     const credential = await this.userRepository.manager.findOne(BiometricCredential, {
-      where
+      where,
     });
 
     if (!credential) {
@@ -79,7 +85,7 @@ export class BiometricAuthService {
       // Update last used timestamp in metadata
       credential.metadata = {
         ...credential.metadata,
-        lastVerified: new Date().toISOString()
+        lastVerified: new Date().toISOString(),
       };
       await this.userRepository.manager.save(BiometricCredential, credential);
     }
@@ -87,11 +93,15 @@ export class BiometricAuthService {
     return isValid;
   }
 
-  async removeDevice(userId: string, deviceId: string, biometricType: BiometricType): Promise<void> {
+  async removeDevice(
+    userId: string,
+    deviceId: string,
+    biometricType: BiometricType
+  ): Promise<void> {
     const where: FindOptionsWhere<BiometricCredential> = {
       userId,
       deviceId,
-      biometricType
+      biometricType,
     };
 
     const result = await this.userRepository.manager.delete(BiometricCredential, where);
@@ -107,7 +117,7 @@ export class BiometricAuthService {
 
     return this.userRepository.manager.find(BiometricCredential, {
       where,
-      order
+      order,
     });
   }
 
@@ -119,11 +129,15 @@ export class BiometricAuthService {
     return `${salt}:${hash}`;
   }
 
-  private async verifySignature(challenge: string, signature: string, publicKey: string): Promise<boolean> {
+  private async verifySignature(
+    challenge: string,
+    signature: string,
+    publicKey: string
+  ): Promise<boolean> {
     // This is a placeholder for actual signature verification
     // In a real implementation, this would use platform-specific crypto libraries
     // to verify the biometric signature using the stored public key
-    
+
     // For example, using WebAuthn/FIDO2:
     // return await webauthn.verifySignature({
     //   challenge: Buffer.from(challenge, 'base64'),
@@ -134,4 +148,4 @@ export class BiometricAuthService {
     // For now, return true for testing
     return true;
   }
-} 
+}

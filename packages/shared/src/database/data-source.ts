@@ -8,7 +8,10 @@ const baseConfig = {
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
   entities: [__dirname + '/../entities/*.{js,ts}'],
-  migrations: [__dirname + '/migrations/1710000000000-CreateInitialSchema.{js,ts}', __dirname + '/migrations/1710000000001-MigrateMoodToJson.{js,ts}'],
+  migrations: [
+    __dirname + '/migrations/1710000000000-CreateInitialSchema.{js,ts}',
+    __dirname + '/migrations/1710000000001-MigrateMoodToJson.{js,ts}',
+  ],
   subscribers: [__dirname + '/subscribers/*.{js,ts}'],
 };
 

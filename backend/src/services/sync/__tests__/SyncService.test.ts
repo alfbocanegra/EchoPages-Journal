@@ -75,12 +75,15 @@ describe('SyncService', () => {
 
     it('should create new metadata if not found', async () => {
       mockSyncMetadataRepo.findOne.mockResolvedValueOnce(null);
-      mockSyncMetadataRepo.save.mockImplementationOnce(async (data) => ({
-        id: '123',
-        ...data,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      } as SyncMetadata));
+      mockSyncMetadataRepo.save.mockImplementationOnce(
+        async data =>
+          ({
+            id: '123',
+            ...data,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          } as SyncMetadata)
+      );
 
       const result = await syncService.initializeDevice('user1', 'device1');
       expect(result).toMatchObject({
@@ -140,13 +143,15 @@ describe('SyncService', () => {
     });
 
     it('should filter by included types', async () => {
-      const mockEntities: MockEntity[] = [{
-        id: '1',
-        userId: 'user1',
-        syncVersion: 1,
-        syncStatus: 'pending',
-        updatedAt: new Date(),
-      }];
+      const mockEntities: MockEntity[] = [
+        {
+          id: '1',
+          userId: 'user1',
+          syncVersion: 1,
+          syncStatus: 'pending',
+          updatedAt: new Date(),
+        },
+      ];
 
       const mockEntityRepo = {
         find: jest.fn().mockResolvedValue(mockEntities),

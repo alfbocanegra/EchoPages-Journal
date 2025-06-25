@@ -39,7 +39,7 @@ export class CloudStorageService {
       accessToken,
       refreshToken,
       folderPath: '/EchoPages Journal',
-      encryptionKey: undefined // Will be set separately for security
+      encryptionKey: undefined, // Will be set separately for security
     };
   }
 
@@ -97,13 +97,13 @@ export class CloudStorageService {
       filesUploaded: 0,
       filesDownloaded: 0,
       errors: [],
-      lastSync: new Date()
+      lastSync: new Date(),
     };
 
     try {
       // Encrypt data before upload
       const encryptedData = await this.encryptData(localData);
-      
+
       switch (this.provider) {
         case 'google-drive':
           await this.syncToGoogleDrive(encryptedData, result);
@@ -180,7 +180,7 @@ export class CloudStorageService {
       if (!window.gapi) {
         await this.loadGoogleAPI();
       }
-      
+
       // @ts-ignore
       await window.gapi.load('drive', { version: 'v3' });
       return true;
@@ -381,6 +381,10 @@ export class CloudStorageService {
 }
 
 // Factory function for easy creation
-export function createCloudStorage(authProvider: string, accessToken?: string, refreshToken?: string): CloudStorageService {
+export function createCloudStorage(
+  authProvider: string,
+  accessToken?: string,
+  refreshToken?: string
+): CloudStorageService {
   return new CloudStorageService(authProvider, accessToken, refreshToken);
-} 
+}

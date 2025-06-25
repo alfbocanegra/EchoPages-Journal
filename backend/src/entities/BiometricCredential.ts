@@ -21,7 +21,11 @@ export class BiometricCredential {
   @Column({ name: 'device_id' })
   deviceId!: string;
 
-  @Column({ name: 'biometric_type', type: 'enum', enum: ['face_id', 'touch_id', 'windows_hello', 'fingerprint'] })
+  @Column({
+    name: 'biometric_type',
+    type: 'enum',
+    enum: ['face_id', 'touch_id', 'windows_hello', 'fingerprint'],
+  })
   biometricType!: BiometricType;
 
   @Column({ name: 'biometric_key_hash' })
@@ -48,4 +52,4 @@ export class BiometricCredential {
   @ManyToOne(() => User, (user: User) => user.biometricCredentials)
   @JoinColumn({ name: 'user_id' })
   user!: User;
-} 
+}

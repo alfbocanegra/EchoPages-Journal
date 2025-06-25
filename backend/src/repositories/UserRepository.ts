@@ -1,9 +1,11 @@
-import { Repository, EntityRepository, FindOptionsWhere } from 'typeorm';
-import { User } from '@echopages/shared/entities';
-import { AuthProvider } from '@echopages/shared/types';
+import { Repository, FindOptionsWhere, DataSource } from 'typeorm';
+import { User, AuthProvider } from '@echopages/shared';
 
-@EntityRepository(User)
 export class UserRepository extends Repository<User> {
+  constructor(dataSource: DataSource) {
+    super(User, dataSource.createEntityManager());
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     return this.findOne({ where: { email } });
   }
@@ -11,13 +13,13 @@ export class UserRepository extends Repository<User> {
   async findByOAuth(provider: AuthProvider, oauthId: string): Promise<User | null> {
     return await this.findOne({
       where: {
-        oauthProvider: provider,
-        oauthId
-      } as FindOptionsWhere<User>
+        authProvider: provider,
+        authProviderId: oauthId,
+      } as FindOptionsWhere<User>,
     });
   }
 
   async findByUsername(username: string): Promise<User | null> {
     return this.findOne({ where: { username } });
   }
-} 
+}

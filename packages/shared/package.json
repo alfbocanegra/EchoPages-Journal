@@ -5,15 +5,16 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/entities/*_pb.js src/entities/*_pb.d.ts dist/entities/",
     "clean": "rimraf dist",
     "dev": "tsc -w",
     "lint": "eslint src --ext .ts",
     "test": "jest"
   },
   "dependencies": {
-    "reflect-metadata": "^0.2.0",
-    "typeorm": "^0.3.20"
+    "protobufjs": "^7.5.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

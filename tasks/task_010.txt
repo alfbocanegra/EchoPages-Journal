@@ -1,6 +1,6 @@
 # Task ID: 10
 # Title: Develop Habit Tracking and Notifications
-# Status: pending
+# Status: done
 # Dependencies: 4, 8
 # Priority: medium
 # Description: Add streak tracking, goal setting, and reminder notifications.

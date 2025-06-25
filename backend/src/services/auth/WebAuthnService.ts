@@ -29,15 +29,19 @@ export class WebAuthnService {
     this.config = {
       ...config,
       expectedOrigin: config.expectedOrigin || config.origin,
-      timeout: config.timeout || 60000
+      timeout: config.timeout || 60000,
     };
   }
 
-  async generateRegistrationOptions(userId: string, deviceName: string, biometricType: BiometricType) {
+  async generateRegistrationOptions(
+    userId: string,
+    deviceName: string,
+    biometricType: BiometricType
+  ) {
     // Get user and their existing credentials
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['biometricCredentials']
+      relations: ['biometricCredentials'],
     });
 
     if (!user) {
@@ -61,10 +65,13 @@ export class WebAuthnService {
       },
       timeout: this.config.timeout,
       excludeCredentials: existingCredentials
-        .filter((cred): cred is BiometricCredential & { keyHandle: string } => cred.keyHandle !== undefined)
+        .filter(
+          (cred): cred is BiometricCredential & { keyHandle: string } =>
+            cred.keyHandle !== undefined
+        )
         .map(cred => ({
           id: cred.keyHandle,
-          transports: ['internal'] as AuthenticatorTransport[]
+          transports: ['internal'] as AuthenticatorTransport[],
         })),
     });
 
@@ -81,7 +88,7 @@ export class WebAuthnService {
       enrolledAt: new Date().toISOString(),
       lastVerified: null,
       challenge,
-      temporary: true
+      temporary: true,
     };
 
     await this.userRepository.manager.save(BiometricCredential, tempCredential);
@@ -100,8 +107,8 @@ export class WebAuthnService {
       where: {
         userId,
         deviceId: deviceName,
-        biometricType
-      }
+        biometricType,
+      },
     });
 
     if (!tempCredential?.metadata?.challenge || !tempCredential.metadata.temporary) {
@@ -124,11 +131,15 @@ export class WebAuthnService {
         credential.userId = userId;
         credential.deviceId = deviceName;
         credential.biometricType = biometricType;
-        
+
         // Get credential data from verification
-        const credentialId = Buffer.from(verification.registrationInfo.credential.id).toString('base64');
-        const publicKey = Buffer.from(verification.registrationInfo.credential.publicKey).toString('base64');
-        
+        const credentialId = Buffer.from(verification.registrationInfo.credential.id).toString(
+          'base64'
+        );
+        const publicKey = Buffer.from(verification.registrationInfo.credential.publicKey).toString(
+          'base64'
+        );
+
         credential.keyHandle = credentialId;
         credential.publicKey = publicKey;
         credential.biometricKeyHash = '';
@@ -136,7 +147,7 @@ export class WebAuthnService {
           enrolledAt: new Date().toISOString(),
           lastVerified: null,
           currentChallenge: '',
-          challengeId: ''
+          challengeId: '',
         };
 
         // Save the new credential and remove the temporary one
@@ -158,7 +169,7 @@ export class WebAuthnService {
   async generateAuthenticationOptions(userId: string) {
     // Get user's credentials
     const credentials = await this.userRepository.manager.find(BiometricCredential, {
-      where: { userId }
+      where: { userId },
     });
 
     if (!credentials.length) {
@@ -170,10 +181,13 @@ export class WebAuthnService {
       rpID: this.config.rpID,
       timeout: this.config.timeout,
       allowCredentials: credentials
-        .filter((cred): cred is BiometricCredential & { keyHandle: string } => cred.keyHandle !== undefined)
+        .filter(
+          (cred): cred is BiometricCredential & { keyHandle: string } =>
+            cred.keyHandle !== undefined
+        )
         .map(cred => ({
           id: cred.keyHandle,
-          transports: ['internal'] as AuthenticatorTransport[]
+          transports: ['internal'] as AuthenticatorTransport[],
         })),
       userVerification: 'preferred',
     });
@@ -189,7 +203,7 @@ export class WebAuthnService {
           cred.metadata = {
             ...cred.metadata,
             currentChallenge: challenge,
-            challengeId
+            challengeId,
           };
           return this.userRepository.manager.save(BiometricCredential, cred);
         }
@@ -209,11 +223,14 @@ export class WebAuthnService {
     const credential = await this.userRepository.manager.findOne(BiometricCredential, {
       where: {
         userId,
-        keyHandle: response.id
-      }
+        keyHandle: response.id,
+      },
     });
 
-    if (!credential?.metadata?.currentChallenge || credential.metadata.challengeId !== challengeId) {
+    if (
+      !credential?.metadata?.currentChallenge ||
+      credential.metadata.challengeId !== challengeId
+    ) {
       throw new Error('Invalid authentication session');
     }
 
@@ -225,11 +242,11 @@ export class WebAuthnService {
         expectedOrigin: this.config.expectedOrigin!,
         expectedRPID: this.config.rpID,
         requireUserVerification: true,
-        authenticator: {
-          credentialID: Buffer.from(credential.keyHandle || '', 'base64'),
-          credentialPublicKey: Buffer.from(credential.publicKey || '', 'base64'),
-          counter: 0
-        }
+        credential: {
+          id: credential.keyHandle || '',
+          publicKey: credential.publicKey || '',
+          counter: 0,
+        } as any,
       });
 
       if (verification.verified) {
@@ -238,7 +255,7 @@ export class WebAuthnService {
           ...credential.metadata,
           lastVerified: new Date().toISOString(),
           currentChallenge: '',
-          challengeId: ''
+          challengeId: '',
         };
 
         await this.userRepository.manager.save(BiometricCredential, credential);
@@ -251,4 +268,4 @@ export class WebAuthnService {
 
     return false;
   }
-} 
+}

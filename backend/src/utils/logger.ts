@@ -36,19 +36,13 @@ export function debug(message: string, metadata?: LogMetadata): void {
 export function createLogger(name: string) {
   return winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json()
-    ),
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
     defaultMeta: { service: name },
     transports: [
       new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.simple()
-        )
-      })
-    ]
+        format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+      }),
+    ],
   });
 }
 

@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './user';
 
 export enum BiometricType {
@@ -7,7 +15,7 @@ export enum BiometricType {
   IRIS = 'iris',
   TOUCH_ID = 'touch_id',
   FACE_ID = 'face_id',
-  WINDOWS_HELLO = 'windows_hello'
+  WINDOWS_HELLO = 'windows_hello',
 }
 
 export interface BiometricMetadata {
@@ -33,7 +41,7 @@ export class BiometricCredential {
   @Column({
     type: 'enum',
     enum: BiometricType,
-    name: 'biometric_type'
+    name: 'biometric_type',
   })
   biometricType!: BiometricType;
 
@@ -73,4 +81,4 @@ export interface BiometricAuthRequest {
   biometricType: BiometricType;
   challenge: string;
   signature: string;
-} 
+}

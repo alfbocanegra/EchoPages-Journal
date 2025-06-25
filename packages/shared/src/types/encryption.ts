@@ -18,4 +18,4 @@ export interface EncryptedData {
 export interface EncryptionService {
   encrypt(data: string): Promise<EncryptedData>;
   decrypt(encryptedData: string, key: string, nonce: string, tag: string): Promise<string>;
-} 
+}

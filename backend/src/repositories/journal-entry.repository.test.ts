@@ -200,7 +200,7 @@ describe('JournalEntryRepository', () => {
         async query =>
           ({
             rows: query.includes('SELECT') ? [existingDbRow] : [updatedDbRow],
-          }) as QueryResult
+          } as QueryResult)
       );
 
       const result = await repository.update(mockEntryId, updateData);

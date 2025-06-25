@@ -18,13 +18,13 @@ import { BaseEntity } from './BaseEntity';
 export enum UserStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
-  SUSPENDED = 'suspended'
+  SUSPENDED = 'suspended',
 }
 
 export enum OAuthProvider {
   GOOGLE = 'google',
   APPLE = 'apple',
-  MICROSOFT = 'microsoft'
+  MICROSOFT = 'microsoft',
 }
 
 @Entity('users')
@@ -38,7 +38,12 @@ export class User extends BaseEntity {
   @Column({ unique: true, length: 50 })
   username!: string;
 
-  @Column({ name: 'auth_provider', type: 'enum', enum: ['google', 'apple', 'microsoft'], nullable: true })
+  @Column({
+    name: 'auth_provider',
+    type: 'enum',
+    enum: ['google', 'apple', 'microsoft'],
+    nullable: true,
+  })
   authProvider?: AuthProvider;
 
   @Column({ name: 'auth_provider_id', nullable: true })
@@ -65,7 +70,7 @@ export class User extends BaseEntity {
   @Column({
     type: 'enum',
     enum: UserStatus,
-    default: UserStatus.ACTIVE
+    default: UserStatus.ACTIVE,
   })
   status!: UserStatus;
 
@@ -73,7 +78,7 @@ export class User extends BaseEntity {
     name: 'oauth_provider',
     type: 'enum',
     enum: OAuthProvider,
-    nullable: true
+    nullable: true,
   })
   oauthProvider?: OAuthProvider;
 

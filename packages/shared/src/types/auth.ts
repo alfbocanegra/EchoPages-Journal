@@ -60,4 +60,4 @@ export interface BiometricEnrollRequest {
   biometricType: BiometricType;
   publicKey: string;
   keyHandle?: string;
-} 
+}

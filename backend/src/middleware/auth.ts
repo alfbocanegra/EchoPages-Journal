@@ -14,12 +14,13 @@ export const requireAuth = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
 
     if (!authHeader?.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'No token provided' });
+      res.status(401).json({ error: 'No token provided' });
+      return;
     }
 
     const token = authHeader.split(' ')[1];
@@ -31,6 +32,6 @@ export const requireAuth = async (
     next();
   } catch (error) {
     console.error('Authentication failed:', error);
-    return res.status(401).json({ error: 'Invalid token' });
+    res.status(401).json({ error: 'Invalid token' });
   }
-}; 
+};

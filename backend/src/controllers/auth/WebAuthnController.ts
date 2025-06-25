@@ -3,6 +3,13 @@ import { WebAuthnService } from '../../services/auth/WebAuthnService';
 import { BiometricType } from '@echopages/shared';
 import { AuthenticationResponseJSON, RegistrationResponseJSON } from '@simplewebauthn/server';
 
+// Extend session interface for WebAuthn
+declare module 'express-session' {
+  interface SessionData {
+    webAuthnChallengeId?: string;
+  }
+}
+
 export class WebAuthnController {
   constructor(private webAuthnService: WebAuthnService) {}
 
@@ -16,13 +23,13 @@ export class WebAuthnController {
 
       if (!userId || !deviceName || !biometricType) {
         return res.status(400).json({
-          error: 'Missing required fields: userId, deviceName, biometricType'
+          error: 'Missing required fields: userId, deviceName, biometricType',
         });
       }
 
       if (!Object.values(BiometricType).includes(biometricType)) {
         return res.status(400).json({
-          error: 'Invalid biometric type'
+          error: 'Invalid biometric type',
         });
       }
 
@@ -36,7 +43,7 @@ export class WebAuthnController {
     } catch (error) {
       console.error('WebAuthn registration start failed:', error);
       return res.status(500).json({
-        error: 'Failed to start registration'
+        error: 'Failed to start registration',
       });
     }
   }
@@ -51,13 +58,13 @@ export class WebAuthnController {
 
       if (!userId || !deviceName || !biometricType || !response) {
         return res.status(400).json({
-          error: 'Missing required fields: userId, deviceName, biometricType, response'
+          error: 'Missing required fields: userId, deviceName, biometricType, response',
         });
       }
 
       if (!Object.values(BiometricType).includes(biometricType)) {
         return res.status(400).json({
-          error: 'Invalid biometric type'
+          error: 'Invalid biometric type',
         });
       }
 
@@ -70,12 +77,12 @@ export class WebAuthnController {
 
       return res.json({
         message: 'Registration successful',
-        credential
+        credential,
       });
     } catch (error) {
       console.error('WebAuthn registration completion failed:', error);
       return res.status(500).json({
-        error: 'Failed to complete registration'
+        error: 'Failed to complete registration',
       });
     }
   }
@@ -90,11 +97,13 @@ export class WebAuthnController {
 
       if (!userId) {
         return res.status(400).json({
-          error: 'Missing required field: userId'
+          error: 'Missing required field: userId',
         });
       }
 
-      const { options, challengeId } = await this.webAuthnService.generateAuthenticationOptions(userId);
+      const { options, challengeId } = await this.webAuthnService.generateAuthenticationOptions(
+        userId
+      );
 
       // Store challengeId in session for verification
       req.session.webAuthnChallengeId = challengeId;
@@ -103,7 +112,7 @@ export class WebAuthnController {
     } catch (error) {
       console.error('WebAuthn authentication start failed:', error);
       return res.status(500).json({
-        error: 'Failed to start authentication'
+        error: 'Failed to start authentication',
       });
     }
   }
@@ -119,7 +128,7 @@ export class WebAuthnController {
 
       if (!userId || !response || !challengeId) {
         return res.status(400).json({
-          error: 'Missing required fields: userId, response, or invalid session'
+          error: 'Missing required fields: userId, response, or invalid session',
         });
       }
 
@@ -134,18 +143,18 @@ export class WebAuthnController {
         delete req.session.webAuthnChallengeId;
 
         return res.json({
-          message: 'Authentication successful'
+          message: 'Authentication successful',
         });
       }
 
       return res.status(401).json({
-        error: 'Authentication failed'
+        error: 'Authentication failed',
       });
     } catch (error) {
       console.error('WebAuthn authentication completion failed:', error);
       return res.status(500).json({
-        error: 'Failed to complete authentication'
+        error: 'Failed to complete authentication',
       });
     }
   }
-} 
+}

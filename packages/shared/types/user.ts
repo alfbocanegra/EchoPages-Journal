@@ -1,15 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { BiometricCredential } from './biometric';
 
 export enum UserRole {
   USER = 'user',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 export enum OAuthProvider {
   GOOGLE = 'google',
   APPLE = 'apple',
-  MICROSOFT = 'microsoft'
+  MICROSOFT = 'microsoft',
 }
 
 @Entity('users')
@@ -32,7 +39,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.USER
+    default: UserRole.USER,
   })
   role!: UserRole;
 
@@ -40,7 +47,7 @@ export class User {
     type: 'enum',
     enum: OAuthProvider,
     nullable: true,
-    name: 'oauth_provider'
+    name: 'oauth_provider',
   })
   oauthProvider?: OAuthProvider;
 
@@ -82,4 +89,4 @@ export class User {
 
   @OneToMany(() => BiometricCredential, credential => credential.user)
   biometricCredentials?: BiometricCredential[];
-} 
+}

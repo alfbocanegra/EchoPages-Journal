@@ -5,4 +5,4 @@ export const createLogger = (name: string) => ({
   debug: jest.fn(),
 });
 
-export const logger = createLogger('test'); 
+export const logger = createLogger('test');

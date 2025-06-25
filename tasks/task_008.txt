@@ -1,6 +1,6 @@
 # Task ID: 8
 # Title: Build Organization and Search Features
-# Status: pending
+# Status: done
 # Dependencies: 2, 4
 # Priority: medium
 # Description: Develop tagging, folder, and advanced search functionality.

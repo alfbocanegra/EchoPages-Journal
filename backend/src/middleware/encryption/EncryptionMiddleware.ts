@@ -88,7 +88,12 @@ export class EncryptionMiddleware {
         // Skip if any required encryption data is missing
         if (!encryptedData || !key || !nonce || !tag) continue;
 
-        const decryptedValue = await this.encryptionService.decrypt(encryptedData, key, nonce, tag);
+        const decryptedValue = await this.encryptionService.decrypt(
+          encryptedData.toString(),
+          key.toString(),
+          nonce.toString(),
+          tag.toString()
+        );
 
         decryptedEntity[fieldConfig.field] = decryptedValue;
 

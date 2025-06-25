@@ -1,2 +1,2 @@
 export * from './user';
-export * from './biometric'; 
+export * from './biometric';

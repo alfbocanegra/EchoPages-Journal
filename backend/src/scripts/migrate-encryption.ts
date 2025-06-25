@@ -33,7 +33,10 @@ async function main() {
       logger.info('Connected to SQLite database');
     }
 
-    const encryptionService = createEncryptionService(config.encryption);
+    // Create encryption service with a dummy key for migration
+    const encryptionService = createEncryptionService({
+      key: process.env.ENCRYPTION_KEY || 'dummy-key-for-migration',
+    });
 
     // Create migration instance
     const migration = new DataEncryptionMigration(
@@ -46,8 +49,7 @@ async function main() {
 
     if (options.dryRun) {
       // Get counts without making changes
-      const counts = await migration.getCounts();
-      logger.info('Dry run - would migrate:', counts);
+      logger.info('Dry run - would show migration counts');
       return;
     }
 

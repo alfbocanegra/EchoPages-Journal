@@ -1,4 +1,4 @@
-import { Entry } from '@echopages/shared/entities';
+import { Entry } from '@echopages/shared';
 
 export interface CacheService {
   getJournalEntry(id: string): Promise<Entry | null>;
@@ -7,4 +7,4 @@ export interface CacheService {
   cacheUserEntries(userId: string, entries: Entry[]): Promise<void>;
   invalidateJournalEntry(id: string): Promise<void>;
   invalidateUserEntries(userId: string): Promise<void>;
-} 
+}

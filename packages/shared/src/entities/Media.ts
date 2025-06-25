@@ -54,3 +54,17 @@ export class Media {
   @JoinColumn({ name: 'entry_id' })
   entry!: Entry;
 }
+
+/**
+ * Media.type values:
+ *   - 'image': Standard image (jpeg, png, gif, svg, etc)
+ *   - 'video': Video file (mp4, mov, webm, etc)
+ *   - 'audio': Audio file (mp3, wav, m4a, etc)
+ *   - 'handwriting': Handwritten note (PNG, SVG, or vector data in metadata)
+ *
+ * Media.metadata conventions:
+ *   - For 'image': { width, height, exif? }
+ *   - For 'video': { duration, width, height, codec }
+ *   - For 'audio': { duration, codec }
+ *   - For 'handwriting': { format: 'svg'|'png'|'json', data: string|object }
+ */

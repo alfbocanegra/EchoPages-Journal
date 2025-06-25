@@ -15,4 +15,4 @@ export const testConfig = {
   sqlite: {
     database: ':memory:',
   },
-}; 
+};

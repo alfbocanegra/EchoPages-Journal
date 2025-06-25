@@ -1,5 +1,12 @@
 # @echopages/shared
 
+## Shared Package Status (June 2024)
+
+- Provides shared types, entities, and utilities for all platforms
+- Includes authentication, biometric, and user entities
+- Encryption utilities complete and in use across all platforms
+- Current focus: sync data models and cross-platform compatibility
+
 Shared types, entities, and utilities for the EchoPages Journal application.
 
 ## Installation

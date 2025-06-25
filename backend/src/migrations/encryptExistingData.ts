@@ -152,13 +152,13 @@ export class DataEncryptionMigration {
           .then(() => this.migrateFoldersSqlite())
           .then(() => this.mediaAttachmentsSqlite())
           .then(() => {
-            this.sqliteDb!.run('COMMIT', (err) => {
+            this.sqliteDb!.run('COMMIT', err => {
               if (err) reject(err);
               else resolve();
             });
           })
           .catch(error => {
-            this.sqliteDb!.run('ROLLBACK', (err) => {
+            this.sqliteDb!.run('ROLLBACK', err => {
               if (err) {
                 this.logger.error('Failed to rollback transaction:', err);
               }
@@ -193,7 +193,9 @@ export class DataEncryptionMigration {
 
       for (const entry of rows) {
         try {
-          const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(entry.content);
+          const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+            entry.content
+          );
 
           await client.query(
             `
@@ -254,7 +256,9 @@ export class DataEncryptionMigration {
       for (const folder of rows) {
         try {
           if (folder.name) {
-            const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(folder.name);
+            const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+              folder.name
+            );
 
             await client.query(
               `
@@ -271,7 +275,9 @@ export class DataEncryptionMigration {
           }
 
           if (folder.description) {
-            const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(folder.description);
+            const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+              folder.description
+            );
 
             await client.query(
               `
@@ -387,7 +393,7 @@ export class DataEncryptionMigration {
     return new Promise((resolve, reject) => {
       const entries: JournalEntry[] = [];
       let hasError = false;
-      
+
       // First, collect all entries that need encryption
       db.each<JournalEntry>(
         `
@@ -406,7 +412,7 @@ export class DataEncryptionMigration {
           }
           entries.push(entry);
         },
-        async (err) => {
+        async err => {
           if (err || hasError) {
             reject(err || new Error('Failed to read journal entries'));
             return;
@@ -416,7 +422,9 @@ export class DataEncryptionMigration {
             // Process all entries in series to avoid SQLite concurrency issues
             for (const entry of entries) {
               try {
-                const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(entry.content);
+                const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+                  entry.content
+                );
 
                 await new Promise<void>((resolveUpdate, rejectUpdate) => {
                   db.run(
@@ -430,7 +438,7 @@ export class DataEncryptionMigration {
                     WHERE id = ?
                     `,
                     [encryptedData, key, nonce, tag, entry.id],
-                    (err) => {
+                    err => {
                       if (err) rejectUpdate(err);
                       else resolveUpdate();
                     }
@@ -445,7 +453,7 @@ export class DataEncryptionMigration {
                     VALUES (?, ?, ?, ?)
                     `,
                     [uuidv4(), entry.user_id, 'journal_entry', entry.id],
-                    (err) => {
+                    err => {
                       if (err) rejectInsert(err);
                       else resolveInsert();
                     }
@@ -493,7 +501,7 @@ export class DataEncryptionMigration {
     return new Promise((resolve, reject) => {
       const folders: Folder[] = [];
       let hasError = false;
-      
+
       // First, collect all folders that need encryption
       db.each<Folder>(
         `
@@ -512,7 +520,7 @@ export class DataEncryptionMigration {
           }
           folders.push(folder);
         },
-        async (err) => {
+        async err => {
           if (err || hasError) {
             reject(err || new Error('Failed to read folders'));
             return;
@@ -523,7 +531,9 @@ export class DataEncryptionMigration {
             for (const folder of folders) {
               try {
                 if (folder.name) {
-                  const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(folder.name);
+                  const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+                    folder.name
+                  );
 
                   await new Promise<void>((resolveUpdate, rejectUpdate) => {
                     db.run(
@@ -537,7 +547,7 @@ export class DataEncryptionMigration {
                       WHERE id = ?
                       `,
                       [encryptedData, key, nonce, tag, folder.id],
-                      (err) => {
+                      err => {
                         if (err) rejectUpdate(err);
                         else resolveUpdate();
                       }
@@ -546,7 +556,9 @@ export class DataEncryptionMigration {
                 }
 
                 if (folder.description) {
-                  const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(folder.description);
+                  const { encryptedData, key, nonce, tag } = await this.encryptionService.encrypt(
+                    folder.description
+                  );
 
                   await new Promise<void>((resolveUpdate, rejectUpdate) => {
                     db.run(
@@ -560,7 +572,7 @@ export class DataEncryptionMigration {
                       WHERE id = ?
                       `,
                       [encryptedData, key, nonce, tag, folder.id],
-                      (err) => {
+                      err => {
                         if (err) rejectUpdate(err);
                         else resolveUpdate();
                       }
@@ -576,7 +588,7 @@ export class DataEncryptionMigration {
                     VALUES (?, ?, ?, ?)
                     `,
                     [uuidv4(), folder.user_id, 'folder', folder.id],
-                    (err) => {
+                    err => {
                       if (err) rejectInsert(err);
                       else resolveInsert();
                     }
@@ -623,7 +635,7 @@ export class DataEncryptionMigration {
 
     return new Promise((resolve, reject) => {
       let hasError = false;
-      
+
       db.each<MediaAttachment>(
         `
         SELECT m.*, u.password_hash
@@ -651,7 +663,7 @@ export class DataEncryptionMigration {
                 WHERE id = ?
                 `,
                 [media.id],
-                (err) => {
+                err => {
                   if (err) rejectUpdate(err);
                   else resolveUpdate();
                 }
@@ -666,7 +678,7 @@ export class DataEncryptionMigration {
                 VALUES (?, ?, ?, ?)
                 `,
                 [uuidv4(), media.user_id, 'media', media.id],
-                (err) => {
+                err => {
                   if (err) rejectInsert(err);
                   else resolveInsert();
                 }
@@ -712,10 +724,15 @@ export class DataEncryptionMigration {
   }
 
   private logProgress(entity: string): void {
-    let key: keyof typeof this.progress;
-    
+    let key: keyof typeof this.progress | undefined;
+
     // Map display names to progress keys
-    switch (entity.toLowerCase().replace(/\s+\([^)]*\)/g, '').trim()) {
+    switch (
+      entity
+        .toLowerCase()
+        .replace(/\s+\([^)]*\)/g, '')
+        .trim()
+    ) {
       case 'journal entries':
         key = 'journalEntries';
         break;
@@ -728,6 +745,11 @@ export class DataEncryptionMigration {
       default:
         this.logger.error(`Invalid progress entity: ${entity}`);
         return;
+    }
+
+    if (!key) {
+      this.logger.error(`Failed to map entity to progress key: ${entity}`);
+      return;
     }
 
     const progress = this.progress[key];

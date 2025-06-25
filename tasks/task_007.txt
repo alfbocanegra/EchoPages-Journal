@@ -1,6 +1,6 @@
 # Task ID: 7
 # Title: Implement Multimedia Support
-# Status: pending
+# Status: done
 # Dependencies: 4, 6
 # Priority: medium
 # Description: Add support for images, videos, audio, and handwritten notes in journal entries.

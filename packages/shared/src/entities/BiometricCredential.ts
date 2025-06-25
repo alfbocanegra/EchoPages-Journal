@@ -6,7 +6,7 @@ export enum BiometricType {
   FINGERPRINT = 'fingerprint',
   FACE = 'face',
   IRIS = 'iris',
-  WEBAUTHN = 'webauthn'
+  WEBAUTHN = 'webauthn',
 }
 
 export interface BiometricMetadata {
@@ -29,7 +29,7 @@ export class BiometricCredential extends BaseEntity {
   @Column({
     name: 'biometric_type',
     type: 'enum',
-    enum: BiometricType
+    enum: BiometricType,
   })
   biometricType!: BiometricType;
 
@@ -48,4 +48,4 @@ export class BiometricCredential extends BaseEntity {
   @ManyToOne(() => User, user => user.biometricCredentials)
   @JoinColumn({ name: 'user_id' })
   user!: User;
-} 
+}
