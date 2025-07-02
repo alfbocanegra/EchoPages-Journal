@@ -23,6 +23,7 @@ import { theme as baseTheme } from './styles/theme';
 import { ThemeProvider } from './styles/ThemeContext';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import HandwritingDemoScreen from './screens/HandwritingDemoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -116,15 +117,26 @@ export default function App() {
                 options={({ navigation }) => ({
                   title: 'Entries',
                   headerRight: () => (
+                    <>
+                      <Ionicons
+                        name="brush-outline"
+                        size={26}
+                        color="#0288D1"
+                        style={{ marginRight: 16 }}
+                        onPress={() => navigation.navigate('HandwritingDemo')}
+                        accessibilityLabel="Handwriting demo"
+                        accessible
+                      />
                     <Ionicons
                       name="settings-outline"
                       size={26}
                       color="#625B71"
-                      style={{ marginRight: 16 }}
+                        style={{ marginRight: 8 }}
                       onPress={() => navigation.navigate('Settings')}
                       accessibilityLabel="Open settings"
                       accessible
                     />
+                    </>
                   ),
                 })}
               />
@@ -137,6 +149,11 @@ export default function App() {
                 name="Settings"
                 component={SettingsScreen}
                 options={{ title: 'Settings' }}
+              />
+              <Stack.Screen
+                name="HandwritingDemo"
+                component={HandwritingDemoScreen}
+                options={{ title: 'Handwriting Demo' }}
               />
             </Stack.Navigator>
           </NavigationContainer>

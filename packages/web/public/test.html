@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Test</title>
+    <script crossorigin src="https://unpkg.com/react@19/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@19/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { createElement } = React;
+        const { createRoot } = ReactDOM;
+        
+        function App() {
+            return createElement('div', {
+                style: { padding: '20px', fontFamily: 'Arial, sans-serif' }
+            }, [
+                createElement('h1', { key: 'title' }, '🎯 EchoPages Journal - Direct React Test'),
+                createElement('p', { key: 'status' }, '✅ React is working without Vite!'),
+                createElement('button', { 
+                    key: 'btn',
+                    onClick: () => alert('Direct React test successful!')
+                }, 'Test Button')
+            ]);
+        }
+        
+        const container = document.getElementById('root');
+        if (container) {
+            const root = createRoot(container);
+            root.render(createElement(App));
+        }
+    </script>
+</body>
+</html> 

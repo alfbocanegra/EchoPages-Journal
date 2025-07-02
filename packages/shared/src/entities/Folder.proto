@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package echopages;
+
+message Folder {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string parentId = 4;
+  string createdAt = 5;
+  string updatedAt = 6;
+  bool isEncrypted = 7;
+  bool isFavorite = 8;
+  bool isPinned = 9;
+  repeated string tags = 10;
+} 

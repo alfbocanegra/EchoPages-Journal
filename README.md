@@ -536,4 +536,24 @@ If you need to change these, update the following environment variables:
 
 You can set these in your shell or in a `.env` file at the project root.
 
+## Dev Container Mobile Development
+
+This project supports development in a VS Code Dev Container or Docker container. The container includes:
+- Node.js, Yarn, TypeScript, Expo CLI, React Native CLI
+- OpenJDK 11, Android SDK, platform tools, emulator (for Android development)
+- Ruby, CocoaPods (for iOS dependency management)
+
+### Android
+- You can build, run, and test Android apps fully inside the container.
+
+### iOS
+- You can run `pod install` and manage iOS dependencies in the container.
+- **iOS builds and simulators must be run on your host Mac with Xcode.**
+- The container is ideal for JS/TS development, linting, and dependency management, but not for building/running iOS apps.
+
+### Usage
+- Open the project in VS Code or Cursor and select "Reopen in Container".
+- All code and build outputs remain on your development drive.
+- For iOS builds, use your host Mac terminal and Xcode.
+
 ---

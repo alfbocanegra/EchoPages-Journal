@@ -286,44 +286,7 @@ export const EditorPage: React.FC = () => {
         >
           {/* Editor Column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {/* Editor Preferences */}
-            <ThemeCard
-              style={{
-                padding: 20,
-                background: prefs.darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.9)',
-                border: `1px solid ${prefs.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                borderRadius: 16,
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <EditorPreferences prefs={prefs} onChange={setPrefs} />
-            </ThemeCard>
-
-            {/* Quick Entry */}
-            <ThemeCard
-              style={{
-                padding: 20,
-                background: prefs.darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.9)',
-                border: `1px solid ${prefs.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                borderRadius: 16,
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <h3
-                style={{
-                  margin: '0 0 16px 0',
-                  fontSize: 18,
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-              >
-                <span>⚡</span>
-                Quick Entry
-              </h3>
-              <QuickEntry onSave={handleQuickSave} />
-            </ThemeCard>
+            {/* Editor Preferences removed - now only in Settings */}
 
             {/* New Journal Entry */}
             <ThemeCard

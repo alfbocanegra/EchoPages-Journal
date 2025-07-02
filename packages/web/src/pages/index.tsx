@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { LoginPage } from './LoginPage';
 import { EditorPage } from './EditorPage';
 import { EntriesPage } from './EntriesPage';
-import { CalendarPageWorking } from './CalendarPageWorking';
 import { AuthCallbackPage } from './AuthCallbackPage';
 import { useAuth } from '../context/AuthContext';
 import { getJWT } from '../services/authService';
+import HandwritingDemo from './HandwritingDemo';
+import SettingsPage from './SettingsPage';
 
 const AppRouter: React.FC = () => {
   const [authenticated, setAuthenticated] = useState(false);
@@ -71,15 +72,18 @@ const AppRouter: React.FC = () => {
           path="/entries"
           element={authenticated ? <EntriesPage /> : <Navigate to="/" replace />}
         />
-        <Route
-          path="/calendar"
-          element={authenticated ? <CalendarPageWorking /> : <Navigate to="/" replace />}
-        />
+        <Route path="/handwriting-demo" element={<HandwritingDemo />} />
+        <Route path="/settings" element={authenticated ? <SettingsPage /> : <Navigate to="/" replace />} />
         <Route
           path="/"
           element={
             !authenticated ? (
+              <>
+                <div style={{textAlign: 'center', marginBottom: 16}}>
+                  <a href="/handwriting-demo" style={{color: '#0078d4', textDecoration: 'underline'}}>Try Handwriting Input Demo</a>
+                </div>
               <LoginPage onLoginSuccess={handleLoginSuccess} />
+              </>
             ) : (
               <Navigate to="/entries" replace />
             )

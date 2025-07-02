@@ -1,4 +1,4 @@
-export type AuthProvider = 'google' | 'apple' | 'microsoft';
+export type AuthProvider = 'google' | 'apple' | 'microsoft' | 'dropbox';
 export type BiometricType = 'face_id' | 'touch_id' | 'windows_hello' | 'fingerprint';
 export type AuthMethod = 'oauth' | 'biometric';
 

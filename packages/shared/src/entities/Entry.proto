@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package echopages;
+
+message Entry {
+  string id = 1;
+  string userId = 2;
+  string folderId = 3;
+  string title = 4;
+  string content = 5;
+  string contentType = 6;
+  bool isEncrypted = 7;
+  string mood = 8;
+  string weather = 9;
+  string location = 10;
+  bool isFavorite = 11;
+  bool isPinned = 12;
+  string localId = 13;
+  string syncStatus = 14;
+  string lastSyncAt = 15;
+  string createdAt = 16;
+  string updatedAt = 17;
+  repeated string tags = 18;
+  repeated string media = 19;
+  repeated string versions = 20;
+} 

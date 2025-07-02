@@ -12,5 +12,8 @@ module.exports = {
       },
     ],
   },
+  moduleNameMapper: {
+    '^node-fetch$': '<rootDir>/src/__tests__/mocks/node-fetch.mock.js',
+  },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };

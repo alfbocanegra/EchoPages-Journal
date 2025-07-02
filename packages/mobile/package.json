@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "react-native start",
-    "ios": "react-native run-ios"
+    "ios": "react-native run-ios",
+    "postinstall": "find . -name 'boost.podspec' -exec sed -i '' -e 's#http.*boost_[0-9_]*.tar.bz2#https://boostorg.jfrog.io/artifactory/main/release/1.84.0/source/boost_1_84_0.tar.bz2#' -e 's/[a-f0-9]\\{64\\}/e0f020de72913559199b5698b1f50a733dcfd7e1b0532de4a2357c3baca95e0f/' {} +"
   },
   "dependencies": {
     "@babel/preset-env": "^7.27.2",
@@ -38,6 +39,7 @@
     "react-native-pell-rich-editor": "^1.9.0",
     "react-native-safe-area-context": "^5.4.1",
     "react-native-screens": "^4.11.1",
+    "react-native-signature-canvas": "^5.0.1",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-webview": "^13.14.1",
     "react-redux": "^9.2.0",
@@ -47,7 +49,7 @@
     "@babel/core": "^7.27.4",
     "@react-native-community/cli": "^18.0.0",
     "@react-native-community/cli-platform-ios": "^18.0.0",
-    "@react-native/metro-config": "0.76.3",
+    "@react-native/metro-config": "^0.80.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.14",
     "@types/react-native-sqlite-storage": "^6.0.5",
@@ -55,8 +57,8 @@
     "babel-jest": "^30.0.0",
     "babel-preset-expo": "^13.2.0",
     "jest-expo": "^53.0.7",
-    "metro": "0.76.7",
-    "react-native": "^0.76.3",
+    "metro": "^0.82.4",
+    "react-native": "^0.80.0",
     "typescript": "^5.8.3"
   }
 }

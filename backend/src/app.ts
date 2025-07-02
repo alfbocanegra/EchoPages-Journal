@@ -91,12 +91,12 @@ app.get('/', (req, res) => {
 });
 
 // Mount routes
-app.use('/auth/webauthn', webauthnRoutes);
+app.use('/auth/webauthn', requireAuth, webauthnRoutes);
 app.use('/auth/oauth', oauthRoutes);
 app.use('/auth/totp', requireAuth, totpRoutes);
-app.use('/cloud', cloudRouter);
-app.use('/sync', syncRouter);
-app.use('/api/ai', aiRouter);
+app.use('/cloud', requireAuth, cloudRouter);
+app.use('/sync', requireAuth, syncRouter);
+app.use('/api/ai', requireAuth, aiRouter);
 
 // Error handling middleware
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {

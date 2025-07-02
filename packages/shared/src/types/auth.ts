@@ -1,6 +1,6 @@
 import { BiometricType } from '../entities/BiometricCredential';
 
-export type AuthProvider = 'google' | 'apple' | 'microsoft';
+export type AuthProvider = 'google' | 'apple' | 'microsoft' | 'dropbox';
 export type AuthMethod = 'oauth' | 'biometric';
 
 export interface OAuthProfile {

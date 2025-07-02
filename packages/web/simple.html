@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoPages Journal - Simple Test</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React;
+        
+        function App() {
+            const [message, setMessage] = useState('React is working!');
+            
+            return (
+                <div style={{ 
+                    padding: '40px', 
+                    textAlign: 'center',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    minHeight: '100vh',
+                    color: 'white',
+                    fontFamily: 'Arial, sans-serif'
+                }}>
+                    <h1>🎯 EchoPages Journal</h1>
+                    <p>✅ {message}</p>
+                    <button 
+                        onClick={() => setMessage('Button clicked! React events work!')}
+                        style={{
+                            background: '#4285f4',
+                            color: 'white',
+                            border: 'none',
+                            padding: '12px 24px',
+                            borderRadius: '5px',
+                            fontSize: '16px',
+                            cursor: 'pointer',
+                            marginRight: '10px'
+                        }}
+                    >
+                        Test React
+                    </button>
+                    <button 
+                        onClick={() => window.location.href = 'http://localhost:3001/auth/oauth/google'}
+                        style={{
+                            background: '#34a853',
+                            color: 'white',
+                            border: 'none',
+                            padding: '12px 24px',
+                            borderRadius: '5px',
+                            fontSize: '16px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        🔐 Login with Google
+                    </button>
+                </div>
+            );
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html> 

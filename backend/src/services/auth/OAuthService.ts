@@ -115,7 +115,7 @@ export class OAuthService {
   //   );
   // }
 
-  private async handleOAuthUser(profile: OAuthProfile): Promise<User> {
+  public async handleOAuthUser(profile: OAuthProfile): Promise<User> {
     let user = await this.userRepository.findOne({
       where: {
         authProvider: profile.provider,

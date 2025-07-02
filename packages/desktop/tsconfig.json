@@ -9,7 +9,8 @@
     "paths": {
       "@/*": ["./*"],
       "@echopages/shared/*": ["../../shared/src/*"]
-    }
+    },
+    "lib": ["esnext", "dom"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "build"],
