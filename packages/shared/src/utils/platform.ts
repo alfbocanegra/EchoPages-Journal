@@ -11,7 +11,7 @@ export interface PlatformInterface {
 // Global type augmentation for environments that might not have DOM types
 declare global {
   interface Window {
-    gapi?: any;
+    gapi?: unknown;
   }
 
   interface Storage {
@@ -25,10 +25,15 @@ declare global {
     product?: string;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface Document {}
+
+  /* eslint-disable no-var */
   var window: Window | undefined;
   var document: Document | undefined;
   var localStorage: Storage | undefined;
   var navigator: Navigator | undefined;
+  /* eslint-enable no-var */
 }
 
 // Detect the current platform environment
@@ -40,13 +45,12 @@ function detectPlatform(): 'ios' | 'android' | 'web' | 'node' {
 
   // Check if we're in React Native environment
   try {
-    if (
-      typeof globalThis !== 'undefined' &&
-      (globalThis as any).navigator &&
-      (globalThis as any).navigator.product === 'ReactNative'
-    ) {
+    const global = globalThis as Record<string, unknown>;
+    const nav = global.navigator as Navigator | undefined;
+    if (typeof globalThis !== 'undefined' && nav && nav.product === 'ReactNative') {
       // We're in React Native, now try to determine iOS vs Android
       try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const RNPlatform = require('react-native').Platform;
         return RNPlatform.OS === 'ios' ? 'ios' : 'android';
       } catch {
@@ -58,10 +62,8 @@ function detectPlatform(): 'ios' | 'android' | 'web' | 'node' {
   }
 
   // Check if we're in a web browser
-  if (
-    typeof (globalThis as any).window !== 'undefined' &&
-    typeof (globalThis as any).document !== 'undefined'
-  ) {
+  const global = globalThis as Record<string, unknown>;
+  if (typeof global.window !== 'undefined' && typeof global.document !== 'undefined') {
     return 'web';
   }
 
