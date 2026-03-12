@@ -4,7 +4,7 @@ import cloudProviderManager from '../services/cloud/CloudProviderManager';
 const router = express.Router();
 
 // For now, use a hardcoded userId (replace with real auth in production)
-const getUserId = (req: Request) => 'user-123';
+const getUserId = (_req: Request) => 'user-123';
 
 // POST /cloud/select: select a provider
 router.post('/select', ((req: Request, res: Response): void => {

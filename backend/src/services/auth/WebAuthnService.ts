@@ -6,7 +6,6 @@ import {
   type AuthenticationResponseJSON,
   type RegistrationResponseJSON,
   type AuthenticatorTransport,
-  type VerifiedRegistrationResponse,
 } from '@simplewebauthn/server';
 import { BiometricCredential, BiometricType } from '@echopages/shared';
 import { UserRepository } from '../../repositories/UserRepository';

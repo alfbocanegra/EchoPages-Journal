@@ -21,7 +21,7 @@ describe('DataEncryptionMigration', () => {
   beforeAll(async () => {
     // Setup SQLite test database
     sqliteDb = new Database(':memory:');
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve, _reject) => {
       sqliteDb.serialize(() => {
         sqliteDb.run('PRAGMA foreign_keys = ON');
 

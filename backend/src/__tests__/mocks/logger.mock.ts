@@ -1,4 +1,4 @@
-export const createLogger = (name: string) => ({
+export const createLogger = (_name: string) => ({
   info: jest.fn(),
   error: jest.fn(),
   warn: jest.fn(),

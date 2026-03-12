@@ -3,10 +3,6 @@ import { Entry } from '@echopages/shared';
 import { CacheService } from '../services/cache/CacheService';
 import { EncryptionService, EncryptedData } from '../encryption/encryption.service';
 
-interface CachedEntry extends Entry {
-  title: string; // Make title required in cached version
-}
-
 export class JournalEntryRepository {
   constructor(
     private readonly pool: Pool,

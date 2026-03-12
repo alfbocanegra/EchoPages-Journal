@@ -7,7 +7,7 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
-import { AuthProvider, Entry, Folder, Tag, UserSettings } from '@echopages/shared/dist';
+import { AuthProvider, Entry, Folder, Tag, UserSettings } from '@echopages/shared';
 import { BiometricCredential } from './BiometricCredential';
 
 @Entity('users')

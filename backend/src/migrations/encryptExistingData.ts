@@ -760,7 +760,8 @@ export class DataEncryptionMigration {
   }
 }
 
-async function processJournalEntries(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _processJournalEntries(
   queryRunner: QueryRunner,
   encryptionService: EncryptionService,
   batchSize = 100
@@ -784,7 +785,8 @@ async function processJournalEntries(
   }
 }
 
-async function processFolders(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _processFolders(
   queryRunner: QueryRunner,
   encryptionService: EncryptionService,
   batchSize = 100
@@ -808,7 +810,8 @@ async function processFolders(
   }
 }
 
-async function processTags(
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _processTags(
   queryRunner: QueryRunner,
   encryptionService: EncryptionService,
   batchSize = 100
@@ -832,14 +835,17 @@ async function processTags(
   }
 }
 
-async function updateJournalEntryProgress(total: number): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _updateJournalEntryProgress(_total: number): Promise<void> {
   // Update progress...
 }
 
-async function updateFolderProgress(total: number): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _updateFolderProgress(_total: number): Promise<void> {
   // Update progress...
 }
 
-async function updateTagProgress(total: number): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function _updateTagProgress(_total: number): Promise<void> {
   // Update progress...
 }

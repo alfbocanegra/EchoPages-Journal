@@ -18,13 +18,10 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@echopages/shared": ["../packages/shared/src"],
-      "@echopages/shared/*": ["../packages/shared/src/*"]
+      "@echopages/shared": ["../packages/shared/dist"],
+      "@echopages/shared/*": ["../packages/shared/dist/*"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"],
-  "references": [
-    { "path": "../packages/shared" }
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

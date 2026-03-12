@@ -5,7 +5,7 @@ import { Profile as GoogleProfile } from 'passport-google-oauth20';
 // import { Strategy as MicrosoftStrategy } from 'passport-microsoft';
 // import { Profile as AppleProfile } from 'passport-apple';
 import { User } from '@echopages/shared';
-import { AuthProvider, OAuthProfile } from '@echopages/shared';
+import { OAuthProfile } from '@echopages/shared';
 import { UserRepository } from '../../repositories/UserRepository';
 import { VerifyCallback } from 'passport-oauth2';
 
@@ -33,7 +33,7 @@ export class OAuthService {
         try {
           const user = await this.handleOAuthUser({
             id: profile.id,
-            email: profile.emails?.[0]?.value!,
+            email: profile.emails?.[0]?.value ?? '',
             name: profile.displayName,
             picture: profile.photos?.[0]?.value,
             provider: 'google',

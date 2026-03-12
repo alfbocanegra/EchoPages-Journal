@@ -127,7 +127,7 @@ export const RichTextEditorDesktop: React.FC = () => {
           padding: 8,
         }}
       >
-        {TOOLBAR_BUTTONS.map((btn, idx) => (
+        {TOOLBAR_BUTTONS.map((btn, _idx) => (
           <button
             key={btn.label}
             aria-label={btn.label}

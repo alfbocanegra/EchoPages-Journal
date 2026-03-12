@@ -309,7 +309,7 @@ export class SyncService {
       changesByEntity.set(key, entityChanges);
     }
 
-    for (const [key, entityChanges] of changesByEntity) {
+    for (const [, entityChanges] of changesByEntity) {
       if (entityChanges.length > 1) {
         // Compare fields for overlap
         const [a, b] = entityChanges;
@@ -453,28 +453,31 @@ export class SyncService {
 
   // Entity-specific change application methods to be implemented
   private async applyJournalEntryChange(
-    change: SyncChange,
-    strategy: ResolutionStrategy
+    _change: SyncChange,
+    _strategy: ResolutionStrategy
   ): Promise<void> {
     // Implementation for journal entry changes
   }
 
-  private async applyFolderChange(change: SyncChange, strategy: ResolutionStrategy): Promise<void> {
+  private async applyFolderChange(
+    _change: SyncChange,
+    _strategy: ResolutionStrategy
+  ): Promise<void> {
     // Implementation for folder changes
   }
 
-  private async applyTagChange(change: SyncChange, strategy: ResolutionStrategy): Promise<void> {
+  private async applyTagChange(_change: SyncChange, _strategy: ResolutionStrategy): Promise<void> {
     // Implementation for tag changes
   }
 
   private async applyMediaAttachmentChange(
-    change: SyncChange,
-    strategy: ResolutionStrategy
+    _change: SyncChange,
+    _strategy: ResolutionStrategy
   ): Promise<void> {
     // Implementation for media attachment changes
   }
 
-  public async getUnresolvedConflicts(userId: string, deviceId?: string): Promise<any[]> {
+  public async getUnresolvedConflicts(userId: string, _deviceId?: string): Promise<any[]> {
     if (this.pgPool) {
       const { rows } = await this.pgPool.query(
         `SELECT * FROM sync_conflicts WHERE resolved = false AND user_id = $1`,

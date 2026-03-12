@@ -2,25 +2,19 @@ import { Server as HttpServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 import jwt from 'jsonwebtoken';
 import { SyncService } from './SyncService';
-import { Logger } from 'winston';
+import winston, { Logger } from 'winston';
 import fs from 'fs';
 import path from 'path';
 import {
-  serializeEntry,
-  deserializeEntry,
-} from '../../../../packages/shared/src/utils/serializeEntryProto';
-import {
-  serializeFolder,
-  deserializeFolder,
-} from '../../../../packages/shared/src/utils/serializeFolderProto';
-import {
-  serializeTag,
-  deserializeTag,
-} from '../../../../packages/shared/src/utils/serializeTagProto';
-import {
-  serializeMedia,
-  deserializeMedia,
-} from '../../../../packages/shared/src/utils/serializeMediaProto';
+  serializeEntryProto as serializeEntry,
+  deserializeEntryProto as deserializeEntry,
+  serializeFolderProto as serializeFolder,
+  deserializeFolderProto as deserializeFolder,
+  serializeTagProto as serializeTag,
+  deserializeTagProto as deserializeTag,
+  serializeMediaProto as serializeMedia,
+  deserializeMediaProto as deserializeMedia,
+} from '@echopages/shared';
 
 interface WebSocketSyncServerOptions {
   httpServer: HttpServer;
@@ -54,7 +48,7 @@ if (!fs.existsSync(logsDir)) {
 }
 
 // Add file transport for metrics logging
-const metricsFileTransport = new (require('winston').transports.File)({
+const metricsFileTransport = new winston.transports.File({
   filename: path.join(logsDir, 'sync-metrics.log'),
   level: 'info',
   maxsize: 1024 * 1024 * 10, // 10MB
@@ -63,7 +57,6 @@ const metricsFileTransport = new (require('winston').transports.File)({
 
 let metricsLogger: Logger | null = null;
 if (!metricsLogger) {
-  const winston = require('winston');
   metricsLogger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -84,7 +77,7 @@ export class WebSocketSyncServer {
     this.logger = options.logger;
     this.jwtSecret = options.jwtSecret;
     // Add file transport for error logging (per instance)
-    const errorFileTransport = new (require('winston').transports.File)({
+    const errorFileTransport = new winston.transports.File({
       filename: path.join(logsDir, 'sync-errors.log'),
       level: 'error',
       maxsize: 1024 * 1024 * 5, // 5MB

@@ -29,7 +29,9 @@ const getWebAuthnController = (): WebAuthnController => {
   return webAuthnController;
 };
 
-const wrapHandler = (handler: Function): AsyncRequestHandler => {
+const wrapHandler = (
+  handler: (req: Request, res: Response) => Promise<unknown>
+): AsyncRequestHandler => {
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await handler(req, res);

@@ -6,6 +6,7 @@ import { UserRepository } from '../repositories/UserRepository';
 import { OAuthService } from '../services/auth/OAuthService';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       user?: User;
@@ -18,7 +19,7 @@ async function verifyGoogleToken(token: string) {
   // Google's tokeninfo endpoint (for dev/demo; for prod, use public keys)
   const res = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`);
   if (!res.ok) throw new Error('Invalid Google ID token');
-  const data = await res.json() as { sub: string; email: string; name?: string };
+  const data = (await res.json()) as { sub: string; email: string; name?: string };
   // data.sub is the user's unique Google ID
   return { id: data.sub, email: data.email, name: data.name, provider: 'google', raw: data };
 }
@@ -31,17 +32,28 @@ async function verifyDropboxToken(token: string) {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error('Invalid Dropbox token');
-  const data = await res.json() as any;
-  return { id: data.account_id, email: data.email, name: data.name?.display_name, provider: 'dropbox', raw: data };
+  const data = (await res.json()) as any;
+  return {
+    id: data.account_id,
+    email: data.email,
+    name: data.name?.display_name,
+    provider: 'dropbox',
+    raw: data,
+  };
 }
 
 // Helper to verify Apple token (scaffold)
 async function verifyAppleToken(token: string) {
   // In production, verify Apple ID token signature and claims
   // For now, just decode the JWT and trust it (NOT SECURE)
-  const [header, payload] = token.split('.');
+  const parts = token.split('.');
+  const payload = parts[1];
   if (!payload) throw new Error('Invalid Apple token');
-  const data = JSON.parse(Buffer.from(payload, 'base64').toString('utf8')) as { sub: string; email?: string; name?: string };
+  const data = JSON.parse(Buffer.from(payload, 'base64').toString('utf8')) as {
+    sub: string;
+    email?: string;
+    name?: string;
+  };
   return { id: data.sub, email: data.email, name: data.name, provider: 'apple', raw: data };
 }
 

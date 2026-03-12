@@ -1,15 +1,7 @@
-// @ts-nocheck
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { SyncService } from '../SyncService';
 import { Logger } from 'winston';
-import {
-  SyncChange,
-  SyncDeviceState,
-  SyncOptions,
-  SyncResult,
-  EntityType,
-  ChangeType,
-} from '../../../types/sync';
+import { SyncOptions, EntityType, ChangeType } from '../../../types/sync';
 
 const mockLogger: Logger = {
   error: jest.fn(),
@@ -22,17 +14,10 @@ const mockLogger: Logger = {
 describe('SyncService', () => {
   let syncService: SyncService;
   let mockPgPool: any;
-  let mockSqliteDb: any;
 
   beforeEach(() => {
     mockPgPool = {
       query: jest.fn(),
-    };
-    mockSqliteDb = {
-      run: jest.fn(),
-      get: jest.fn(),
-      all: jest.fn(),
-      each: jest.fn(),
     };
     syncService = new SyncService(mockPgPool, null, mockLogger);
   });

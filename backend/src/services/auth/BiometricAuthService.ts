@@ -130,9 +130,9 @@ export class BiometricAuthService {
   }
 
   private async verifySignature(
-    challenge: string,
-    signature: string,
-    publicKey: string
+    _challenge: string,
+    _signature: string,
+    _publicKey: string
   ): Promise<boolean> {
     // This is a placeholder for actual signature verification
     // In a real implementation, this would use platform-specific crypto libraries

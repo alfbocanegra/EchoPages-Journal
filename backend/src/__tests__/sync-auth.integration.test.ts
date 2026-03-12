@@ -1,8 +1,6 @@
-// @ts-nocheck
 import request from 'supertest';
 import { describe, it, expect, jest, beforeAll } from '@jest/globals';
 import app from '../app';
-import { testDb } from './setup';
 
 // Mock the services and repositories that the app expects
 jest.mock('../services/sync/SyncService');
@@ -29,7 +27,9 @@ describe('Sync Auth Integration', () => {
       syncDevice: jest.fn().mockResolvedValue({ success: true, newVersion: 1 }),
       getDeviceState: jest.fn().mockResolvedValue({ lastSyncVersion: 0 }),
       resolveConflict: jest.fn().mockResolvedValue({ success: true }),
-      getConflictSummary: jest.fn().mockResolvedValue({ unresolved: [], autoResolvedCount: 0, manualResolvedCount: 0 }),
+      getConflictSummary: jest
+        .fn()
+        .mockResolvedValue({ unresolved: [], autoResolvedCount: 0, manualResolvedCount: 0 }),
     };
 
     const mockUserRepository = {
@@ -41,7 +41,7 @@ describe('Sync Auth Integration', () => {
     };
 
     const mockOAuthService = {
-      handleOAuthUser: jest.fn().mockImplementation((profile) => ({
+      handleOAuthUser: jest.fn().mockImplementation(profile => ({
         id: profile.id,
         email: profile.email,
         name: profile.name,
@@ -63,7 +63,7 @@ describe('Sync Auth Integration', () => {
       { provider: 'apple', token: 'mock-apple-token', email: 'auser@example.com' },
       { provider: 'dropbox', token: 'mock-dropbox-token', email: 'duser@example.com' },
     ];
-    for (const { provider, token, email } of tokens) {
+    for (const { provider, token } of tokens) {
       // Sync as new user
       const res = await request(app)
         .post('/sync')
@@ -82,8 +82,12 @@ describe('Sync Auth Integration', () => {
   it('should allow admin to list all users and entry counts', async () => {
     // Mock admin user
     const mockUserRepository = (app as any).get('userRepository');
-    mockUserRepository.findOne.mockResolvedValueOnce({ id: 'admin', email: 'admin@example.com', isAdmin: true });
-    
+    mockUserRepository.findOne.mockResolvedValueOnce({
+      id: 'admin',
+      email: 'admin@example.com',
+      isAdmin: true,
+    });
+
     const adminToken = 'mock-admin-token';
     const res = await request(app)
       .get('/sync/admin/users')
@@ -92,4 +96,4 @@ describe('Sync Auth Integration', () => {
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
-}); 
+});

@@ -1,5 +1,5 @@
 import { Database } from 'sqlite3';
-import { beforeAll, beforeEach, afterAll, afterEach } from '@jest/globals';
+import { beforeAll, beforeEach, afterAll } from '@jest/globals';
 
 let testDb: Database;
 
@@ -7,7 +7,7 @@ beforeAll(async () => {
   // Create in-memory SQLite database for tests
   testDb = new Database(':memory:');
 
-  await new Promise<void>((resolve, reject) => {
+  await new Promise<void>((resolve, _reject) => {
     testDb.serialize(() => {
       testDb.run('PRAGMA foreign_keys = ON');
 
@@ -106,7 +106,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   // Clear all tables before each test
-  await new Promise<void>((resolve, reject) => {
+  await new Promise<void>((resolve, _reject) => {
     testDb.serialize(() => {
       testDb.run('DELETE FROM encryption_metadata');
       testDb.run('DELETE FROM media_attachments');
