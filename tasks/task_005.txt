@@ -1,11 +1,67 @@
 # Task ID: 5
 # Title: Implement Local Storage and Encryption
-# Status: pending
+# Status: done
 # Dependencies: 2, 3
 # Priority: high
 # Description: Enable secure local storage with encryption at rest for all user data.
 # Details:
-Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest. Ensure encryption keys are managed securely (Keychain, KeyStore).
+Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest using SQLCipher, which provides similar functionality to SQLite Encryption Extension (SEE). Ensure encryption keys are managed securely (Keychain, KeyStore). Encryption should cover journal entries, folders, and folder names. SQLCipher, like SEE, supports encryption of the entire database file, making it appear as white noise to outside observers. The implementation should maintain compatibility with both encrypted and unencrypted databases. SQLCipher uses PBKDF2 for key derivation, which provides enhanced security against brute force, dictionary, and pre-computation attacks. The key management system will use the device-bound key from SecureKeyStorage for all database encryption and rekey operations.
 
 # Test Strategy:
-Test data persistence, encryption, and secure key management. Verify data integrity after app restarts.
+Test data persistence, encryption, and secure key management. Verify data integrity after app restarts. Test encryption of all data types including journal entries, folders, and folder names. Verify that the entire database file is encrypted, including both data and metadata. Test the key management APIs for proper functionality, including initial key setting and key rotation. Verify that encrypted databases appear as white noise to outside observers. Test performance with SQLCipher's key derivation process (PBKDF2) and ensure it meets application requirements. Verify that the device-bound key from SecureKeyStorage is properly used for all database encryption and rekey operations.
+
+# Subtasks:
+## 5.1. Journal Entry Encryption [done]
+### Dependencies: None
+### Description: Implement AES-256 encryption for journal entries using device-bound key
+### Details:
+
+
+## 5.2. Folder and Folder Name Encryption [done]
+### Dependencies: None
+### Description: Extend the encryption implementation to cover folders and folder names using the same AES-256 encryption with device-bound key
+### Details:
+
+
+## 5.3. SQLite Encryption Implementation [done]
+### Dependencies: None
+### Description: Implement SQLite encryption using SQLCipher to ensure the entire database file (both data and metadata) is encrypted and appears as white noise to outside observers
+### Details:
+
+
+## 5.4. Key Management System [done]
+### Dependencies: None
+### Description: Implement secure key management system using platform-specific secure storage (Keychain for iOS, KeyStore for Android) and integrate with SQLCipher's key management APIs for database connection encryption
+### Details:
+
+
+## 5.5. Database Rekey Functionality [done]
+### Dependencies: None
+### Description: Implement functionality to change encryption keys using SQLCipher's rekey API, with proper handling of the database rekey operation using the device-bound key from SecureKeyStorage
+### Details:
+
+
+## 5.6. Multi-Database Encryption Support [done]
+### Dependencies: None
+### Description: Implement support for simultaneously accessing multiple encrypted and/or unencrypted database files using SQLite's ATTACH command, with each database file having its own encryption key
+### Details:
+
+
+## 5.7. SQLCipher Integration Documentation [done]
+### Dependencies: None
+### Description: Document the SQLCipher integration, including key management practices, encryption configuration, and API usage patterns for the development team
+### Details:
+
+
+## 5.8. Performance Testing with SQLCipher [done]
+### Dependencies: None
+### Description: Conduct performance testing to ensure that the SQLCipher implementation meets performance requirements, especially for large databases and frequent read/write operations
+### Details:
+
+
+## 5.9. PBKDF2 Key Derivation Configuration [done]
+### Dependencies: None
+### Description: Configure and optimize SQLCipher's PBKDF2 key derivation process to balance security and performance requirements for the application
+### Details:
+
+

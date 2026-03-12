@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package echopages;
+
+message Media {
+  string id = 1;
+  string userId = 2;
+  string entryId = 3;
+  string url = 4;
+  string type = 5;
+  int64 size = 6;
+  string createdAt = 7;
+  string updatedAt = 8;
+  bool isEncrypted = 9;
+  string metadata = 10;
+}
+
+// Supported Media.type values:
+//   - 'image': Standard image (jpeg, png, gif, svg, etc)
+//   - 'video': Video file (mp4, mov, webm, etc)
+//   - 'audio': Audio file (mp3, wav, m4a, etc)
+//   - 'handwriting': Handwritten note (PNG, SVG, or vector data in metadata)
+//
+// Media.metadata conventions:
+//   - For 'image': JSON string { width, height, exif? }
+//   - For 'video': JSON string { duration, width, height, codec }
+//   - For 'audio': JSON string { duration, codec }
+//   - For 'handwriting': JSON string { format: 'svg'|'png'|'json', data: string|object } 

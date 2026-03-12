@@ -1,6 +1,6 @@
 # Task ID: 12
 # Title: Integrate External Services and APIs
-# Status: pending
+# Status: done
 # Dependencies: 3, 6
 # Priority: medium
 # Description: Connect with Google Calendar, Apple Health, Google Fit, and weather/location services.

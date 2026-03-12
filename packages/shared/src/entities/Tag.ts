@@ -15,26 +15,26 @@ import { Entry } from './Entry';
 @Entity('tags')
 export class Tag {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'user_id' })
-  userId: string;
+  userId!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column({ default: '#000000' })
-  color: string;
+  color!: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => User, user => user.tags)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @ManyToMany(() => Entry)
   @JoinTable({
@@ -42,5 +42,5 @@ export class Tag {
     joinColumn: { name: 'tag_id' },
     inverseJoinColumn: { name: 'entry_id' },
   })
-  entries: Entry[];
+  entries!: Entry[];
 }

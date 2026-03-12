@@ -1,0 +1,58 @@
+{
+  "name": "EchoPages Journal Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-json",
+        "ms-vscode.vscode-eslint",
+        "ms-vscode.vscode-jest",
+        "ms-vscode.vscode-react-native",
+        "ms-vscode.vscode-electron",
+        "ms-vscode.vscode-node-debug2",
+        "ms-vscode.vscode-js-debug",
+        "ms-vscode.vscode-js-debug-companion"
+      ],
+      "settings": {
+        "typescript.preferences.includePackageJsonAutoImports": "on",
+        "typescript.suggest.autoImports": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        }
+      }
+    }
+  },
+  "forwardPorts": [3000, 3001, 8080, 9000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Web App",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "Mobile App",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "9000": {
+      "label": "Desktop App",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install -g yarn && yarn install",
+  "remoteUser": "node",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace"
+} 

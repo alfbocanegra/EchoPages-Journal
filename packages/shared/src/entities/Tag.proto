@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package echopages;
+
+message Tag {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string color = 4;
+  string createdAt = 5;
+  string updatedAt = 6;
+} 

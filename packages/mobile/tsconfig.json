@@ -11,7 +11,7 @@
       "@echopages/shared/*": ["../../shared/src/*"]
     }
   },
-  "include": ["src/**/*", "index.js", "app.json"],
+  "include": ["src/**/*", "src/store/slices/habitsSlice.ts", "index.js", "app.json"],
   "exclude": ["node_modules", "dist", "android", "ios"],
   "references": [{ "path": "../shared" }]
 }

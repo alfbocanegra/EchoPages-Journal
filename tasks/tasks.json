@@ -1,361 +1,620 @@
 {
-  "tasks": [
-    {
-      "id": 1,
-      "title": "Setup Project Repository and CI/CD Pipeline",
-      "description": "Initialize version-controlled repositories for all platforms and implement CI/CD pipelines for automated builds and tests.",
-      "details": "Create GitHub/GitLab repositories for iOS (Swift/SwiftUI), Android (Kotlin/Jetpack Compose), macOS (Swift/SwiftUI), Windows (.NET MAUI/Flutter), and Web (React/TypeScript). Set up CI/CD workflows for each platform using GitHub Actions or similar. Include linting, unit tests, and build automation.",
-      "testStrategy": "Verify repository setup, CI/CD pipeline triggers, and successful build/test execution for each platform.",
-      "priority": "high",
-      "dependencies": [],
-      "status": "done",
-      "subtasks": []
-    },
-    {
-      "id": 2,
-      "title": "Design and Implement Core Database Schema",
-      "description": "Define and implement the core database schema for journal entries, users, and related metadata.",
-      "details": "Design PostgreSQL schema for users, entries, tags, folders, and media. Include fields for encryption status, timestamps, and sync metadata. Implement local SQLite schema for offline use. Use Redis for caching.",
-      "testStrategy": "Validate schema migrations, CRUD operations, and data integrity. Test offline/online sync scenarios.",
-      "priority": "high",
-      "dependencies": [1],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 3,
-      "title": "Implement User Authentication and Security",
-      "description": "Develop secure user authentication with biometric, PIN, and password support.",
-      "details": "Integrate OAuth 2.0 with JWT tokens. Implement biometric authentication (Face ID, Touch ID, Windows Hello, fingerprint). Use platform-specific secure storage (Keychain, KeyStore). Enforce password/PIN complexity. Enable automatic logout.",
-      "testStrategy": "Test authentication flows, security features, and error handling. Verify encryption and secure storage.",
-      "priority": "high",
-      "dependencies": [2],
-      "status": "pending",
-      "subtasks": [
-        {
-          "id": 1,
-          "title": "Set Up OAuth 2.0 with JWT Token Infrastructure",
-          "description": "Establish the OAuth 2.0 authentication flow and configure JWT token issuance and validation for secure user sessions.",
-          "dependencies": [],
-          "details": "Register the application with the chosen OAuth provider, configure client IDs and redirect URIs, and implement the OAuth 2.0 authorization code flow. Integrate JWT token generation and validation, ensuring tokens are signed and include necessary claims for user identification and session management.",
-          "status": "pending",
-          "testStrategy": "Verify OAuth flow with test accounts, check JWT token structure and signature, and ensure tokens are correctly issued and validated during login and API requests."
-        },
-        {
-          "id": 2,
-          "title": "Implement Secure User Credential Storage and Validation",
-          "description": "Develop secure mechanisms for storing and validating user credentials, including passwords and PINs, using platform-specific secure storage.",
-          "dependencies": [1],
-          "details": "Use platform-specific secure storage solutions (e.g., iOS Keychain, Android KeyStore, Windows Credential Locker) to store sensitive user credentials. Apply strong hashing algorithms (e.g., bcrypt, Argon2) for passwords and PINs before storage. Implement credential validation logic during login and registration.",
-          "status": "pending",
-          "testStrategy": "Attempt credential retrieval and validation, ensure credentials are not accessible in plaintext, and verify correct hashing and comparison during authentication."
-        },
-        {
-          "id": 3,
-          "title": "Integrate Biometric Authentication Methods",
-          "description": "Add support for biometric authentication (Face ID, Touch ID, Windows Hello, fingerprint) as a login option, leveraging device APIs.",
-          "dependencies": [2],
-          "details": "Utilize platform-specific biometric APIs to enroll and authenticate users via biometrics. Store biometric authentication tokens securely and link them to user accounts. Provide fallback to PIN/password if biometric authentication fails or is unavailable.",
-          "status": "pending",
-          "testStrategy": "Test biometric enrollment and authentication on supported devices, verify fallback mechanisms, and ensure biometric data is never transmitted or stored outside secure enclaves."
-        },
-        {
-          "id": 4,
-          "title": "Enforce Password and PIN Complexity Requirements",
-          "description": "Implement and validate password and PIN complexity rules during user registration and credential updates.",
-          "dependencies": [2],
-          "details": "Define and enforce rules for minimum length, character variety, and disallowed patterns for passwords and PINs. Integrate real-time validation in registration and update forms, and provide user feedback on compliance.",
-          "status": "pending",
-          "testStrategy": "Attempt registration and updates with various credential strengths, confirm enforcement of complexity rules, and check error messaging for non-compliance."
-        },
-        {
-          "id": 5,
-          "title": "Enable Automatic Logout and Session Expiry",
-          "description": "Implement automatic logout and session expiration mechanisms to enhance security and privacy.",
-          "dependencies": [1],
-          "details": "Configure session timeouts and inactivity detection. Invalidate JWT tokens and clear sensitive data from memory and secure storage upon logout or expiry. Notify users of session expiration and require re-authentication.",
-          "status": "pending",
-          "testStrategy": "Simulate inactivity and session expiry, verify automatic logout behavior, and ensure all session data is cleared upon logout."
-        },
-        {
-          "id": 6,
-          "title": "Conduct Security and Privacy Review with Penetration Testing",
-          "description": "Perform a comprehensive security review and penetration testing to ensure authentication flows, storage, and privacy requirements are met.",
-          "dependencies": [3, 4, 5],
-          "details": "Review code for vulnerabilities, conduct penetration testing on authentication endpoints, and validate compliance with privacy requirements from the PRD. Address any identified issues and document security measures.",
-          "status": "pending",
-          "testStrategy": "Run automated and manual security tests, attempt common attack vectors (e.g., brute force, replay, token theft), and verify that all privacy and security requirements are satisfied."
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Build Entry Creation and Editing UI",
-      "description": "Develop the core UI for creating and editing journal entries across all platforms.",
-      "details": "Implement rich text editor with formatting (bold, italic, lists, headings). Support quick entry, timestamps, and multimedia attachments. Ensure consistent UI/UX patterns and accessibility.",
-      "testStrategy": "Test entry creation, editing, and multimedia attachment. Validate UI consistency and accessibility.",
-      "priority": "high",
-      "dependencies": [2, 3],
-      "status": "pending",
-      "subtasks": [
-        {
-          "id": 1,
-          "title": "Design Core Text Editor Component",
-          "description": "Create the foundational rich text editor component that will be used across all platforms",
-          "dependencies": [],
-          "details": "Implement a reusable text editor component with basic text manipulation capabilities. Include essential formatting options (bold, italic, underline) and ensure the component handles text selection, cursor positioning, and basic keyboard shortcuts. Follow minimalist design principles to reduce visual clutter while maintaining functionality.",
-          "status": "pending",
-          "testStrategy": "Unit test core text editing functions and keyboard interactions. Conduct usability testing with simple formatting tasks."
-        },
-        {
-          "id": 2,
-          "title": "Implement Advanced Formatting Features",
-          "description": "Extend the core editor with additional formatting capabilities including lists, headings, and text alignment",
-          "dependencies": [1],
-          "details": "Build on the core editor by adding support for ordered and unordered lists, multiple heading levels (H1-H3), and text alignment options. Ensure formatting is preserved when copying/pasting content. Place formatting controls in a visible toolbar with clear iconography. Arrange formatting options vertically when appropriate for better usability.",
-          "status": "pending",
-          "testStrategy": "Test formatting persistence across edit sessions and verify proper rendering of all formatting options across different screen sizes."
-        },
-        {
-          "id": 3,
-          "title": "Develop Multimedia Attachment System",
-          "description": "Create functionality for adding, displaying, and managing images and other media attachments within entries",
-          "dependencies": [1],
-          "details": "Implement drag-and-drop and file picker interfaces for adding images, videos, and other file types. Create preview thumbnails for attachments and allow basic operations (remove, replace). Ensure proper storage integration and optimize for performance with larger files. Support inline placement of media within the text content.",
-          "status": "pending",
-          "testStrategy": "Test with various file types and sizes. Verify attachment persistence and proper display across devices."
-        },
-        {
-          "id": 4,
-          "title": "Build Quick Entry Mode",
-          "description": "Create a streamlined entry interface for rapid note capture with minimal friction",
-          "dependencies": [1],
-          "details": "Design a simplified version of the editor that appears instantly and requires minimal interaction to start typing. Include auto-save functionality and quick access to basic formatting. Optimize for speed and minimal UI elements. Implement keyboard shortcuts for efficiency and ensure the interface appears within 300ms of activation.",
-          "status": "pending",
-          "testStrategy": "Measure load time performance and conduct user testing focused on entry speed and completion rate."
-        },
-        {
-          "id": 5,
-          "title": "Implement Timestamp and Metadata Management",
-          "description": "Add functionality for automatic and manual timestamp creation and editing",
-          "dependencies": [1],
-          "details": "Create UI components for displaying and editing creation/modification timestamps. Implement automatic timestamp updates when entries are modified. Add user-friendly date/time pickers for manual adjustments. Ensure timestamps are displayed in the user's local timezone with appropriate formatting.",
-          "status": "pending",
-          "testStrategy": "Test automatic timestamp updates across different scenarios and verify timezone handling across different regions."
-        },
-        {
-          "id": 6,
-          "title": "Create Entry Templates System",
-          "description": "Develop standardized templates for different types of journal entries",
-          "dependencies": [2, 3, 5],
-          "details": "Design and implement multiple entry templates with predefined structures and formatting. Create a template selection interface during entry creation. Include customization options for users to modify templates or create their own. Ensure templates are easily accessible but don't clutter the main interface.",
-          "status": "pending",
-          "testStrategy": "Test template application, customization, and persistence. Conduct usability testing to ensure templates improve rather than hinder the entry creation process."
-        },
-        {
-          "id": 7,
-          "title": "Implement Cross-Platform UI Adaptations",
-          "description": "Optimize the editor UI for different devices and screen sizes",
-          "dependencies": [1, 2, 3, 4],
-          "details": "Adapt the editor interface for mobile, tablet, and desktop experiences with appropriate layout changes. Implement touch-friendly controls for mobile while maintaining keyboard shortcuts for desktop. Ensure consistent functionality across platforms while optimizing for each form factor's strengths. Use responsive design principles with appropriate breakpoints.",
-          "status": "pending",
-          "testStrategy": "Test on multiple device types and screen sizes. Verify that all core functionality works consistently across platforms."
-        },
-        {
-          "id": 8,
-          "title": "Implement Accessibility Features",
-          "description": "Ensure the editor is fully accessible to users with disabilities",
-          "dependencies": [1, 2, 3, 7],
-          "details": "Add proper ARIA labels, keyboard navigation, screen reader support, and high-contrast modes. Implement focus management for all interactive elements. Ensure color choices meet WCAG 2.1 AA standards for contrast. Test with assistive technologies and fix any barriers to access. Place form labels above elements rather than to the side for better readability.",
-          "status": "pending",
-          "testStrategy": "Conduct accessibility audits using automated tools and manual testing with screen readers. Test keyboard-only navigation through all editor functions."
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Implement Local Storage and Encryption",
-      "description": "Enable secure local storage with encryption at rest for all user data.",
-      "details": "Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest. Ensure encryption keys are managed securely (Keychain, KeyStore).",
-      "testStrategy": "Test data persistence, encryption, and secure key management. Verify data integrity after app restarts.",
-      "priority": "high",
-      "dependencies": [2, 3],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 6,
-      "title": "Develop Cross-Platform Synchronization",
-      "description": "Implement real-time, secure synchronization of journal entries across devices.",
-      "details": "Use WebSocket connections for real-time updates. Implement operational transformation for conflict resolution. Integrate with iCloud, Google Drive, OneDrive. Support offline sync and bandwidth optimization.",
-      "testStrategy": "Test sync across devices, conflict resolution, and offline scenarios. Validate sync status indicators.",
-      "priority": "high",
-      "dependencies": [2, 4, 5],
-      "status": "pending",
-      "subtasks": [
-        {
-          "id": 1,
-          "title": "Set up WebSocket infrastructure",
-          "description": "Establish the WebSocket connection framework for real-time bidirectional communication between client devices and the server",
-          "dependencies": [],
-          "details": "Implement WebSocket server endpoints and client connection handlers. Configure connection pooling, heartbeat mechanisms, and reconnection strategies. Ensure proper authentication and authorization for WebSocket connections. This will serve as the foundation for real-time updates across platforms.",
-          "status": "pending",
-          "testStrategy": "Test connection establishment, message delivery latency, and reconnection capabilities under various network conditions. Verify authentication mechanisms and connection security."
-        },
-        {
-          "id": 2,
-          "title": "Implement data serialization and transformation",
-          "description": "Create efficient data serialization mechanisms for journal entries to minimize bandwidth usage during synchronization",
-          "dependencies": [1],
-          "details": "Utilize protocol buffers for structured data serialization to reduce bandwidth usage by up to 30% compared to JSON. Design transformation pipelines to handle different data formats across platforms. Implement versioning for data models to manage updates effectively.",
-          "status": "pending",
-          "testStrategy": "Benchmark serialization/deserialization performance. Verify data integrity across transformations. Test backward compatibility with older data formats."
-        },
-        {
-          "id": 3,
-          "title": "Develop operational transformation for conflict resolution",
-          "description": "Implement conflict resolution mechanisms to handle concurrent edits to the same journal entry from different devices",
-          "dependencies": [2],
-          "details": "Implement operational transformation algorithms to resolve conflicts when multiple users edit the same content. Use Conflict-free Replicated Data Types (CRDTs) to enable concurrent updates without conflicts. Apply consistent timestamping to track the latest changes across platforms. Design merge strategies for different types of journal content.",
-          "status": "pending",
-          "testStrategy": "Create test scenarios with simulated concurrent edits. Verify that conflict resolution preserves user intent and data integrity. Test edge cases like network partitions during concurrent edits."
-        },
-        {
-          "id": 4,
-          "title": "Integrate with cloud storage providers",
-          "description": "Develop integration modules for iCloud, Google Drive, and OneDrive to enable cross-platform synchronization",
-          "dependencies": [2],
-          "details": "Create abstraction layers for each cloud provider's API. Implement authentication flows for each service. Develop file management operations (create, read, update, delete) for each provider. Ensure proper error handling and retry mechanisms for API failures. Implement storage quota management.",
-          "status": "pending",
-          "testStrategy": "Test authentication flows and API operations for each provider. Verify handling of rate limits and service disruptions. Test quota management and error recovery."
-        },
-        {
-          "id": 5,
-          "title": "Implement offline synchronization capabilities",
-          "description": "Develop mechanisms to handle journal edits while devices are offline and synchronize when connectivity is restored",
-          "dependencies": [3, 4],
-          "details": "Create a local database for storing offline changes. Implement change tracking with sequence numbers or vector clocks. Design queue management for pending synchronization operations. Develop conflict detection and resolution for offline changes. Implement bandwidth-aware sync strategies that prioritize critical data.",
-          "status": "pending",
-          "testStrategy": "Test offline editing and subsequent synchronization. Verify conflict resolution for changes made offline. Test sync behavior under various network conditions including intermittent connectivity."
-        },
-        {
-          "id": 6,
-          "title": "Optimize bandwidth usage and performance",
-          "description": "Implement strategies to minimize data transfer and optimize synchronization performance across different network conditions",
-          "dependencies": [5],
-          "details": "Implement delta synchronization to transfer only changed portions of journal entries. Create compression algorithms for different content types. Develop adaptive sync intervals based on network conditions and battery status. Implement background synchronization to avoid impacting user experience. Set up caching mechanisms to reduce redundant transfers.",
-          "status": "pending",
-          "testStrategy": "Benchmark synchronization performance across various network conditions. Measure bandwidth usage and optimize for cellular networks. Test battery impact on mobile devices."
-        },
-        {
-          "id": 7,
-          "title": "Develop monitoring and diagnostics system",
-          "description": "Create a comprehensive monitoring system to track synchronization health, detect issues, and provide diagnostics for troubleshooting",
-          "dependencies": [],
-          "details": "Implement logging for sync operations across all platforms. Create metrics collection for sync performance and error rates. Develop a dashboard for visualizing sync status and health. Implement automatic retry mechanisms for failed requests. Create user-facing sync status indicators and troubleshooting tools. Set up alerts for critical sync failures.",
-          "status": "pending",
-          "testStrategy": "Verify accuracy of monitoring metrics. Test alert mechanisms for various failure scenarios. Validate that diagnostic information is sufficient for troubleshooting common sync issues."
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "title": "Implement Multimedia Support",
-      "description": "Add support for images, videos, audio, and handwritten notes in journal entries.",
-      "details": "Enable image, video, and audio attachment with inline display and playback. Support handwritten notes with stylus/finger input. Implement media compression and organization.",
-      "testStrategy": "Test media attachment, playback, and sync. Validate handwriting input and media compression.",
-      "priority": "medium",
-      "dependencies": [4, 6],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 8,
-      "title": "Build Organization and Search Features",
-      "description": "Develop tagging, folder, and advanced search functionality.",
-      "details": "Implement tag system with autocomplete. Add color-coded folders. Build advanced search with filters. Integrate calendar view for navigation.",
-      "testStrategy": "Test tag/folder creation, search accuracy, and calendar navigation. Validate search performance.",
-      "priority": "medium",
-      "dependencies": [2, 4],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 9,
-      "title": "Implement Customization and Themes",
-      "description": "Enable theme customization and personalization options.",
-      "details": "Develop theme engine with multiple visual styles. Allow custom colors, fonts, and stickers. Ensure customizations sync across devices.",
-      "testStrategy": "Test theme application, customization options, and sync. Validate UI consistency.",
-      "priority": "medium",
-      "dependencies": [4, 6],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 10,
-      "title": "Develop Habit Tracking and Notifications",
-      "description": "Add streak tracking, goal setting, and reminder notifications.",
-      "details": "Implement streak counter, goal progress, and visual timeline. Add customizable reminders and achievement system.",
-      "testStrategy": "Test streak tracking, goal progress, and notification delivery. Validate achievement triggers.",
-      "priority": "medium",
-      "dependencies": [4, 8],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 11,
-      "title": "Build Export and Backup Functionality",
-      "description": "Enable export and backup of journal content in multiple formats.",
-      "details": "Support PDF, RTF, Markdown, and encrypted archive exports. Implement scheduled and manual backups. Ensure cross-platform compatibility.",
-      "testStrategy": "Test export formats, backup creation, and restoration. Validate data integrity.",
-      "priority": "medium",
-      "dependencies": [2, 4, 5],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 12,
-      "title": "Integrate External Services and APIs",
-      "description": "Connect with Google Calendar, Apple Health, Google Fit, and weather/location services.",
-      "details": "Implement OAuth-based integrations. Add automatic weather/location tagging with privacy controls. Support social sharing.",
-      "testStrategy": "Test service integrations, privacy controls, and data accuracy. Validate sharing features.",
-      "priority": "medium",
-      "dependencies": [3, 6],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 13,
-      "title": "Optimize Performance and Accessibility",
-      "description": "Ensure fast, accessible, and responsive user experience across all platforms.",
-      "details": "Optimize UI response times (<200ms). Implement accessibility features (high contrast, font size, screen reader support). Test battery and network efficiency.",
-      "testStrategy": "Test performance metrics, accessibility features, and battery usage. Validate cross-platform consistency.",
-      "priority": "medium",
-      "dependencies": [4, 6, 9],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 14,
-      "title": "Implement AI Features and Prompts",
-      "description": "Add AI-generated journaling prompts and reflection suggestions.",
-      "details": "Integrate AI model for prompt generation. Add optional AI-powered reflection suggestions based on entry content.",
-      "testStrategy": "Test prompt generation, suggestion relevance, and user opt-in/out. Validate AI integration.",
-      "priority": "low",
-      "dependencies": [4, 8],
-      "status": "pending",
-      "subtasks": []
-    },
-    {
-      "id": 15,
-      "title": "Prepare for Launch and Beta Testing",
-      "description": "Finalize app store submissions, marketing, and beta testing.",
-      "details": "Complete app store metadata and screenshots. Set up beta testing channels. Prepare support and monitoring systems.",
-      "testStrategy": "Test app store submission process, beta feedback collection, and support workflows.",
-      "priority": "medium",
-      "dependencies": [1, 13],
-      "status": "pending",
-      "subtasks": []
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository and CI/CD Pipeline",
+        "description": "Initialize version-controlled repositories for all platforms and implement CI/CD pipelines for automated builds and tests.",
+        "details": "Create GitHub/GitLab repositories for iOS (Swift/SwiftUI), Android (Kotlin/Jetpack Compose), macOS (Swift/SwiftUI), Windows (.NET MAUI/Flutter), and Web (React/TypeScript). Set up CI/CD workflows for each platform using GitHub Actions or similar. Include linting, unit tests, and build automation.",
+        "testStrategy": "Verify repository setup, CI/CD pipeline triggers, and successful build/test execution for each platform.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Design and Implement Core Database Schema",
+        "description": "Define and implement the core database schema for journal entries, users, and related metadata.",
+        "details": "Design PostgreSQL schema for users, entries, tags, folders, and media. Include fields for encryption status, timestamps, and sync metadata. Implement local SQLite schema for offline use. Use Redis for caching.",
+        "testStrategy": "Validate schema migrations, CRUD operations, and data integrity. Test offline/online sync scenarios.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define PostgreSQL Database Schema",
+            "description": "Design the PostgreSQL database schema including tables, relationships, data types, and constraints following best practices",
+            "dependencies": [],
+            "details": "Create comprehensive schema design with appropriate use of timestamptz for timestamps and text for character data. Define table structures, primary/foreign keys, indexes, and constraints. Consider performance implications for read/write operations. Include security considerations in the schema design.",
+            "status": "done"
+          },
+          {
+            "id": 2,
+            "title": "Implement SQLite Local Schema",
+            "description": "Design and implement SQLite schema for offline functionality that mirrors PostgreSQL structure while optimizing for local operations",
+            "dependencies": [
+              1
+            ],
+            "details": "Create SQLite schema that maintains compatibility with PostgreSQL while accounting for SQLite's limitations. Ensure proper data type mappings between PostgreSQL and SQLite. Optimize for local performance and storage constraints. Include sync-related fields to track changes for later synchronization.",
+            "status": "done"
+          },
+          {
+            "id": 3,
+            "title": "Develop Redis Caching Layer",
+            "description": "Implement Redis caching strategy for frequently accessed data to improve performance",
+            "dependencies": [
+              1
+            ],
+            "details": "Design cache invalidation strategies, determine which data to cache, establish TTL policies, and implement cache update mechanisms. Create Redis data structures that optimize for query patterns. Implement fallback mechanisms for cache misses. Ensure cache consistency with the primary database.",
+            "status": "done"
+          },
+          {
+            "id": 4,
+            "title": "Implement Field Encryption System",
+            "description": "Design and implement encryption for sensitive fields in both PostgreSQL and SQLite schemas",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Select appropriate encryption algorithms and key management strategies. Implement transparent encryption/decryption layers for sensitive data. Create migration paths for existing data. Ensure encryption doesn't interfere with indexing and query performance where possible. Document security considerations and limitations.",
+            "status": "done"
+          },
+          {
+            "id": 5,
+            "title": "Create Synchronization Metadata System",
+            "description": "Implement metadata tracking for synchronization between PostgreSQL and SQLite databases",
+            "dependencies": [
+              1,
+              2,
+              4
+            ],
+            "details": "Design conflict resolution strategies, implement version tracking and change detection mechanisms. Create efficient sync protocols that minimize data transfer. Implement transaction boundaries for atomic syncs. Develop testing framework for sync scenarios including edge cases like network interruptions and conflicting changes.",
+            "status": "done"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Implement User Authentication and Security",
+        "description": "Develop secure user authentication with biometric and social media OAuth provider support.",
+        "status": "done",
+        "dependencies": [
+          2
+        ],
+        "priority": "high",
+        "details": "Integrate OAuth 2.0 with JWT tokens using social media providers (Google, Apple, Facebook, Twitter). Implement biometric authentication (Face ID, Touch ID, Windows Hello, fingerprint). Use platform-specific secure storage (Keychain, KeyStore). Enable automatic logout. Ensure all authentication flows are passwordless.",
+        "testStrategy": "Test authentication flows, security features, and error handling. Verify encryption and secure storage. Ensure all flows remain passwordless.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set Up OAuth 2.0 with JWT Token Infrastructure",
+            "description": "Establish the OAuth 2.0 authentication flow with social media providers and configure JWT token issuance and validation for secure user sessions.",
+            "dependencies": [],
+            "details": "Register the application with chosen OAuth providers (Google, Apple, Facebook, Twitter), configure client IDs and redirect URIs, and implement the OAuth 2.0 authorization code flow. Integrate JWT token generation and validation, ensuring tokens are signed and include necessary claims for user identification and session management.",
+            "status": "done",
+            "testStrategy": "Verify OAuth flow with test accounts for each social provider, check JWT token structure and signature, and ensure tokens are correctly issued and validated during login and API requests."
+          },
+          {
+            "id": 2,
+            "title": "Implement Secure OAuth Token Storage",
+            "description": "Develop secure mechanisms for storing and validating OAuth tokens using platform-specific secure storage.",
+            "dependencies": [
+              1
+            ],
+            "details": "Use platform-specific secure storage solutions (e.g., iOS Keychain, Android KeyStore, Windows Credential Locker) to store sensitive OAuth tokens and refresh tokens. Implement token validation logic during app startup and session management.",
+            "status": "done",
+            "testStrategy": "Attempt token retrieval and validation, ensure tokens are not accessible in plaintext, and verify correct token refresh and validation during authentication."
+          },
+          {
+            "id": 3,
+            "title": "Integrate Biometric Authentication Methods",
+            "description": "Add support for biometric authentication (Face ID, Touch ID, Windows Hello, fingerprint) as a login option, leveraging device APIs.",
+            "dependencies": [
+              2
+            ],
+            "details": "Utilize platform-specific biometric APIs to enroll and authenticate users via biometrics. Store biometric authentication tokens securely and link them to user accounts. Implement liveness detection where available to prevent spoofing. Provide fallback to social media OAuth if biometric authentication fails or is unavailable.",
+            "status": "done",
+            "testStrategy": "Test biometric enrollment and authentication on supported devices, verify fallback mechanisms to social OAuth providers, and ensure biometric data is never transmitted or stored outside secure enclaves."
+          },
+          {
+            "id": 4,
+            "title": "Implement Social Media OAuth Provider Selection UI",
+            "description": "Create a user-friendly interface for selecting social media OAuth providers during registration and login.",
+            "dependencies": [
+              1
+            ],
+            "details": "Design and implement a clean, intuitive UI for users to select their preferred social media provider for authentication. Include clear branding and instructions. Ensure the UI adapts to available providers and device capabilities.",
+            "status": "done",
+            "testStrategy": "Test the UI across different devices and screen sizes, verify all supported OAuth providers are displayed correctly, and ensure the flow is intuitive and accessible."
+          },
+          {
+            "id": 5,
+            "title": "Enable Automatic Logout and Session Expiry",
+            "description": "Implement automatic logout and session expiration mechanisms to enhance security and privacy.",
+            "dependencies": [
+              1
+            ],
+            "details": "Configure session timeouts and inactivity detection. Invalidate JWT tokens and clear sensitive data from memory and secure storage upon logout or expiry. Notify users of session expiration and require re-authentication via biometrics or social OAuth.",
+            "status": "done",
+            "testStrategy": "Simulate inactivity and session expiry, verify automatic logout behavior, and ensure all session data is cleared upon logout."
+          },
+          {
+            "id": 6,
+            "title": "Implement Passwordless Fallback Authentication Flows",
+            "description": "Create secure fallback authentication methods that maintain passwordless principles when primary methods are unavailable.",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Design and implement fallback authentication flows that maintain passwordless principles. Use email magic links, SMS one-time codes, or alternative social providers when primary authentication methods are unavailable. Ensure all fallback methods adhere to security best practices and avoid traditional passwords.",
+            "status": "done",
+            "testStrategy": "Test fallback scenarios by disabling primary authentication methods, verify the user experience remains smooth, and ensure security is maintained throughout all fallback flows."
+          },
+          {
+            "id": 7,
+            "title": "Conduct Security and Privacy Review with Penetration Testing",
+            "description": "Perform a comprehensive security review and penetration testing to ensure authentication flows, storage, and privacy requirements are met.",
+            "dependencies": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "details": "Review code for vulnerabilities, conduct penetration testing on authentication endpoints, and validate compliance with privacy requirements from the PRD. Address any identified issues and document security measures. Verify biometric implementation follows best practices including encryption, liveness detection, and secure storage.",
+            "status": "done",
+            "testStrategy": "Run automated and manual security tests, attempt common attack vectors (e.g., OAuth token theft, biometric spoofing, session hijacking), and verify that all privacy and security requirements are satisfied."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Build Entry Creation and Editing UI",
+        "description": "Develop the core UI for creating and editing journal entries across all platforms.",
+        "status": "done",
+        "dependencies": [
+          2,
+          3
+        ],
+        "priority": "high",
+        "details": "Implement rich text editor with formatting (bold, italic, lists, headings). Support quick entry, timestamps, and multimedia attachments. Ensure consistent UI/UX patterns and accessibility. Design a seamless, modern, and responsive user experience that accommodates varying user workflows and preferences.",
+        "testStrategy": "Test entry creation, editing, and multimedia attachment. Validate UI consistency and accessibility. Measure user satisfaction and task completion rates across different devices and platforms.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design Core Text Editor Component",
+            "description": "Create the foundational rich text editor component that will be used across all platforms",
+            "dependencies": [],
+            "details": "Implement a reusable text editor component with basic text manipulation capabilities. Include essential formatting options (bold, italic, underline) and ensure the component handles text selection, cursor positioning, and basic keyboard shortcuts. Follow minimalist design principles to reduce visual clutter while maintaining functionality.",
+            "status": "done",
+            "testStrategy": "Unit test core text editing functions and keyboard interactions. Conduct usability testing with simple formatting tasks."
+          },
+          {
+            "id": 2,
+            "title": "Implement Advanced Formatting Features",
+            "description": "Extend the core editor with additional formatting capabilities including lists, headings, and text alignment",
+            "dependencies": [
+              1
+            ],
+            "details": "Build on the core editor by adding support for ordered and unordered lists, multiple heading levels (H1-H3), and text alignment options. Ensure formatting is preserved when copying/pasting content. Place formatting controls in a visible toolbar with clear iconography. Arrange lists, headings, and formatting options vertically for better usability and consistent visual flow.",
+            "status": "done",
+            "testStrategy": "Test formatting persistence across edit sessions and verify proper rendering of all formatting options across different screen sizes."
+          },
+          {
+            "id": 3,
+            "title": "Develop Multimedia Attachment System",
+            "description": "Create functionality for adding, displaying, and managing images and other media attachments within entries",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement drag-and-drop and file picker interfaces for adding images, videos, and other file types. Create preview thumbnails for attachments and allow basic operations (remove, replace). Ensure proper storage integration and optimize for performance with larger files. Support inline placement of media within the text content.",
+            "status": "done",
+            "testStrategy": "Test with various file types and sizes. Verify attachment persistence and proper display across devices."
+          },
+          {
+            "id": 4,
+            "title": "Build Quick Entry Mode",
+            "description": "Create a streamlined entry interface for rapid note capture with minimal friction",
+            "dependencies": [
+              1
+            ],
+            "details": "Design a simplified version of the editor that appears instantly and requires minimal interaction to start typing. Include auto-save functionality and quick access to basic formatting. Optimize for speed and minimal UI elements. Implement keyboard shortcuts for efficiency and ensure the interface appears within 300ms of activation. Use skeleton screens during loading to decrease perceived waiting time.",
+            "status": "done",
+            "testStrategy": "Measure load time performance and conduct user testing focused on entry speed and completion rate. Test user perception of loading times with and without skeleton screens."
+          },
+          {
+            "id": 5,
+            "title": "Implement Timestamp and Metadata Management",
+            "description": "Add functionality for automatic and manual timestamp creation and editing",
+            "dependencies": [
+              1
+            ],
+            "details": "Create UI components for displaying and editing creation/modification timestamps. Implement automatic timestamp updates when entries are modified. Add user-friendly date/time pickers for manual adjustments. Ensure timestamps are displayed in the user's local timezone with appropriate formatting.",
+            "status": "done",
+            "testStrategy": "Test automatic timestamp updates across different scenarios and verify timezone handling across different regions."
+          },
+          {
+            "id": 6,
+            "title": "Create Entry Templates System",
+            "description": "Develop standardized templates for different types of journal entries",
+            "dependencies": [
+              2,
+              3,
+              5
+            ],
+            "details": "Design and implement multiple entry templates with predefined structures and formatting. Create a template selection interface during entry creation. Include customization options for users to modify templates or create their own. Ensure templates are easily accessible but don't clutter the main interface. Avoid trying to fit every journal entry type into a single standard template - create multiple specialized templates for different use cases.",
+            "status": "done",
+            "testStrategy": "Test template application, customization, and persistence. Conduct usability testing to ensure templates improve rather than hinder the entry creation process."
+          },
+          {
+            "id": 7,
+            "title": "Implement Cross-Platform UI Adaptations",
+            "description": "Optimize the editor UI for different devices and screen sizes",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Adapt the editor interface for mobile, tablet, and desktop experiences with appropriate layout changes. Implement touch-friendly controls for mobile while maintaining keyboard shortcuts for desktop. Ensure consistent functionality across platforms while optimizing for each form factor's strengths. Use responsive design principles with appropriate breakpoints. For longer forms, implement a stepped or multi-screen format to prevent visual overwhelm and reduce save errors.",
+            "status": "done",
+            "testStrategy": "Test on multiple device types and screen sizes. Verify that all core functionality works consistently across platforms. Measure completion rates for multi-step forms versus single-page forms."
+          },
+          {
+            "id": 8,
+            "title": "Implement Accessibility Features",
+            "description": "Ensure the editor is fully accessible to users with disabilities",
+            "dependencies": [
+              1,
+              2,
+              3,
+              7
+            ],
+            "details": "Add proper ARIA labels, keyboard navigation, screen reader support, and high-contrast modes. Implement focus management for all interactive elements. Ensure color choices meet WCAG 2.1 AA standards for contrast. Test with assistive technologies and fix any barriers to access. Place form labels above elements rather than to the side for better readability. Group labels and fields visually to create clear associations. Arrange lists, checkboxes, and radio buttons vertically for consistent visual flow.",
+            "status": "done",
+            "testStrategy": "Conduct accessibility audits using automated tools and manual testing with screen readers. Test keyboard-only navigation through all editor functions."
+          },
+          {
+            "id": 9,
+            "title": "Implement User Preference Controls",
+            "description": "Add functionality for users to customize their editing experience",
+            "dependencies": [
+              1,
+              2,
+              3,
+              7
+            ],
+            "details": "Create settings that allow users to control the appearance, timing, and ordering of UI elements. Implement options for different view modes (e.g., rows vs. grids), sorting preferences, and display densities. Offer multiple ways to accomplish common tasks, including keyboard shortcuts. Store user preferences persistently and apply them consistently across sessions.",
+            "status": "done",
+            "testStrategy": "Test preference persistence across sessions and devices. Conduct usability testing to ensure customization options enhance rather than complicate the user experience."
+          },
+          {
+            "id": 10,
+            "title": "Enhance Interaction Feedback",
+            "description": "Improve user understanding of system state and interaction outcomes",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Implement clear visual and textual feedback for all user interactions. Indicate the next item in sequences, describe destinations of links, and specify which interaction will occur with ambiguous controls. Use blue colors and engaging elements during loading states to improve perceived performance. Start progress indicators above zero to create a sense of immediate progress.",
+            "status": "done",
+            "testStrategy": "Test user comprehension of interaction outcomes through task completion studies. Measure perceived loading times with different feedback mechanisms."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Implement Local Storage and Encryption",
+        "description": "Enable secure local storage with encryption at rest for all user data.",
+        "status": "done",
+        "dependencies": [
+          2,
+          3
+        ],
+        "priority": "high",
+        "details": "Use SQLite with encryption wrapper for local storage. Implement AES-256 encryption for data at rest using SQLCipher, which provides similar functionality to SQLite Encryption Extension (SEE). Ensure encryption keys are managed securely (Keychain, KeyStore). Encryption should cover journal entries, folders, and folder names. SQLCipher, like SEE, supports encryption of the entire database file, making it appear as white noise to outside observers. The implementation should maintain compatibility with both encrypted and unencrypted databases. SQLCipher uses PBKDF2 for key derivation, which provides enhanced security against brute force, dictionary, and pre-computation attacks. The key management system will use the device-bound key from SecureKeyStorage for all database encryption and rekey operations.",
+        "testStrategy": "Test data persistence, encryption, and secure key management. Verify data integrity after app restarts. Test encryption of all data types including journal entries, folders, and folder names. Verify that the entire database file is encrypted, including both data and metadata. Test the key management APIs for proper functionality, including initial key setting and key rotation. Verify that encrypted databases appear as white noise to outside observers. Test performance with SQLCipher's key derivation process (PBKDF2) and ensure it meets application requirements. Verify that the device-bound key from SecureKeyStorage is properly used for all database encryption and rekey operations.",
+        "subtasks": [
+          {
+            "id": 5.1,
+            "title": "Journal Entry Encryption",
+            "description": "Implement AES-256 encryption for journal entries using device-bound key",
+            "status": "done"
+          },
+          {
+            "id": 5.2,
+            "title": "Folder and Folder Name Encryption",
+            "description": "Extend the encryption implementation to cover folders and folder names using the same AES-256 encryption with device-bound key",
+            "status": "done"
+          },
+          {
+            "id": 5.3,
+            "title": "SQLite Encryption Implementation",
+            "description": "Implement SQLite encryption using SQLCipher to ensure the entire database file (both data and metadata) is encrypted and appears as white noise to outside observers",
+            "status": "done"
+          },
+          {
+            "id": 5.4,
+            "title": "Key Management System",
+            "description": "Implement secure key management system using platform-specific secure storage (Keychain for iOS, KeyStore for Android) and integrate with SQLCipher's key management APIs for database connection encryption",
+            "status": "done"
+          },
+          {
+            "id": 5.5,
+            "title": "Database Rekey Functionality",
+            "description": "Implement functionality to change encryption keys using SQLCipher's rekey API, with proper handling of the database rekey operation using the device-bound key from SecureKeyStorage",
+            "status": "done"
+          },
+          {
+            "id": 5.6,
+            "title": "Multi-Database Encryption Support",
+            "description": "Implement support for simultaneously accessing multiple encrypted and/or unencrypted database files using SQLite's ATTACH command, with each database file having its own encryption key",
+            "status": "done"
+          },
+          {
+            "id": 5.7,
+            "title": "SQLCipher Integration Documentation",
+            "description": "Document the SQLCipher integration, including key management practices, encryption configuration, and API usage patterns for the development team",
+            "status": "done"
+          },
+          {
+            "id": 5.8,
+            "title": "Performance Testing with SQLCipher",
+            "description": "Conduct performance testing to ensure that the SQLCipher implementation meets performance requirements, especially for large databases and frequent read/write operations",
+            "status": "done"
+          },
+          {
+            "id": 5.9,
+            "title": "PBKDF2 Key Derivation Configuration",
+            "description": "Configure and optimize SQLCipher's PBKDF2 key derivation process to balance security and performance requirements for the application",
+            "status": "done"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Develop Cross-Platform Synchronization",
+        "description": "Implement real-time, secure synchronization of journal entries across devices.",
+        "details": "Use WebSocket connections for real-time updates. Implement operational transformation for conflict resolution. Integrate with iCloud, Google Drive, OneDrive. Support offline sync and bandwidth optimization.",
+        "testStrategy": "Test sync across devices, conflict resolution, and offline scenarios. Validate sync status indicators.",
+        "priority": "high",
+        "dependencies": [
+          2,
+          4,
+          5
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up WebSocket infrastructure",
+            "description": "Establish the WebSocket connection framework for real-time bidirectional communication between client devices and the server",
+            "dependencies": [],
+            "details": "Implement WebSocket server endpoints and client connection handlers. Configure connection pooling, heartbeat mechanisms, and reconnection strategies. Ensure proper authentication and authorization for WebSocket connections. This will serve as the foundation for real-time updates across platforms.",
+            "status": "done",
+            "testStrategy": "Test connection establishment, message delivery latency, and reconnection capabilities under various network conditions. Verify authentication mechanisms and connection security."
+          },
+          {
+            "id": 2,
+            "title": "Implement data serialization and transformation",
+            "description": "Create efficient data serialization mechanisms for journal entries to minimize bandwidth usage during synchronization",
+            "dependencies": [
+              1
+            ],
+            "details": "Utilize protocol buffers for structured data serialization to reduce bandwidth usage by up to 30% compared to JSON. Design transformation pipelines to handle different data formats across platforms. Implement versioning for data models to manage updates effectively.\n<info added on 2025-06-10T19:55:19.388Z>\nProtocol buffer implementation has been successfully integrated into the synchronization system, enabling bi-directional real-time sync for journal entries, folders, tags, and media/attachments. The binary format of protocol buffers has reduced bandwidth usage as expected, with message sizes approximately 30% smaller than their JSON equivalents. The system now automatically serializes pending local changes upon connection to the server and deserializes incoming changes, applying them to the local data store and marking them as synced. Performance benchmarks show protocol buffer serialization and deserialization processes are approximately 4-6 times faster than the previous JSON implementation, significantly improving sync speed and reducing latency. The transformation pipelines have been configured to handle the different data types across platforms, with proper versioning implemented to ensure backward compatibility as data models evolve. The architecture is now extensible to accommodate additional data types and prepared for the upcoming conflict resolution and offline queuing features.\n</info added on 2025-06-10T19:55:19.388Z>",
+            "status": "done",
+            "testStrategy": "Benchmark serialization/deserialization performance. Verify data integrity across transformations. Test backward compatibility with older data formats."
+          },
+          {
+            "id": 3,
+            "title": "Develop operational transformation for conflict resolution",
+            "description": "Implement conflict resolution mechanisms to handle concurrent edits to the same journal entry from different devices",
+            "dependencies": [
+              2
+            ],
+            "details": "Implement operational transformation algorithms to resolve conflicts when multiple users edit the same content. Use Conflict-free Replicated Data Types (CRDTs) to enable concurrent updates without conflicts. Apply consistent timestamping to track the latest changes across platforms. Design merge strategies for different types of journal content.",
+            "status": "done",
+            "testStrategy": "Create test scenarios with simulated concurrent edits. Verify that conflict resolution preserves user intent and data integrity. Test edge cases like network partitions during concurrent edits."
+          },
+          {
+            "id": 4,
+            "title": "Integrate with cloud storage providers",
+            "description": "Develop integration modules for iCloud, Google Drive, and OneDrive to enable cross-platform synchronization",
+            "dependencies": [
+              2
+            ],
+            "details": "Create abstraction layers for each cloud provider's API. Implement authentication flows for each service. Develop file management operations (create, read, update, delete) for each provider. Ensure proper error handling and retry mechanisms for API failures. Implement storage quota management.",
+            "status": "done",
+            "testStrategy": "Test authentication flows and API operations for each provider. Verify handling of rate limits and service disruptions. Test quota management and error recovery."
+          },
+          {
+            "id": 5,
+            "title": "Implement offline synchronization capabilities",
+            "description": "Develop mechanisms to handle journal edits while devices are offline and synchronize when connectivity is restored",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Create a local database for storing offline changes. Implement change tracking with sequence numbers or vector clocks. Design queue management for pending synchronization operations. Develop conflict detection and resolution for offline changes. Implement bandwidth-aware sync strategies that prioritize critical data.",
+            "status": "done",
+            "testStrategy": "Test offline editing and subsequent synchronization. Verify conflict resolution for changes made offline. Test sync behavior under various network conditions including intermittent connectivity."
+          },
+          {
+            "id": 6,
+            "title": "Optimize bandwidth usage and performance",
+            "description": "Implement strategies to minimize data transfer and optimize synchronization performance across different network conditions",
+            "dependencies": [
+              5
+            ],
+            "details": "Implement delta synchronization to transfer only changed portions of journal entries. Create compression algorithms for different content types. Develop adaptive sync intervals based on network conditions and battery status. Implement background synchronization to avoid impacting user experience. Set up caching mechanisms to reduce redundant transfers.",
+            "status": "done",
+            "testStrategy": "Benchmark synchronization performance across various network conditions. Measure bandwidth usage and optimize for cellular networks. Test battery impact on mobile devices."
+          },
+          {
+            "id": 7,
+            "title": "Develop monitoring and diagnostics system",
+            "description": "Create a comprehensive monitoring system to track synchronization health, detect issues, and provide diagnostics for troubleshooting",
+            "dependencies": [],
+            "details": "Implement logging for sync operations across all platforms. Create metrics collection for sync performance and error rates. Develop a dashboard for visualizing sync status and health. Implement automatic retry mechanisms for failed requests. Create user-facing sync status indicators and troubleshooting tools. Set up alerts for critical sync failures.",
+            "status": "done",
+            "testStrategy": "Verify accuracy of monitoring metrics. Test alert mechanisms for various failure scenarios. Validate that diagnostic information is sufficient for troubleshooting common sync issues."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Implement Multimedia Support",
+        "description": "Add support for images, videos, audio, and handwritten notes in journal entries.",
+        "details": "Enable image, video, and audio attachment with inline display and playback. Support handwritten notes with stylus/finger input. Implement media compression and organization.",
+        "testStrategy": "Test media attachment, playback, and sync. Validate handwriting input and media compression.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Build Organization and Search Features",
+        "description": "Develop tagging, folder, and advanced search functionality.",
+        "details": "Implement tag system with autocomplete. Add color-coded folders. Build advanced search with filters. Integrate calendar view for navigation.",
+        "testStrategy": "Test tag/folder creation, search accuracy, and calendar navigation. Validate search performance.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Implement Customization and Themes",
+        "description": "Enable theme customization and personalization options.",
+        "details": "Develop theme engine with multiple visual styles. Allow custom colors, fonts, and stickers. Ensure customizations sync across devices.",
+        "testStrategy": "Test theme application, customization options, and sync. Validate UI consistency.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Develop Habit Tracking and Notifications",
+        "description": "Add streak tracking, goal setting, and reminder notifications.",
+        "details": "Implement streak counter, goal progress, and visual timeline. Add customizable reminders and achievement system.",
+        "testStrategy": "Test streak tracking, goal progress, and notification delivery. Validate achievement triggers.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          8
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Build Export and Backup Functionality",
+        "description": "Enable export and backup of journal content in multiple formats.",
+        "details": "Support PDF, RTF, Markdown, and encrypted archive exports. Implement scheduled and manual backups. Ensure cross-platform compatibility.",
+        "testStrategy": "Test export formats, backup creation, and restoration. Validate data integrity.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4,
+          5
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Integrate External Services and APIs",
+        "description": "Connect with Google Calendar, Apple Health, Google Fit, and weather/location services.",
+        "details": "Implement OAuth-based integrations. Add automatic weather/location tagging with privacy controls. Support social sharing.",
+        "testStrategy": "Test service integrations, privacy controls, and data accuracy. Validate sharing features.",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Optimize Performance and Accessibility",
+        "description": "Ensure fast, accessible, and responsive user experience across all platforms.",
+        "details": "Optimize UI response times (<200ms). Implement accessibility features (high contrast, font size, screen reader support). Test battery and network efficiency.",
+        "testStrategy": "Test performance metrics, accessibility features, and battery usage. Validate cross-platform consistency.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          6,
+          9
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Implement AI Features and Prompts",
+        "description": "Add AI-generated journaling prompts and reflection suggestions.",
+        "details": "Integrate AI model for prompt generation. Add optional AI-powered reflection suggestions based on entry content.",
+        "testStrategy": "Test prompt generation, suggestion relevance, and user opt-in/out. Validate AI integration.",
+        "priority": "low",
+        "dependencies": [
+          4,
+          8
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Prepare for Launch and Beta Testing",
+        "description": "Finalize app store submissions, marketing, and beta testing.",
+        "details": "Complete app store metadata and screenshots. Set up beta testing channels. Prepare support and monitoring systems.",
+        "testStrategy": "Test app store submission process, beta feedback collection, and support workflows.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          13
+        ],
+        "status": "in-progress",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Implement Cross-Platform Handwriting Input Support",
+        "description": "Research, design, and implement handwriting input functionality for EchoPages Journal across web, desktop (Electron), and mobile (React Native/Expo) platforms, starting with a minimal working prototype on one platform.",
+        "details": "1. Research Phase:\n   - Evaluate existing handwriting recognition libraries compatible with JavaScript/TypeScript\n   - Compare options like MyScript, Handwriting.js, or native platform capabilities\n   - Document API requirements, performance characteristics, and licensing considerations\n   - Determine if offline recognition is required or if cloud-based solutions are acceptable\n\n2. Technical Design:\n   - Create architecture diagram showing how handwriting input integrates with existing app components\n   - Design a platform-agnostic interface for handwriting recognition\n   - Define data structures for storing and processing handwriting input\n   - Plan for platform-specific implementations behind common interface\n   - Consider storage format for handwritten content (vector paths vs. recognized text vs. both)\n\n3. Implementation Strategy:\n   - Start with web implementation as proof of concept\n   - Implement canvas-based drawing surface for capturing pen/touch input\n   - Add stroke collection, smoothing, and basic styling options\n   - Integrate with selected recognition library to convert handwriting to text\n   - Create UI components for handwriting mode toggle, stroke width/color selection\n\n4. Platform Expansion:\n   - Adapt web implementation to Electron for desktop\n   - Implement React Native version using compatible drawing libraries\n   - Address platform-specific input methods (Apple Pencil, Surface Pen, touch)\n   - Optimize performance for each platform\n   - Ensure consistent user experience across platforms\n\n5. Integration with EchoPages:\n   - Connect handwriting functionality with existing document model\n   - Implement conversion between handwritten and text content\n   - Add undo/redo support for handwriting operations\n   - Ensure handwritten content properly saves and syncs across devices",
+        "testStrategy": "1. Unit Testing:\n   - Create tests for handwriting input capture functionality\n   - Test stroke collection, modification, and serialization\n   - Verify text recognition accuracy with sample inputs\n   - Test platform abstraction layer with mock implementations\n\n2. Integration Testing:\n   - Verify handwriting input properly integrates with document model\n   - Test saving and loading documents with handwritten content\n   - Ensure proper synchronization of handwritten content across devices\n   - Validate undo/redo functionality with handwriting operations\n\n3. Platform-Specific Testing:\n   - Test on each target platform (web, desktop, mobile)\n   - Verify performance meets acceptable thresholds on each platform\n   - Test with various input devices (mouse, touch, stylus)\n   - Validate consistent behavior across platforms\n\n4. User Acceptance Testing:\n   - Create test scenarios for common handwriting tasks\n   - Measure recognition accuracy with diverse handwriting samples\n   - Collect feedback on usability and responsiveness\n   - Compare experience against competitive applications\n\n5. Performance Testing:\n   - Measure input latency for handwriting capture\n   - Test memory usage during extended handwriting sessions\n   - Evaluate battery impact on mobile devices\n   - Benchmark recognition speed for various input lengths",
+        "status": "done",
+        "dependencies": [
+          5,
+          8,
+          10,
+          12
+        ],
+        "priority": "medium",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-01T03:51:46.064Z",
+      "updated": "2025-07-01T16:45:54.777Z",
+      "description": "Tasks for master context"
     }
-  ]
+  }
 }

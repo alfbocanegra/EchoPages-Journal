@@ -83,7 +83,7 @@ export class CreateInitialSchema1710000000000 implements MigrationInterface {
                 "content_type" varchar(20) DEFAULT 'text',
                 "is_encrypted" boolean DEFAULT false,
                 "encryption_iv" varchar(32),
-                "mood" varchar(20),
+                "mood" varchar(20), // TODO: Change to JSON in migration 1710000000001
                 "weather" jsonb,
                 "location" jsonb,
                 "is_favorite" boolean DEFAULT false,

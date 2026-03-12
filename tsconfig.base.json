@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "strict": true,
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "composite": true,
+    "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "checkJs": true,
-    "noEmit": true,
     "paths": {
+      "@echopages/shared": ["./packages/shared/src"],
       "@echopages/shared/*": ["./packages/shared/src/*"]
     }
   },

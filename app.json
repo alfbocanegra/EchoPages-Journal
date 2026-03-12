@@ -1,0 +1,11 @@
+{
+  "android": {
+    "package": "com.anonymous.tempmobile"
+  },
+  "ios": {
+    "bundleIdentifier": "com.anonymous.tempmobile"
+  },
+  "plugins": [
+    "expo-secure-store"
+  ]
+}

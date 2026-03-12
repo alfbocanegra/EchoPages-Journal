@@ -1,6 +1,6 @@
 # Task ID: 15
 # Title: Prepare for Launch and Beta Testing
-# Status: pending
+# Status: in-progress
 # Dependencies: 1, 13
 # Priority: medium
 # Description: Finalize app store submissions, marketing, and beta testing.

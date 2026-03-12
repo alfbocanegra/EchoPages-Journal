@@ -3,10 +3,19 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
+    "target": "esnext",
+    "module": "esnext",
     "jsx": "react-jsx",
-    "types": ["vite/client", "jest", "node"]
+    "moduleResolution": "node",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["dom", "esnext"],
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src"
+  ],
   "exclude": ["node_modules", "dist", "build"],
   "references": [{ "path": "../shared" }]
 }

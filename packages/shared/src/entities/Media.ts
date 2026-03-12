@@ -12,45 +12,59 @@ import { Entry } from './Entry';
 @Entity('media')
 export class Media {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'entry_id' })
-  entryId: string;
+  entryId!: string;
 
   @Column()
-  type: string;
+  type!: string;
 
   @Column()
-  url: string;
+  url!: string;
 
   @Column({ name: 'thumbnail_url', nullable: true })
   thumbnailUrl?: string;
 
   @Column()
-  filename: string;
+  filename!: string;
 
   @Column()
-  size: number;
+  size!: number;
 
   @Column({ name: 'mime_type' })
-  mimeType: string;
+  mimeType!: string;
 
   @Column({ type: 'json', default: {} })
-  metadata: Record<string, any>;
+  metadata!: Record<string, any>;
 
   @Column({ name: 'is_encrypted', default: false })
-  isEncrypted: boolean;
+  isEncrypted!: boolean;
 
   @Column({ name: 'encryption_iv', nullable: true })
   encryptionIv?: string;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp with time zone' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ManyToOne(() => Entry, entry => entry.media)
   @JoinColumn({ name: 'entry_id' })
-  entry: Entry;
+  entry!: Entry;
 }
+
+/**
+ * Media.type values:
+ *   - 'image': Standard image (jpeg, png, gif, svg, etc)
+ *   - 'video': Video file (mp4, mov, webm, etc)
+ *   - 'audio': Audio file (mp3, wav, m4a, etc)
+ *   - 'handwriting': Handwritten note (PNG, SVG, or vector data in metadata)
+ *
+ * Media.metadata conventions:
+ *   - For 'image': { width, height, exif? }
+ *   - For 'video': { duration, width, height, codec }
+ *   - For 'audio': { duration, codec }
+ *   - For 'handwriting': { format: 'svg'|'png'|'json', data: string|object }
+ */
