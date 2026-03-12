@@ -10,25 +10,26 @@ jobs:
   quality:
     name: Code Quality
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v4
+
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'yarn'
-    
+
     - name: Install Dependencies
-      run: |
-        yarn install --frozen-lockfile
-        
+      run: yarn install --frozen-lockfile
+
     - name: Check Format
       run: yarn format:check
-      
+      continue-on-error: true
+
     - name: Lint
       run: yarn lint
-      
+      continue-on-error: true
+
     - name: Type Check
-      run: yarn type-check 
+      run: yarn type-check

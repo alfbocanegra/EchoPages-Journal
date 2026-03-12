@@ -5,7 +5,10 @@
   "scripts": {
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --ignore-pattern node_modules --ignore-pattern dist --ignore-pattern build",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "type-check": "tsc --noEmit",
     "start": "react-native start",
     "test": "jest"
   },
@@ -52,6 +55,6 @@
     ]
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   }
 }
