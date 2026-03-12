@@ -7,82 +7,68 @@ on:
     branches: [ main, develop ]
 
 jobs:
+  build-shared:
+    name: Build Shared Package
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - name: Install and Build Shared
+      run: |
+        cd packages/shared
+        yarn install --frozen-lockfile
+        npx tsc --build --force
+
   build-web:
     name: Build Web
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'yarn'
-    - run: |
+    - name: Install and Build Web
+      run: |
         cd packages/web
         yarn install --frozen-lockfile
         yarn build
-    
-  build-mobile:
-    name: Build Mobile
-    runs-on: macos-latest # Need macOS for iOS builds
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-        cache: 'yarn'
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: '17'
-    
-    # iOS Build
-    - name: Install iOS dependencies
-      run: |
-        cd packages/mobile/ios
-        pod install
-    - name: Build iOS
-      run: |
-        cd packages/mobile
-        yarn install --frozen-lockfile
-        yarn ios:build
-    
-    # Android Build
-    - name: Build Android
-      run: |
-        cd packages/mobile
-        yarn install --frozen-lockfile
-        yarn android:build
-    
-  build-desktop:
-    name: Build Desktop
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest]
-        
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-        cache: 'yarn'
-    - name: Build Desktop App
-      run: |
-        cd packages/desktop
-        yarn install --frozen-lockfile
-        yarn build
-    
+
   build-backend:
     name: Build Backend
+    needs: build-shared
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'yarn'
+    - name: Build Shared Package
+      run: |
+        cd packages/shared
+        yarn install --frozen-lockfile
+        npx tsc --build --force
     - name: Build Backend
       run: |
         cd backend
         yarn install --frozen-lockfile
-        yarn build 
+        yarn build
+
+  build-desktop:
+    name: Build Desktop
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'yarn'
+    - name: Build Desktop
+      run: |
+        cd packages/desktop
+        yarn install --frozen-lockfile
+        yarn build
