@@ -75,3 +75,7 @@ pids/
 *.pem
 *.key
 *.cert
+
+# OAuth credentials
+**/google-oauth-credentials.json
+**/client_secret*.json
