@@ -3,6 +3,9 @@ node_modules/
 .pnp/
 .pnp.js
 
+# npm lockfiles (this project uses Yarn)
+package-lock.json
+
 # Testing
 coverage/
 
