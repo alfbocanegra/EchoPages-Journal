@@ -1,20 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { RichTextEditor } from '../components/editor/RichTextEditor';
-import { QuickEntry } from '../components/editor/QuickEntry';
 import { EntryMetadata } from '../components/editor/EntryMetadata';
 import { EntryTemplates } from '../components/editor/EntryTemplates';
-import {
-  EditorPreferences,
-  getInitialEditorPrefs,
-  EditorPrefs,
-} from '../components/editor/EditorPreferences';
-import { SyncStatus } from '../components/editor/SyncStatus';
-import { SyncStatusIndicator } from '../components/common/SyncStatusIndicator';
+import { getInitialEditorPrefs, EditorPrefs } from '../components/editor/EditorPreferences';
 import { TagInput } from '../components/editor/TagInput';
 import { FolderSelect } from '../components/editor/FolderSelect';
 import { Entry } from '../components/editor/EntryList';
-import { getJWT, logout, isJWTExpired } from '../services/authService';
+import { logout, isJWTExpired } from '../services/authService';
 import { getEntries, addEntry, saveEntries } from '../utils/storage';
 import ThemeButton from '../components/common/ThemeButton';
 import ThemeCard from '../components/common/ThemeCard';
@@ -24,12 +17,12 @@ import { useAuth } from '../context/AuthContext';
 import AppHeader from '../components/common/AppHeader';
 
 export const EditorPage: React.FC = () => {
-  const navigate = useNavigate();
+  const _navigate = useNavigate();
   const location = useLocation();
-  const { jwt, deviceId, passphrase } = useAuth();
+  const { jwt, deviceId: _deviceId, passphrase } = useAuth();
   const [expired, setExpired] = useState(false);
   const [templateContent, setTemplateContent] = useState<string>('');
-  const [prefs, setPrefs] = useState<EditorPrefs>(getInitialEditorPrefs());
+  const [prefs, _setPrefs] = useState<EditorPrefs>(getInitialEditorPrefs());
   const [tags, setTags] = useState<string[]>([]);
   const [folder, setFolder] = useState<string>('Inbox');
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -132,7 +125,7 @@ export const EditorPage: React.FC = () => {
     );
   }
 
-  const handleQuickSave = async (content: string) => {
+  const _handleQuickSave = async (content: string) => {
     const newEntry: Entry = {
       id: Date.now().toString(),
       title: content.slice(0, 32),
@@ -145,7 +138,7 @@ export const EditorPage: React.FC = () => {
     setEntries(await getEntries(passphrase));
   };
 
-  const handleEditorInput = () => {
+  const _handleEditorInput = () => {
     if (editorRef.current) {
       setEditorContent(editorRef.current.innerHTML);
     }
@@ -240,7 +233,7 @@ export const EditorPage: React.FC = () => {
     setConflictEntry(null);
   };
 
-  const navButtonStyle = {
+  const _navButtonStyle = {
     height: 40,
     minHeight: 40,
     display: 'flex',

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CalendarView } from '../components/journal/CalendarView';
-import EntryCardStrict from '../components/common/EntryCardStrict';
 import { useAuth } from '../context/AuthContext';
 import { getEntries } from '../utils/storage';
 import type { Entry } from '../components/editor/EntryList';

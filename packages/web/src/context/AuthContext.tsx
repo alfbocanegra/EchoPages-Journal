@@ -25,7 +25,7 @@ function createMockCloudStorage(authProvider: string): CloudStorageService {
   return {
     getProvider: () => provider,
     initialize: async () => true,
-    syncJournalData: async (data: any) => ({
+    syncJournalData: async (_data: any) => ({
       status: 'synced',
       filesUploaded: 1,
       filesDownloaded: 0,
@@ -33,7 +33,9 @@ function createMockCloudStorage(authProvider: string): CloudStorageService {
       lastSync: new Date(),
     }),
     downloadJournalData: async () => ({}),
-    setEncryptionKey: (key: string) => {},
+    setEncryptionKey: (_key: string) => {
+      /* intentionally empty */
+    },
     isAvailable: () => provider !== 'local',
   };
 }

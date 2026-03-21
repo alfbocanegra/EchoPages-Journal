@@ -58,7 +58,7 @@ export const RichTextEditor: React.FC<{
   const [images, setImages] = useState<string[]>(imagesProp || []);
   const [videos, setVideos] = useState<string[]>([]);
   const [audios, setAudios] = useState<string[]>([]);
-  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
+  const [_attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [saveTimeout, setSaveTimeout] = useState<NodeJS.Timeout | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -67,7 +67,7 @@ export const RichTextEditor: React.FC<{
   const [aiReflection, setAIReflection] = useState<string | null>(null);
   const [aiLoading, setAILoading] = useState(false);
   const [aiError, setAIError] = useState<string | null>(null);
-  const lastMoodRef = useRef<{ mood: string; intensity: number; emotions: string[] } | null>(null);
+  const _lastMoodRef = useRef<{ mood: string; intensity: number; emotions: string[] } | null>(null);
 
   // Use normalized mood in the component
   const safeMood = normalizeMood(currentMood);
@@ -229,7 +229,7 @@ export const RichTextEditor: React.FC<{
         }}
         className="editor-toolbar"
       >
-        {toolbarButtons.map((btn, idx) => (
+        {toolbarButtons.map((btn, _idx) => (
           <button
             key={btn.label}
             aria-label={btn.label}

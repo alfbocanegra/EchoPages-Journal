@@ -52,7 +52,7 @@ export const PasswordlessFallback: React.FC<{ onSuccess: () => void }> = ({ onSu
           lineHeight: 1.4,
         }}
       >
-        Choose how you'd like to access your journal
+        Choose how you&apos;d like to access your journal
       </p>
 
       {/* Mode Selection */}

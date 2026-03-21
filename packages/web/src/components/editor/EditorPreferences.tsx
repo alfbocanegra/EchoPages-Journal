@@ -52,6 +52,8 @@ export function getInitialEditorPrefs(): EditorPrefs {
   try {
     const stored = localStorage.getItem('editorPrefs');
     if (stored) return JSON.parse(stored);
-  } catch {}
+  } catch {
+    /* intentionally empty */
+  }
   return { darkMode: false, fontSize: '1rem' };
 }

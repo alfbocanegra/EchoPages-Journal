@@ -176,12 +176,12 @@ export class CloudStorageService {
 
   private async initializeGoogleDriveWeb(): Promise<boolean> {
     try {
-      // @ts-ignore
+      // @ts-expect-error -- window.gapi is not typed
       if (!window.gapi) {
         await this.loadGoogleAPI();
       }
 
-      // @ts-ignore
+      // @ts-expect-error -- window.gapi is not typed
       await window.gapi.load('drive', { version: 'v3' });
       return true;
     } catch (error) {
@@ -305,7 +305,7 @@ export class CloudStorageService {
   private async syncToLocal(data: any, result: SyncResult): Promise<void> {
     // Local storage fallback
     if (isPlatform('web')) {
-      // @ts-ignore
+      // @ts-expect-error -- localStorage is not typed in non-browser environments
       localStorage.setItem('echopages_journal_backup', JSON.stringify(data));
     } else {
       // Use platform-specific local storage
@@ -336,7 +336,7 @@ export class CloudStorageService {
 
   private async downloadFromLocal(): Promise<any> {
     if (isPlatform('web')) {
-      // @ts-ignore
+      // @ts-expect-error -- localStorage is not typed in non-browser environments
       const data = localStorage.getItem('echopages_journal_backup');
       return data ? JSON.parse(data) : {};
     }
@@ -346,12 +346,12 @@ export class CloudStorageService {
   // Utility methods
   private async loadGoogleAPI(): Promise<void> {
     return new Promise((resolve, reject) => {
-      // @ts-ignore
+      // @ts-expect-error -- document is not typed in non-browser environments
       const script = document.createElement('script');
       script.src = 'https://apis.google.com/js/api.js';
       script.onload = () => resolve();
       script.onerror = () => reject(new Error('Failed to load Google API'));
-      // @ts-ignore
+      // @ts-expect-error -- document is not typed in non-browser environments
       document.head.appendChild(script);
     });
   }

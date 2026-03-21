@@ -86,12 +86,12 @@ export const CalendarPageWorking: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
+  const _handleLogout = () => {
     localStorage.removeItem('jwt');
     navigate('/');
   };
 
-  const navButtonStyle = {
+  const _navButtonStyle = {
     height: '40px',
     padding: '0 16px',
     background: 'linear-gradient(45deg, #2196F3, #1976D2)',

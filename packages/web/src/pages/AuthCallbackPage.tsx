@@ -29,7 +29,7 @@ export const AuthCallbackPage: React.FC = () => {
         setAuthProvider(provider);
 
         // Simulate user data based on provider
-        const mockUser = {
+        const _mockUser = {
           id: `${provider}_user_${Date.now()}`,
           email: `user@${
             provider === 'google'

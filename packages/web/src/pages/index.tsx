@@ -73,16 +73,24 @@ const AppRouter: React.FC = () => {
           element={authenticated ? <EntriesPage /> : <Navigate to="/" replace />}
         />
         <Route path="/handwriting-demo" element={<HandwritingDemo />} />
-        <Route path="/settings" element={authenticated ? <SettingsPage /> : <Navigate to="/" replace />} />
+        <Route
+          path="/settings"
+          element={authenticated ? <SettingsPage /> : <Navigate to="/" replace />}
+        />
         <Route
           path="/"
           element={
             !authenticated ? (
               <>
-                <div style={{textAlign: 'center', marginBottom: 16}}>
-                  <a href="/handwriting-demo" style={{color: '#0078d4', textDecoration: 'underline'}}>Try Handwriting Input Demo</a>
+                <div style={{ textAlign: 'center', marginBottom: 16 }}>
+                  <a
+                    href="/handwriting-demo"
+                    style={{ color: '#0078d4', textDecoration: 'underline' }}
+                  >
+                    Try Handwriting Input Demo
+                  </a>
                 </div>
-              <LoginPage onLoginSuccess={handleLoginSuccess} />
+                <LoginPage onLoginSuccess={handleLoginSuccess} />
               </>
             ) : (
               <Navigate to="/entries" replace />

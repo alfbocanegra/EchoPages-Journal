@@ -200,14 +200,22 @@ const HandwritingInputCanvas: React.FC<HandwritingInputCanvasProps> = ({
         onPointerLeave={handlePointerUp}
       />
       <div style={{ marginTop: 12 }}>
-        <button onClick={handleUndo} disabled={strokes.length === 0} style={{ marginRight: 8 }}>Undo</button>
-        <button onClick={handleRedo} disabled={redoStack.length === 0} style={{ marginRight: 8 }}>Redo</button>
-        <button onClick={handleClear} style={{ marginRight: 8 }}>Clear</button>
-        <button onClick={handleExport} style={{ marginRight: 8 }}>Export as PNG</button>
+        <button onClick={handleUndo} disabled={strokes.length === 0} style={{ marginRight: 8 }}>
+          Undo
+        </button>
+        <button onClick={handleRedo} disabled={redoStack.length === 0} style={{ marginRight: 8 }}>
+          Redo
+        </button>
+        <button onClick={handleClear} style={{ marginRight: 8 }}>
+          Clear
+        </button>
+        <button onClick={handleExport} style={{ marginRight: 8 }}>
+          Export as PNG
+        </button>
         <button onClick={handleExportStrokes}>Export Strokes (JSON)</button>
       </div>
     </div>
   );
 };
 
-export default HandwritingInputCanvas; 
+export default HandwritingInputCanvas;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { OAuthLogin } from '../components/auth/OAuthLogin';
 import { useBiometrics } from '../hooks/useBiometrics';
-import { loginWithOAuth } from '../services/authService';
 
 import ThemeButton from '../components/common/ThemeButton';
 import ThemeCard from '../components/common/ThemeCard';
@@ -18,7 +17,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [error, setError] = useState<string | null>(null);
   const { authenticate } = useBiometrics();
   const { setAuthProvider, cloudStorage } = useAuth();
-  const [totpRequired, setTotpRequired] = useState(false);
+  const [_totpRequired, setTotpRequired] = useState(false);
 
   const checkTOTP = async () => {
     // Check if TOTP is enabled for the user

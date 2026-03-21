@@ -18,12 +18,18 @@ const darkTheme = {
 
 const ThemeContext = createContext({
   mode: 'system',
-  setMode: (mode: 'light' | 'dark' | 'system') => {},
+  setMode: (_mode: 'light' | 'dark' | 'system') => {
+    /* intentionally empty */
+  },
   theme: baseTheme,
   highContrast: false,
-  setHighContrast: (v: boolean) => {},
+  setHighContrast: (_v: boolean) => {
+    /* intentionally empty */
+  },
   accessibilityMode: false,
-  setAccessibilityMode: (v: boolean) => {},
+  setAccessibilityMode: (_v: boolean) => {
+    /* intentionally empty */
+  },
 });
 
 function setCSSVariables(themeObj: typeof baseTheme, typography: any) {

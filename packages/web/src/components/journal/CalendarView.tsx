@@ -54,11 +54,11 @@ const MOOD_COLORS: { [key: string]: string } = {
 export const CalendarView: React.FC<CalendarViewProps> = ({
   entries,
   onDateSelect,
-  onEntrySelect,
+  onEntrySelect: _onEntrySelect,
   selectedDate,
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<'month' | 'year'>('month');
+  const [_viewMode, _setViewMode] = useState<'month' | 'year'>('month');
 
   const { calendarDays, monthStats } = useMemo(() => {
     const year = currentDate.getFullYear();

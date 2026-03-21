@@ -1,7 +1,6 @@
 import React from 'react';
 import type { EntrySearchFilters } from './EntrySearch';
 import { EntryCalendar } from './EntryCalendar';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 export interface Entry {
   id: string;
@@ -22,9 +21,6 @@ export interface Entry {
 
 const FOLDERS = ['Inbox', 'Personal', 'Work', 'Health', 'Travel', 'Ideas', 'Archive'];
 
-const isTouchDevice = () =>
-  typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
-
 export const EntryList: React.FC<{
   entries: Entry[];
   filters: EntrySearchFilters;
@@ -34,7 +30,16 @@ export const EntryList: React.FC<{
   onEdit?: (entry: Entry) => void;
   onDelete?: (id: string) => void;
   onPinToggle?: (entry: Entry) => void;
-}> = ({ entries, filters, onSelect, search, onSearch, onEdit, onDelete, onPinToggle }) => {
+}> = ({
+  entries,
+  filters: _filters,
+  onSelect: _onSelect,
+  search,
+  onSearch: _onSearch,
+  onEdit,
+  onDelete,
+  onPinToggle,
+}) => {
   const [view, setView] = React.useState<'list' | 'calendar'>('list');
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedEntry, setSelectedEntry] = React.useState<Entry | null>(null);
@@ -119,7 +124,9 @@ export const EntryList: React.FC<{
     if (navigator.share) {
       try {
         await navigator.share({ title: entry.title, text });
-      } catch {}
+      } catch {
+        /* intentionally empty */
+      }
     } else {
       // fallback: copy to clipboard
       await navigator.clipboard.writeText(text);
@@ -519,7 +526,7 @@ const EntryModal: React.FC<{
                             onClick={() =>
                               onEditChange(
                                 'images',
-                                safeImages.filter((_: any, idx: number) => idx !== i)
+                                safeImages.filter((_: any, _idx: number) => _idx !== i)
                               )
                             }
                             aria-label="Remove image"
