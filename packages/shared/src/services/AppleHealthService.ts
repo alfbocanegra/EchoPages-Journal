@@ -59,7 +59,7 @@ export class AppleHealthService {
       const today = new Date();
       const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-      const steps = await new Promise<number>((resolve, reject) => {
+      const steps = await new Promise<number>((resolve, _reject) => {
         AppleHealthKit.getStepCount(
           { startDate: start.toISOString(), endDate: end.toISOString() },
           (err: any, res: any) => {
@@ -69,7 +69,7 @@ export class AppleHealthService {
         );
       });
       // Fetch today's activity summary (move, exercise, stand)
-      const activity = await new Promise<string>((resolve, reject) => {
+      const activity = await new Promise<string>((resolve, _reject) => {
         AppleHealthKit.getActivitySummary(
           { startDate: start.toISOString(), endDate: end.toISOString() },
           (err: any, res: any) => {
@@ -100,7 +100,7 @@ export class AppleHealthService {
     return health;
   }
 
-  static async tagEntryWithHealth(entryId: string): Promise<HealthData> {
+  static async tagEntryWithHealth(_entryId: string): Promise<HealthData> {
     // Fetch health data
     const data = await AppleHealthService.getHealthDataForEntry();
     // TODO: Save health data to the entry in storage (requires cross-package storage access)

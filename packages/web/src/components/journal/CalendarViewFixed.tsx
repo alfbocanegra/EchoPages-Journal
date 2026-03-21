@@ -55,7 +55,7 @@ const MOOD_COLORS: { [key: string]: string } = {
 export const CalendarViewFixed: React.FC<CalendarViewProps> = ({
   entries,
   onDateSelect,
-  onEntrySelect,
+  onEntrySelect: _onEntrySelect,
   selectedDate,
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());

@@ -21,12 +21,12 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 type ConflictResolutionStrategy = 'server-wins' | 'client-wins';
 
 // Temporary mock functions
-const serializeChanges = (changes: any) => changes;
-const deserializeEntry = (entry: any) => entry;
-const resolveEntryConflict = (conflict: any, strategy: ConflictResolutionStrategy) =>
-  conflict.local;
-const serializeEntryProto = (entry: any) => new Uint8Array();
-const deserializeEntryProto = (data: Uint8Array): SharedEntry => ({
+const _serializeChanges = (_changes: any) => _changes;
+const _deserializeEntry = (_entry: any) => _entry;
+const _resolveEntryConflict = (_conflict: any, _strategy: ConflictResolutionStrategy) =>
+  _conflict.local;
+const _serializeEntryProto = (_entry: any) => new Uint8Array();
+const _deserializeEntryProto = (_data: Uint8Array): SharedEntry => ({
   id: '',
   userId: '',
   folderId: '',
@@ -43,13 +43,13 @@ const deserializeEntryProto = (data: Uint8Array): SharedEntry => ({
   media: [],
   versions: [],
 });
-const serializeFolderProto = (folder: any) => new Uint8Array();
-const deserializeFolderProto = (data: Uint8Array) => ({});
-const serializeTagProto = (tag: any) => new Uint8Array();
-const deserializeTagProto = (data: Uint8Array) => ({});
-const serializeMediaProto = (media: any) => new Uint8Array();
-const deserializeMediaProto = (data: Uint8Array) => ({});
-import { getEntries, saveEntries } from '../utils/storage';
+const _serializeFolderProto = (_folder: any) => new Uint8Array();
+const _deserializeFolderProto = (_data: Uint8Array) => ({});
+const _serializeTagProto = (_tag: any) => new Uint8Array();
+const _deserializeTagProto = (_data: Uint8Array) => ({});
+const _serializeMediaProto = (_media: any) => new Uint8Array();
+const _deserializeMediaProto = (_data: Uint8Array) => ({});
+import { getEntries } from '../utils/storage';
 import type { Entry as UIEntry } from '../components/editor/EntryList';
 // import type { Entry as SharedEntry } from '@echopages/shared';
 
@@ -79,7 +79,7 @@ interface SharedEntry {
   user?: any;
 }
 
-function toSharedEntry(e: UIEntry): SharedEntry {
+function _toSharedEntry(e: UIEntry): SharedEntry {
   return {
     id: e.id,
     userId: '',
@@ -106,7 +106,7 @@ function toSharedEntry(e: UIEntry): SharedEntry {
   } as SharedEntry;
 }
 
-function toUIEntry(e: SharedEntry): UIEntry {
+function _toUIEntry(e: SharedEntry): UIEntry {
   return {
     id: e.id,
     title: e.title || '',
@@ -138,8 +138,8 @@ export function useSync({
   const [resolvingId, setResolvingId] = useState<string | null>(null);
   const [resolveMsg, setResolveMsg] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
-  const conflictStrategy: ConflictResolutionStrategy = 'server-wins';
-  const [syncMetrics, setSyncMetrics] = useState<any | null>(null);
+  const _conflictStrategy: ConflictResolutionStrategy = 'server-wins';
+  const [_syncMetrics, _setSyncMetrics] = useState<any | null>(null);
 
   useEffect(() => {
     if (!jwt) return;
@@ -163,7 +163,7 @@ export function useSync({
     };
   }, [jwt, deviceId]);
 
-  const uploadToCloud = useCallback(async (entries: any[]) => {
+  const uploadToCloud = useCallback(async (_entries: any[]) => {
     try {
       setStatus('syncing');
       // Cloud upload will be handled by the CloudStorageService
@@ -210,7 +210,7 @@ export function useSync({
     }
   }, [passphrase, uploadToCloud]);
 
-  const resolveConflict = useCallback((conflictId: string, strategy: string) => {
+  const resolveConflict = useCallback((_conflictId: string, _strategy: string) => {
     // Since we're using cloud storage, conflicts are automatically resolved
     setConflictCount(0);
     setConflicts([]);

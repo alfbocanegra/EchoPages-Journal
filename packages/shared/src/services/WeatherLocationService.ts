@@ -14,7 +14,9 @@ let Location: any;
 if (Platform.OS === 'ios' || Platform.OS === 'android') {
   try {
     Location = require('expo-location');
-  } catch {}
+  } catch {
+    // intentionally empty
+  }
 }
 
 export interface WeatherData {
@@ -60,7 +62,7 @@ export class WeatherLocationService {
     return { latitude, longitude, address };
   }
 
-  static async fetchWeatherData(latitude: number, longitude: number): Promise<WeatherData> {
+  static async fetchWeatherData(_latitude: number, _longitude: number): Promise<WeatherData> {
     // TODO: Replace with actual weather API integration
     // For now, return mock data
     const mockWeatherData: WeatherData = {
@@ -106,7 +108,9 @@ export class WeatherLocationService {
     };
   }
 
-  static async tagEntryWithWeather(entryId: string): Promise<WeatherData & { latitude: number; longitude: number }> {
+  static async tagEntryWithWeather(
+    _entryId: string
+  ): Promise<WeatherData & { latitude: number; longitude: number }> {
     // Fetch weather/location data
     const data = await WeatherLocationService.getWeatherDataForEntry();
     // TODO: Save weather/location data to the entry in storage (requires cross-package storage access)

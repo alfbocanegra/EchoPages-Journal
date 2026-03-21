@@ -24,7 +24,8 @@ const ThemeModal: React.FC<ThemeModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
   const titleId = React.useId();
-  const descId = descriptionId || React.useId();
+  const generatedDescId = React.useId();
+  const descId = descriptionId || generatedDescId;
 
   useEffect(() => {
     if (!visible) return;

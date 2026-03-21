@@ -13,7 +13,9 @@ let GoogleFit: any;
 if (Platform.OS === 'android') {
   try {
     GoogleFit = require('react-native-google-fit');
-  } catch {}
+  } catch {
+    // intentionally empty
+  }
 }
 
 export interface FitnessData {
@@ -37,7 +39,7 @@ export class GoogleFitService {
           ],
         })
           .then(() => resolve())
-          .catch((err: any) => reject(new Error('Google Fit permissions denied')));
+          .catch((_err: any) => reject(new Error('Google Fit permissions denied')));
       });
     } else {
       // TODO: Implement for other platforms
@@ -52,7 +54,7 @@ export class GoogleFitService {
       const today = new Date();
       const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-      const steps = await new Promise<number>((resolve, reject) => {
+      const steps = await new Promise<number>((resolve, _reject) => {
         GoogleFit.getDailyStepCountSamples({
           startDate: start.toISOString(),
           endDate: end.toISOString(),
@@ -61,7 +63,7 @@ export class GoogleFitService {
           .catch(() => resolve(0));
       });
       // Fetch today's calories
-      const calories = await new Promise<number>((resolve, reject) => {
+      const calories = await new Promise<number>((resolve, _reject) => {
         GoogleFit.getDailyCalorieSamples({
           startDate: start.toISOString(),
           endDate: end.toISOString(),
@@ -70,7 +72,7 @@ export class GoogleFitService {
           .catch(() => resolve(0));
       });
       // Fetch today's distance
-      const distance = await new Promise<number>((resolve, reject) => {
+      const distance = await new Promise<number>((resolve, _reject) => {
         GoogleFit.getDailyDistanceSamples({
           startDate: start.toISOString(),
           endDate: end.toISOString(),
@@ -95,7 +97,7 @@ export class GoogleFitService {
     return fitness;
   }
 
-  static async tagEntryWithHealth(entryId: string): Promise<FitnessData> {
+  static async tagEntryWithHealth(_entryId: string): Promise<FitnessData> {
     // Fetch fitness data
     const data = await GoogleFitService.getFitnessDataForEntry();
     // TODO: Save fitness data to the entry in storage (requires cross-package storage access)

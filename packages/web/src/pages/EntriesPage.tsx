@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getEntries, deleteEntry, updateEntry } from '../utils/storage';
+import { getEntries, deleteEntry } from '../utils/storage';
 import { Entry } from '../components/editor/EntryList';
-import { getJWT, logout, isJWTExpired } from '../services/authService';
-import ThemeButton from '../components/common/ThemeButton';
-import EntryCard from '../components/common/EntryCard';
-import EntryCardGrid from '../components/common/EntryCardGrid';
-import EntryCardUnified from '../components/common/EntryCardUnified';
+import { logout, isJWTExpired } from '../services/authService';
 import EntryCardStrict from '../components/common/EntryCardStrict';
 import AppHeader from '../components/common/AppHeader';
 import { TextField } from '@mui/material';
@@ -31,10 +27,10 @@ export const EntriesPage: React.FC = () => {
   const [stats, setStats] = useState<EntryStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [filterTag, setFilterTag] = useState<string>('');
-  const [filterFolder, setFilterFolder] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, _setViewMode] = useState<'grid' | 'list'>('grid');
+  const [filterTag, _setFilterTag] = useState<string>('');
+  const [filterFolder, _setFilterFolder] = useState<string>('');
+  const [searchQuery, _setSearchQuery] = useState<string>('');
   const [attachmentPreview, setAttachmentPreview] = useState<string[] | null>(null);
   const [filterStartDate, setFilterStartDate] = useState<string>('');
   const [filterEndDate, setFilterEndDate] = useState<string>('');
@@ -176,10 +172,10 @@ export const EntriesPage: React.FC = () => {
     return matchesSearch && matchesTag && matchesFolder && matchesStartDate && matchesEndDate;
   });
 
-  const allTags = [...new Set(entries.flatMap(entry => entry.tags || []))];
-  const allFolders = [...new Set(entries.map(entry => entry.folder))];
+  const _allTags = [...new Set(entries.flatMap(entry => entry.tags || []))];
+  const _allFolders = [...new Set(entries.map(entry => entry.folder))];
 
-  const navButtonStyle = {
+  const _navButtonStyle = {
     background: 'rgba(255,255,255,0.2)',
     color: 'white',
     border: '1px solid rgba(255,255,255,0.3)',
@@ -597,7 +593,7 @@ export const EntriesPage: React.FC = () => {
   );
 };
 
-function getMoodEmoji(mood: string) {
+function _getMoodEmoji(mood: string) {
   switch (mood) {
     case 'Happy':
       return '😊';

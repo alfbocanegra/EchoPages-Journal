@@ -14,14 +14,18 @@ let AuthSession: any;
 if (Platform.OS !== 'web') {
   try {
     AuthSession = require('expo-auth-session');
-  } catch {}
+  } catch {
+    // intentionally empty
+  }
 }
 
 let SecureStore: any;
 if (Platform.OS !== 'web') {
   try {
     SecureStore = require('expo-secure-store');
-  } catch {}
+  } catch {
+    // intentionally empty
+  }
 }
 
 const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; // TODO: Replace with actual client ID

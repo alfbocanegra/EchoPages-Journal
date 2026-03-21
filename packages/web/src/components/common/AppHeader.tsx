@@ -30,7 +30,12 @@ const navButtonStyle: React.CSSProperties = {
   justifyContent: 'center',
 };
 
-const AppHeader: React.FC<AppHeaderProps> = ({ stats, showSyncStatus, showEncryption, style }) => {
+const AppHeader: React.FC<AppHeaderProps> = ({
+  stats: _stats,
+  showSyncStatus,
+  showEncryption,
+  style,
+}) => {
   const navigate = useNavigate();
 
   return (

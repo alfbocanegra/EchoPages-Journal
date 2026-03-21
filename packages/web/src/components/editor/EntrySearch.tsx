@@ -30,14 +30,14 @@ export interface EntrySearchProps {
 }
 
 export const EntrySearch: React.FC<EntrySearchProps> = ({
-  filters,
+  filters: _filters,
   onChange,
   search,
   onSearch,
   onViewChange,
   currentView,
 }) => {
-  const [text, setText] = useState('');
+  const [text] = useState('');
   const [tag, setTag] = useState('');
   const [folder, setFolder] = useState('');
 

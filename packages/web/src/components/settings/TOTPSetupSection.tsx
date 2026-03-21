@@ -101,7 +101,7 @@ const TOTPSetupSection: React.FC = () => {
             style={{ width: 180, height: 180, marginBottom: 8 }}
           />
           <div style={{ marginBottom: 8, fontSize: 15 }}>
-            <b>Can't scan the QR code?</b> Enter this code manually in your app:
+            <b>Can&apos;t scan the QR code?</b> Enter this code manually in your app:
             <br />
             <code style={{ fontSize: 16 }}>{setup.secret}</code>
           </div>

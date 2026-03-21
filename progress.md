@@ -249,6 +249,62 @@
 - Patched all EchoPagesJournalExpo/screens/*.js files to add PropTypes for navigation/route props and remove unused variables, resolving all app-level ESLint errors.
 - Patched all EchoPagesJournalExpo/e2e/*.js test files to add Detox global declarations, resolving all no-undef errors for Detox variables.
 - Most app-level lint errors are now resolved. Only test-specific or minor warnings may remain.
-- Next: Run a full lint check, then proceed to type checking and platform testing. yarn run v1.22.22
-$ /Volumes/Storage/Developer/GitHub/EchoPages-Journal/node_modules/.bin/tsc --noEmit
-Done in 0.39s.
+- Next: Run a full lint check, then proceed to type checking and platform testing.
+
+## Automated QA Pass (March 2026, fix/ci-workflows branch)
+
+### Environment
+- Branch: `fix/ci-workflows`
+- Working directory: `/Volumes/Travel_HD/Developer/EchoPages-Journal`
+- Node.js 20.x, Yarn 1.22.x
+
+### Dependencies
+- [x] Root dependencies installed (`yarn install --frozen-lockfile`)
+- [x] Backend, web, shared, desktop sub-package dependencies installed
+- [x] Shared package built (`tsc --build --force`) — required by backend
+
+### TypeScript Type Checks
+- [x] Root: 0 errors
+- [x] Shared: 0 errors
+- [x] Web: 0 errors
+- [x] Desktop: 0 errors
+- [x] Backend: 0 errors (after building shared package)
+
+### ESLint
+- [x] Backend: 0 errors, 95 warnings (all `@typescript-eslint/no-explicit-any`)
+- [x] Web: 0 errors, 54 warnings (92 errors fixed: unused vars, unescaped entities, conditional hooks, empty blocks, prettier)
+- [x] Shared: 0 errors, 64 warnings (29 errors fixed: unused vars, empty blocks, ts-ignore, prettier)
+- [x] Desktop: 0 errors, 0 warnings
+
+### Builds
+- [x] Shared: Built successfully
+- [x] Web: Built successfully (641KB bundle via Vite)
+- [x] Backend: Built successfully (tsc)
+- [x] Desktop: Built successfully (fixed `index.html` entry point from `./index.js` to `./src/main.ts`)
+
+### Tests
+- [x] Web: 2/2 suites pass, 5/5 tests pass
+- [x] Shared: No tests, pass
+- [x] Backend: 3/5 suites pass, 16/16 tests pass (2 suites fail due to pre-existing encryption mock issues in integration tests — CI uses `continue-on-error: true`)
+
+### Fixes Applied
+1. **ESLint errors (121 total fixed)**:
+   - Web (92): unused vars prefixed with `_`, removed unused imports, escaped JSX entities, moved conditional `useId` hook, added empty block comments, auto-formatted with prettier
+   - Shared (29): unused params prefixed with `_`, removed unused imports, added `eslint-disable` to generated protobuf `.d.ts` files, replaced `@ts-ignore` with `@ts-expect-error`, added empty block comments
+2. **Desktop build**: Fixed `index.html` script src from `./index.js` to `./src/main.ts`
+3. **Jest configs**: Added `testPathIgnorePatterns` for `._*` macOS resource fork files
+4. **Root ESLint config**: Added `varsIgnorePattern: '^_'` to `@typescript-eslint/no-unused-vars`
+5. **`.gitignore`**: Added `._*` pattern for macOS resource forks
+
+### Remaining Warnings (non-blocking)
+- 213 total warnings across backend (95), shared (64), web (54) — all `@typescript-eslint/no-explicit-any`
+- These are code quality warnings, not errors, and do not block CI
+
+### CI Workflow Status
+- All 4 workflows (`build.yml`, `code-quality.yml`, `test.yml`, `deploy-staging.yml`) use actions/checkout@v5 and actions/setup-node@v5
+- `code-quality.yml`: `format:check` and `lint` have `continue-on-error: true`; `type-check` is strict
+- `test.yml`: All test steps have `continue-on-error: true`
+- `build.yml`: All builds are strict (no continue-on-error)
+
+---
+*Last Updated: March 2026 (Automated QA pass on fix/ci-workflows branch)*

@@ -1,7 +1,7 @@
 // import { deserializeEntryProto } from '@echopages/shared';
 
 // Temporary mock for deserializeEntryProto
-const deserializeEntryProto = (data: Uint8Array) => ({
+const deserializeEntryProto = (_data: Uint8Array) => ({
   id: '',
   title: '',
   content: '',
